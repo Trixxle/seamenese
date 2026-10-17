@@ -1,22 +1,109 @@
 name: Build Seamenese APK
+
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Normalize folder structure and generate root Gradle files
+        run: |
+          # If files were uploaded inside the SeameneseImmersion subfolder, move app/ to root
+          if [ -d "SeameneseImmersion/app" ] && [ ! -d "app" ]; then
+            mv SeameneseImmersion/app ./app
+          fi
+
+          # 1. Create root settings.gradle.kts
+          cat << 'EOF' > settings.gradle.kts
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          rootProject.name = "SeameneseImmersion"
+          include(":app")
+          EOF
+
+          # 2. Create root build.gradle.kts
+          cat << 'EOF' > build.gradle.kts
+          plugins {
+              id("com.android.application") version "8.4.0" apply false
+              id("org.jetbrains.kotlin.android") version "1.9.22" apply false
+          }
+          EOF
+
+          # 3. Create gradle.properties
+          cat << 'EOF' > gradle.properties
+          org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+          android.useAndroidX=true
+          kotlin.code.style=official
+          android.nonTransitiveRClass=true
+          EOF
+
+          # 4. Ensure app/build.gradle.kts has matching Java 17 / Kotlin 17 targets
+          cat << 'EOF' > app/build.gradle.kts
+          plugins {
+              id("com.android.application")
+              id("org.jetbrains.kotlin.android")
+          }
+
+          android {
+              namespace = "com.seamenese.immersion"
+              compileSdk = 34
+
+              defaultConfig {
+                  applicationId = "com.seamenese.immersion"
+                  minSdk = 26
+                  targetSdk = 34
+                  versionCode = 1
+                  versionName = "1.0"
+              }
+
+              compileOptions {
+                  sourceCompatibility = JavaVersion.VERSION_17
+                  targetCompatibility = JavaVersion.VERSION_17
+              }
+
+              kotlinOptions {
+                  jvmTarget = "17"
+              }
+          }
+
+          dependencies {
+          }
+          EOF
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      - uses: gradle/actions/setup-gradle@v3
+
+      - name: Setup Gradle 8.7
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.7'
+
       - name: Build Debug APK
         run: gradle assembleDebug
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload Compiled APK
+        uses: actions/upload-artifact@v4
         with:
           name: seamenese-immersion-apk
           path: app/build/outputs/apk/debug/app-debug.apk
