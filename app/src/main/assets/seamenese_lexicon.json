@@ -1,0 +1,1282 @@
+{
+  "sourceUrl": "https://seamenese.com",
+  "totalEntries": 81,
+  "totalVerbTables": 19,
+  "entries": [
+    {
+      "id": "ap",
+      "term": "Ap",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "✋",
+      "meaning": "But (contrastive conjunction)",
+      "hint": "Contrastive linker used between clauses or before a command ('Ap bet!' = 'But wait!')",
+      "example": "Ëi xa sarpo, ap ëi kin obisëi seamenese.",
+      "notes": "Jorn corrected 'ap beti' -> 'ap bet*', confirming conjugated stem follows 'ap'."
+    },
+    {
+      "id": "beti",
+      "term": "Beti",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "⏳",
+      "meaning": "To wait",
+      "hint": "Action of pausing or holding on ('Ap bet, beto!')",
+      "example": "Ap bet, buana! Ëi kin zorpei te.",
+      "notes": "Conjugates regularly: Ëi=Bet, Te=Bet, Ton=Betu, Na=Betami, La=Betai, Lon=Betai."
+    },
+    {
+      "id": "beto",
+      "term": "Beto",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🙏",
+      "meaning": "Please (polite request marker)",
+      "hint": "Polite marker placed at the end of a request or used standalone (🙏)",
+      "example": "Ob ëi tumu, beto!",
+      "notes": "Equivalent to 🙏; used sentence-finally or standalone."
+    },
+    {
+      "id": "blobber",
+      "term": "Blobber",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🐟",
+      "meaning": "Fish (aquatic animal)",
+      "hint": "An aquatic creature that swims in water (🐟); often eaten as tumu",
+      "example": "Ta silhbi wo skan zetëi blobber.",
+      "notes": "Variant spelling: Blober."
+    },
+    {
+      "id": "blober",
+      "term": "Blober",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🐟",
+      "meaning": "Fish (variant spelling of Blobber)",
+      "hint": "Alternate spelling of Blobber (🐟)",
+      "example": "La zeteai ti blober.",
+      "notes": "Variant spelling of Blobber."
+    },
+    {
+      "id": "blubur",
+      "term": "Blubur",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🥗",
+      "meaning": "Salad (vegetable dish)",
+      "hint": "Green vegetable dish (🥗), a type of healthy tumu",
+      "example": "Etpanke ëi zete blubur u blobber.",
+      "notes": "Likely derived from the appearance of a green salad or 🥗."
+    },
+    {
+      "id": "buana",
+      "term": "Buana",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🤝",
+      "meaning": "Friend",
+      "hint": "A person you like and trust (🤝)",
+      "example": "Tamako, ta buana! Wu xa te?",
+      "notes": "Used frequently in greetings ('ta buana' = my friend)."
+    },
+    {
+      "id": "daka",
+      "term": "Daka",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🍻",
+      "meaning": "Cheers! (celebratory drinking word)",
+      "hint": "Exclamation said when raising drinks together in celebration (🍻)",
+      "example": "Daka, ta buana! Etwuke na xaami mubu!",
+      "notes": "Celebratory word said when drinking. Similar to cheers."
+    },
+    {
+      "id": "dingding",
+      "term": "Dingding",
+      "pos": "slang",
+      "status": "high+",
+      "emoji": "🔥",
+      "meaning": "Horny / Freaky",
+      "hint": "Slang describing someone feeling freaky or aroused",
+      "example": "Etwuke la xaai dingding.",
+      "notes": "Marked high+ slang in the lexicon."
+    },
+    {
+      "id": "ei",
+      "term": "Ëi",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🙋",
+      "meaning": "I (1st person singular pronoun)",
+      "hint": "Refers to the speaker themselves (subject/object, never possessive)",
+      "example": "Ëi skan seamenese u ëi pon lulu semen.",
+      "notes": "NOT used as possessive before nouns — use 'Ta' instead."
+    },
+    {
+      "id": "eke",
+      "term": "Eke",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🌌",
+      "meaning": "Sky (the heavens above)",
+      "hint": "The expanse above the earth; combines with pan (sun) or wubu (moon)",
+      "example": "Pan u wubu xaaiuk eke.",
+      "notes": "Used in compounds: pan+eke=panke (day), wubu+eke=wuke (night)."
+    },
+    {
+      "id": "etpanke",
+      "term": "Etpanke",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "📅",
+      "meaning": "Today",
+      "hint": "This current sun-sky (et + panke)",
+      "example": "Etpanke xaai wo tuk panke!",
+      "notes": "Specific day/date referent; takes 3sg copula 'xaai' when used as subject."
+    },
+    {
+      "id": "etwuke",
+      "term": "Etwuke",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🌃",
+      "meaning": "Tonight / This night",
+      "hint": "This current moon-sky (et + wuke)",
+      "example": "Etwuke na sarpami zo na obiseami?",
+      "notes": "Compound of 'et' (this) + 'wuke' (night); literally 'this-night'."
+    },
+    {
+      "id": "ezuki",
+      "term": "Ezuki",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🎵",
+      "meaning": "Music / Song",
+      "hint": "Melodic sound and rhythm (🎵)",
+      "example": "Ëi wo skan tuk ezuki!",
+      "notes": "Represents music or a song (🎵)."
+    },
+    {
+      "id": "faki",
+      "term": "Faki",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🔞",
+      "meaning": "To fuck",
+      "hint": "Vulgar/intimate action verb",
+      "example": "La skantar u la fakai.",
+      "notes": "Conjugates regularly: Ëi=Fak, Te=Fak, Ton=Faku, Na=Fakami, La=Fakai, Lon=Fakai."
+    },
+    {
+      "id": "fasma",
+      "term": "fasma",
+      "pos": "adjective",
+      "status": "confirmed+",
+      "emoji": "⚡",
+      "meaning": "Tired (entry gloss) / Awake (in Lipo/sarpo notes)",
+      "hint": "State of energy/fatigue (listed as 'Tired' in F, and grouped with 'lipo' as antonym of 'sarpo' in L/S)",
+      "example": "Ëi xa fasma etpanke.",
+      "notes": "Lexicon entry F says 'Tired', while Lipo and sarpo entries note 'synonym of fasma; antonym of sarpo'."
+    },
+    {
+      "id": "ha",
+      "term": "Ha",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "✅",
+      "meaning": "Yes",
+      "hint": "Affirmative response particle (opposite of Ni)",
+      "example": "Ha! Ëi rago u ëi pon!",
+      "notes": "Combines with 'ni' to form 'hani' (maybe)."
+    },
+    {
+      "id": "hani",
+      "term": "Hani",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "🤔",
+      "meaning": "Maybe",
+      "hint": "Uncertain response: literally 'yes-no' (ha + ni)",
+      "example": "Hani la betai, hani ni.",
+      "notes": "Composite of ha 'yes' + ni 'no'; literally 'not no, not yes'."
+    },
+    {
+      "id": "itxi",
+      "term": "Itxi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "💋",
+      "meaning": "To kiss",
+      "hint": "Romantic gesture with the lips (💋)",
+      "example": "Ëi itx ta skantar etwuke.",
+      "notes": "Conjugates regularly: Ëi=Itx, Te=Itx, Ton=Itxu, Na=Itxami, La=Itxai, Lon=Itxai."
+    },
+    {
+      "id": "jai",
+      "term": "Jai",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🛠️",
+      "meaning": "To do / To make",
+      "hint": "Core action verb of doing, making, or creating",
+      "example": "Wa te ja etpanke?",
+      "notes": "Conjugates: Ëi=Ja, Te=Ja, Ton=Jau, Na=Jaami, La=Jaai, Lon=Jaai."
+    },
+    {
+      "id": "jai-semen",
+      "term": "Jai-semen",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🏃",
+      "meaning": "Verb / Action-word",
+      "hint": "Compound of jai (to do) + semen (word): a word that acts",
+      "example": "'Obisëi' u 'zetëi' xaai jai-semen.",
+      "notes": "Literally 'do-word' or 'action-word'."
+    },
+    {
+      "id": "ka",
+      "term": "Ka",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🍆",
+      "meaning": "Penis",
+      "hint": "Male anatomical noun",
+      "example": "Ka xaai semen.",
+      "notes": "Anatomical noun."
+    },
+    {
+      "id": "kani",
+      "term": "Kani",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🌸",
+      "meaning": "Vagina",
+      "hint": "Female anatomical noun",
+      "example": "Kani xaai semen.",
+      "notes": "Anatomical noun."
+    },
+    {
+      "id": "kini",
+      "term": "Kini",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🎯",
+      "meaning": "To need",
+      "hint": "Expresses necessity or strong desire; takes a noun or an infinitive verb",
+      "example": "Ëi kin zorpei te! Na kinami tumu.",
+      "notes": "Conjugates: Ëi=Kin, Te=Kin, Ton=Kinu, Na=Kinami, La=Kinai, Lon=Kinai."
+    },
+    {
+      "id": "kiniwai",
+      "term": "Kiniwai",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "💡",
+      "meaning": "To explain",
+      "hint": "Making a concept or word clear to someone",
+      "example": "Beto, kiniwa lulu semen!",
+      "notes": "Irregular paradigm: Ëi=Kiniwa, Te=Kiniwa, Ton=Kiniwau, Na=Kiniwaami, La=Kiniwaai, Lon=Kiniwaai."
+    },
+    {
+      "id": "kiniwako",
+      "term": "Kiniwako",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "📖",
+      "meaning": "Explanation",
+      "hint": "The noun form of kiniwai (something that clarifies meaning)",
+      "example": "Tëi kiniwako xaai wo tuk! Ëi pon.",
+      "notes": "Derived from kiniwai + -ko."
+    },
+    {
+      "id": "kixixi",
+      "term": "Kixixi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🤫",
+      "meaning": "To shut up",
+      "hint": "Stopping someone from speaking / telling them to be quiet (🤫)",
+      "example": "Texik, kixix!",
+      "notes": "Conjugates: Ëi=Kixix, Te=Kixix, Ton=Kixixu, Na=Kixixami, La=Kixixai, Lon=Kixixai."
+    },
+    {
+      "id": "la",
+      "term": "La",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "👤",
+      "meaning": "He / She / It (3rd person singular)",
+      "hint": "Refers to any single third person or thing (not Ëi, Te, or Na)",
+      "example": "La obiseai seamenese u la xaai mubu.",
+      "notes": "For groups of 3rd persons, use Lon instead."
+    },
+    {
+      "id": "lai",
+      "term": "Lai",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🏷️",
+      "meaning": "His / Her / Its (3rd person singular possessive)",
+      "hint": "Placed before a noun to show it belongs to 'La'",
+      "example": "Lai silhbi xaai ti u tuk.",
+      "notes": "Parallel to La. Plural form is Laion."
+    },
+    {
+      "id": "laion",
+      "term": "Laion",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🏷️",
+      "meaning": "Their (3rd person plural possessive)",
+      "hint": "Placed before a noun to show it belongs to 'Lon' (they)",
+      "example": "Lon skanai laion buana.",
+      "notes": "Plural form of Lai (Lai + -on)."
+    },
+    {
+      "id": "lipo",
+      "term": "Lipo",
+      "pos": "adjective",
+      "status": "confirmed+",
+      "emoji": "🤩",
+      "meaning": "Awake / Energetic / Excited / Not tired",
+      "hint": "Full of energy and wide awake (🤩; 'ni sarpo')",
+      "example": "Ëi ni xa sarpo, ëi xa lipo!",
+      "notes": "Antonym of sarpo ('ni sarpo')."
+    },
+    {
+      "id": "lon",
+      "term": "Lon",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "👥",
+      "meaning": "They / Them (3rd person plural)",
+      "hint": "Refers to a group of other people or things (plural of La)",
+      "example": "Lon zeteai tumu u lon obiseai.",
+      "notes": "Takes the same -ai verb ending as La."
+    },
+    {
+      "id": "lulu",
+      "term": "Lulu",
+      "pos": "adjective",
+      "status": "confirmed+",
+      "emoji": "✨",
+      "meaning": "New / Novel",
+      "hint": "Fresh, recently created, or unfamiliar ('lulu semen' = new word)",
+      "example": "Etpanke ëi pon lulu semen!",
+      "notes": "Used before nouns ('lulu semen') or after copula."
+    },
+    {
+      "id": "mibi",
+      "term": "Mibi",
+      "pos": "emotion",
+      "status": "confirmed+",
+      "emoji": "😠",
+      "meaning": "Angry",
+      "hint": "Feeling mad or frustrated (😠; opposite mood of mubu)",
+      "example": "We te xa mibi, buana?",
+      "notes": "Emotion adjective/noun used with copula Xai."
+    },
+    {
+      "id": "mikei",
+      "term": "Mikëi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🌧️",
+      "meaning": "To rain",
+      "hint": "Water falling from the sky (eke) as weather (🌧️)",
+      "example": "Etpanke eke mikeai.",
+      "notes": "Conjugates: Ëi=Mike, Te=Mike, Ton=Mikeu, Na=Mikeami, La=Mikeai, Lon=Mikeai."
+    },
+    {
+      "id": "monster",
+      "term": "Monster",
+      "pos": "noun",
+      "status": "medium+",
+      "emoji": "👾",
+      "meaning": "Monster (creature or consumable/energy drink)",
+      "hint": "A creature, or a consumable item/drink in context (likely making one lipo!)",
+      "example": "Ëi kin monster, ëi xa sarpo.",
+      "notes": "Can function as a creature or food/consumable item in context."
+    },
+    {
+      "id": "mubu",
+      "term": "Mubu",
+      "pos": "emotion",
+      "status": "confirmed+",
+      "emoji": "🙂",
+      "meaning": "Happy",
+      "hint": "Feeling glad, joyful, and positive (🙂)",
+      "example": "Ëi xa wo mubu etpanke!",
+      "notes": "Emotion term used with Xai ('ëi xa mubu')."
+    },
+    {
+      "id": "na",
+      "term": "Na",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🫂",
+      "meaning": "We / Us (1st person plural)",
+      "hint": "The speaker plus others together (takes -ami verb ending)",
+      "example": "Na obiseami seamenese u na ragoami!",
+      "notes": "Possessive form is Nai."
+    },
+    {
+      "id": "nai",
+      "term": "Nai",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🏷️",
+      "meaning": "Our / Ours (1st person plural possessive)",
+      "hint": "Shows something belongs to 'Na' (us)",
+      "example": "Seamenese xaai nai tuk semen!",
+      "notes": "1st person plural possessive pronoun."
+    },
+    {
+      "id": "ni",
+      "term": "Ni",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "❌",
+      "meaning": "No / Not (negation particle)",
+      "hint": "Negates a verb, adjective, or answers a question negatively",
+      "example": "Ni, te ni pon! Ëi ni xa sarpo.",
+      "notes": "Placed before the verb or adjective being negated."
+    },
+    {
+      "id": "nimi",
+      "term": "Nimi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🙌",
+      "meaning": "To thank",
+      "hint": "Expressing gratitude to someone ('Ëi nim te' = Thank you)",
+      "example": "Ëi nim te, ta buana!",
+      "notes": "Conjugates: Ëi=Nim, Te=Nim, Ton=Nimu, Na=Nimami, La=Nimai, Lon=Nimai."
+    },
+    {
+      "id": "obi",
+      "term": "Obi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🎁",
+      "meaning": "To give",
+      "hint": "Handing or offering something to someone",
+      "example": "La obai tumu ta silhbi.",
+      "notes": "Conjugates: Ëi=Ob, Te=Ob, Ton=Obu, Na=Obami, La=Obai, Lon=Obai."
+    },
+    {
+      "id": "obisei",
+      "term": "Obisëi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🗣️",
+      "meaning": "To speak / To vocalize (NOT to sing)",
+      "hint": "Talking and expressing words aloud (🗣️)",
+      "example": "Te obise seamenese wo tuk!",
+      "notes": "Conjugates: Ëi=Obise, Te=Obise, Ton=Obiseu, Na=Obiseami, La=Obiseai, Lon=Obiseai."
+    },
+    {
+      "id": "pan",
+      "term": "Pan",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "☀️",
+      "meaning": "Sun",
+      "hint": "The bright star in the daytime sky (☀️)",
+      "example": "Pan xaai wo u tuk.",
+      "notes": "Combines with eke (sky) to form panke (day)."
+    },
+    {
+      "id": "panke",
+      "term": "Panke",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🌤️",
+      "meaning": "Day",
+      "hint": "Compound of pan (sun) + eke (sky): literally 'sun-sky'",
+      "example": "Tuk panke, ta buana!",
+      "notes": "Base of etpanke (today)."
+    },
+    {
+      "id": "pansai",
+      "term": "Pansai",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "💭",
+      "meaning": "To think / To ponder",
+      "hint": "Mental reflection or holding an opinion (distinct from poni = understand)",
+      "example": "Ëi pansa seamenese xaai wo tuk.",
+      "notes": "From conjugation tables: Ëi=Pansa, Te=Pansa, Ton=Pansau, Na=Pansaami, La=Pansaai, Lon=Pansaai."
+    },
+    {
+      "id": "poni",
+      "term": "Poni",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🧠",
+      "meaning": "To understand",
+      "hint": "Comprehending the meaning of words or explanations",
+      "example": "Ha, ëi pon tëi kiniwako!",
+      "notes": "Conjugates: Ëi=Pon, Te=Pon, Ton=Ponu, Na=Ponami, La=Ponai, Lon=Ponai."
+    },
+    {
+      "id": "ragoi",
+      "term": "Ragoi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🤜🤛",
+      "meaning": "To agree / To vibe / To be on the same wavelength",
+      "hint": "Sharing the same view or feeling in harmony with someone ('Rago!')",
+      "example": "Rago! Na ragoami!",
+      "notes": "Conjugates: Ëi=Rago, Te=Rago, Ton=Ragou, Na=Ragoami, La=Ragoai, Lon=Ragoai."
+    },
+    {
+      "id": "san",
+      "term": "San",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "➕",
+      "meaning": "Also / Too / Same / Likewise",
+      "hint": "Indicates addition or similarity ('Ëi san!' = 'Me too!')",
+      "example": "Te skan ezuki? Ëi san skan ezuki!",
+      "notes": "Can appear between subject & verb, verb & object, or standalone '[pronoun] san'."
+    },
+    {
+      "id": "sanai",
+      "term": "Sanai",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🔁",
+      "meaning": "To cycle / To loop / To repeat / Q&A pattern",
+      "hint": "Repeating a cycle or going back-and-forth in question-and-answer drills (🔁)",
+      "example": "Na sanaami lulu semen!",
+      "notes": "Related to san (same/also); repeating a loop."
+    },
+    {
+      "id": "sarpi",
+      "term": "Sarpi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "😴",
+      "meaning": "To sleep / To be asleep",
+      "hint": "Resting with eyes closed at night (😴💤)",
+      "example": "Etwuke ëi sarp.",
+      "notes": "Conjugates: Ëi=Sarp, Te=Sarp, Ton=Sarpu, Na=Sarpami, La=Sarpai, Lon=Sarpai."
+    },
+    {
+      "id": "sarpo",
+      "term": "sarpo",
+      "pos": "adjective",
+      "status": "confirmed+",
+      "emoji": "🥱",
+      "meaning": "Tired / Sleepy",
+      "hint": "Needing sleep (🥱; opposite of lipo; used with copula: 'ëi xa sarpo')",
+      "example": "Wuke xaai, ëi xa sarpo.",
+      "notes": "'ni sarpo' = lipo (awake/energetic)."
+    },
+    {
+      "id": "seamenese",
+      "term": "seamenese",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🗣️",
+      "meaning": "The Seamenese language ('language of words')",
+      "hint": "Derived from semen (word) + -ese",
+      "example": "Ëi wo skan seamenese!",
+      "notes": "Attested in Jorn's sentence: 'ëi skan seamenese'."
+    },
+    {
+      "id": "semen",
+      "term": "Semen",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🔤",
+      "meaning": "Word",
+      "hint": "Any vocabulary unit in the language (forms compounds like jai-semen, zorpe-semen)",
+      "example": "Te pon et lulu semen?",
+      "notes": "Applies to all lexical items."
+    },
+    {
+      "id": "silhbi",
+      "term": "Silhbi",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🐱",
+      "meaning": "Cat (domestic feline)",
+      "hint": "A furry pet that likes eating blobber (🐱)",
+      "example": "Ta ti silhbi sarpai.",
+      "notes": "Domestic feline (🐱)."
+    },
+    {
+      "id": "skani",
+      "term": "Skani",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "❤️",
+      "meaning": "To like ('wo skan' = to love)",
+      "hint": "Feeling affection or enjoyment for something (❤️; amplified with 'wo' -> ❤️❤️)",
+      "example": "Ëi skan blubur, ap ëi wo skan te!",
+      "notes": "Conjugates: Ëi=Skan, Te=Skan, Ton=Skanu, Na=Skanami, La=Skanai, Lon=Skanai."
+    },
+    {
+      "id": "skantar",
+      "term": "Skantar",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "💘",
+      "meaning": "Crush / Lover",
+      "hint": "A person you 'wo skan' (derived from skan + -tar)",
+      "example": "La itxai lai skantar.",
+      "notes": "Derived from skan (to like) + -tar."
+    },
+    {
+      "id": "sobo",
+      "term": "Sobo",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🦶",
+      "meaning": "Foot",
+      "hint": "Body part at the bottom of the leg used for standing and walking (🦶)",
+      "example": "Ta sobo xaai wo.",
+      "notes": "Anatomical noun (🦶)."
+    },
+    {
+      "id": "ta",
+      "term": "Ta",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🏷️",
+      "meaning": "My (1st person singular possessive)",
+      "hint": "Placed before a noun to show it belongs to 'Ëi' ('ta buana' = my friend)",
+      "example": "Ta buana u ta silhbi xaai mubu.",
+      "notes": "Always use Ta (never Ëi) for 'my'."
+    },
+    {
+      "id": "taki",
+      "term": "Taki",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "👋",
+      "meaning": "Bye / Goodbye",
+      "hint": "Parting word said when leaving (opposite of Tamako)",
+      "example": "Taki, ta buana! Tuk wuke!",
+      "notes": "Standard farewell."
+    },
+    {
+      "id": "tamako",
+      "term": "Tamako",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🖐️",
+      "meaning": "Hello",
+      "hint": "Friendly greeting when meeting someone",
+      "example": "Tamako! Wu xa te etpanke?",
+      "notes": "Standard greeting."
+    },
+    {
+      "id": "te",
+      "term": "Te",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "👉",
+      "meaning": "You (2nd person singular)",
+      "hint": "Refers to the single person you are speaking to",
+      "example": "Te obise seamenese! Ëi pon te.",
+      "notes": "Singular only; for plural 'you', use Ton."
+    },
+    {
+      "id": "tei",
+      "term": "Tëi",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🏷️",
+      "meaning": "Your (2nd person singular possessive)",
+      "hint": "Placed before a noun to show it belongs to 'Te'",
+      "example": "Wa xaai tëi lulu semen?",
+      "notes": "Singular possessive; plural is Tëion."
+    },
+    {
+      "id": "teion",
+      "term": "Tëion",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🏷️",
+      "meaning": "Your (2nd person plural possessive)",
+      "hint": "Placed before a noun to show it belongs to 'Ton' (you all)",
+      "example": "Ton skanu tëion ezuki.",
+      "notes": "Plural form of tëi (tëi + -on)."
+    },
+    {
+      "id": "texik",
+      "term": "Texik",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🤬",
+      "meaning": "Asshole",
+      "hint": "Insult used when someone is rude or makes you mibi (😠)",
+      "example": "La xaai texik! Kixix!",
+      "notes": "Pejorative noun."
+    },
+    {
+      "id": "ti",
+      "term": "Ti",
+      "pos": "adjective",
+      "status": "confirmed+",
+      "emoji": "🤏",
+      "meaning": "Small / Little",
+      "hint": "Compact in size (🤏; opposite of wo = big)",
+      "example": "Ta silhbi zeteai ti blobber.",
+      "notes": "Antonym of wo."
+    },
+    {
+      "id": "ton",
+      "term": "Ton",
+      "pos": "pronoun",
+      "status": "confirmed+",
+      "emoji": "🫵",
+      "meaning": "You all (2nd person plural)",
+      "hint": "Addressing two or more people (takes -u verb ending)",
+      "example": "Tamako, ton! Wu xau ton?",
+      "notes": "Plural of Te (Te + -on)."
+    },
+    {
+      "id": "tuk",
+      "term": "Tuk",
+      "pos": "adjective",
+      "status": "confirmed+",
+      "emoji": "👍",
+      "meaning": "Good",
+      "hint": "Positive quality, well done, or pleasant ('wo tuk' = very good!)",
+      "example": "Etpanke xaai wo tuk! Tëi kiniwako xaai tuk.",
+      "notes": "Core positive adjective."
+    },
+    {
+      "id": "tumu",
+      "term": "Tumu",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🍽️",
+      "meaning": "Food",
+      "hint": "Anything edible (such as blobber or blubur) that you zete",
+      "example": "Ëi kin tumu! Ëi skan zetëi tuk tumu.",
+      "notes": "General category for edible items."
+    },
+    {
+      "id": "u",
+      "term": "U",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "🔗",
+      "meaning": "And",
+      "hint": "Coordinating conjunction linking words or clauses together",
+      "example": "Pan u wubu, ëi u te!",
+      "notes": "Standard 'and' particle."
+    },
+    {
+      "id": "wa",
+      "term": "Wa",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "❓",
+      "meaning": "What (question word)",
+      "hint": "Zorpe-semen asking 'what' (triggers object fronting or copula inquiry)",
+      "example": "Wa te zete? Wa xaai et?",
+      "notes": "Part of the wa / we / wu interrogative triplet."
+    },
+    {
+      "id": "we",
+      "term": "We",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "🤔",
+      "meaning": "Why (question word)",
+      "hint": "Zorpe-semen asking the reason; keeps standard Subject-Verb-Object order after 'We'",
+      "example": "We te xa sarpo? We la xaai mibi?",
+      "notes": "Keeps standard SVO order after 'We'."
+    },
+    {
+      "id": "wo",
+      "term": "Wo",
+      "pos": "adjective",
+      "status": "confirmed+",
+      "emoji": "🐘",
+      "meaning": "Big / Very (Amplifier)",
+      "hint": "Means 'big' on nouns AND intensifies adjectives/verbs ('wo tuk' = very good, 'wo skan' = love)",
+      "example": "Ëi wo skan te! Te xa wo tuk buana.",
+      "notes": "Antonym of ti (small); also general intensifier/amplifier."
+    },
+    {
+      "id": "wu",
+      "term": "Wu",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "🧭",
+      "meaning": "How (question word)",
+      "hint": "Zorpe-semen asking manner or condition ('Wu xa te?' = 'How are you?')",
+      "example": "Wu xa te etpanke? Wu xaai tëi buana?",
+      "notes": "Used in copula questions 'wu xa [X]?'."
+    },
+    {
+      "id": "wubu",
+      "term": "Wubu",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🌝",
+      "meaning": "Moon",
+      "hint": "Shines in the night sky (🌝; combines with eke to form wuke)",
+      "example": "Wubu xaai wo etwuke.",
+      "notes": "Base of wuke (wubu + eke = night)."
+    },
+    {
+      "id": "wuke",
+      "term": "Wuke",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "🌙",
+      "meaning": "Night / Nighttime",
+      "hint": "Compound of wubu (moon) + eke (sky): literally 'moon-sky'",
+      "example": "Wuke xaai, na sarpami.",
+      "notes": "Compound of wubu + eke."
+    },
+    {
+      "id": "xai",
+      "term": "Xai",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🟰",
+      "meaning": "To be (copula)",
+      "hint": "Links a subject to its description or state (Ëi/Te = xa, La/Lon = xaai, Na = xaami, Ton = xau)",
+      "example": "Ëi xa lipo, te xa tuk, u etpanke xaai wo tuk!",
+      "notes": "La/Lon form is 'xaai', NOT 'xa'."
+    },
+    {
+      "id": "zetei",
+      "term": "Zetëi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🍴",
+      "meaning": "To eat",
+      "hint": "Consuming tumu like blobber or blubur",
+      "example": "Na zeteami blubur u blobber.",
+      "notes": "Conjugates: Ëi=zete, Te=zete, Ton=zeteu, Na=zeteami, La=zeteai, Lon=zeteai."
+    },
+    {
+      "id": "zo",
+      "term": "Zo",
+      "pos": "particle",
+      "status": "confirmed+",
+      "emoji": "⚖️",
+      "meaning": "Or",
+      "hint": "Presents a choice or alternative between two options",
+      "example": "Te kin blobber zo blubur? Ha zo ni?",
+      "notes": "Disjunctive particle 'or'."
+    },
+    {
+      "id": "zorpe-semen",
+      "term": "Zorpe-semen",
+      "pos": "noun",
+      "status": "confirmed+",
+      "emoji": "❔",
+      "meaning": "Question-word (Wa, We, Wu)",
+      "hint": "Compound of zorpe (ask) + semen (word): a word that asks",
+      "example": "'Wa', 'We', u 'Wu' xaai zorpe-semen.",
+      "notes": "Literally 'asking-word'."
+    },
+    {
+      "id": "zorpei",
+      "term": "Zorpëi",
+      "pos": "verb",
+      "status": "confirmed+",
+      "emoji": "🙋‍♂️",
+      "meaning": "To ask / To question (Nominalized: 1 zorpe, 2+ zorpon)",
+      "hint": "Inquiring or posing a question ('Ëi kin zorpei te')",
+      "example": "Ëi kin zorpei te: te pon seamenese?",
+      "notes": "Conjugates: Ëi=Zorpe, Te=Zorpe, Ton=Zorpeu, Na=Zorpeami, La=Zorpeai, Lon=Zorpeai."
+    }
+  ],
+  "conjugations": [
+    {
+      "infinitive": "Beti",
+      "meaning": "To wait",
+      "type": "regular",
+      "ei": "Bet",
+      "te": "Bet",
+      "ton": "Betu",
+      "na": "Betami",
+      "la": "Betai",
+      "lon": "Betai",
+      "note": "Jorn corrected 'ap beti' -> 'ap bet*', confirming the conjugated stem is 'bet'."
+    },
+    {
+      "infinitive": "Itxi",
+      "meaning": "To kiss",
+      "type": "regular",
+      "ei": "Itx",
+      "te": "Itx",
+      "ton": "Itxu",
+      "na": "Itxami",
+      "la": "Itxai",
+      "lon": "Itxai",
+      "note": "Regular conjugation; Lon=Itxai, same as La."
+    },
+    {
+      "infinitive": "Faki",
+      "meaning": "To fuck",
+      "type": "regular",
+      "ei": "Fak",
+      "te": "Fak",
+      "ton": "Faku",
+      "na": "Fakami",
+      "la": "Fakai",
+      "lon": "Fakai",
+      "note": "Regular conjugation; Lon=Fakai, same as La."
+    },
+    {
+      "infinitive": "Skani",
+      "meaning": "To like ('wo skan' = love)",
+      "type": "regular",
+      "ei": "Skan",
+      "te": "Skan",
+      "ton": "Skanu",
+      "na": "Skanami",
+      "la": "Skanai",
+      "lon": "Skanai",
+      "note": "Attested in 'ëi skan seamenese'."
+    },
+    {
+      "infinitive": "Kixixi",
+      "meaning": "To shut up",
+      "type": "regular",
+      "ei": "Kixix",
+      "te": "Kixix",
+      "ton": "Kixixu",
+      "na": "Kixixami",
+      "la": "Kixixai",
+      "lon": "Kixixai",
+      "note": "Regular conjugation."
+    },
+    {
+      "infinitive": "Nimi",
+      "meaning": "To thank",
+      "type": "regular",
+      "ei": "Nim",
+      "te": "Nim",
+      "ton": "Nimu",
+      "na": "Nimami",
+      "la": "Nimai",
+      "lon": "Nimai",
+      "note": "Regular conjugation."
+    },
+    {
+      "infinitive": "Xai",
+      "meaning": "To be (copula)",
+      "type": "copula",
+      "ei": "Xa",
+      "te": "Xa",
+      "ton": "Xau",
+      "na": "Xaami",
+      "la": "Xaai",
+      "lon": "Xaai",
+      "note": "La/Lon form is 'xaai', NOT 'xa'."
+    },
+    {
+      "infinitive": "Obi",
+      "meaning": "To give",
+      "type": "regular",
+      "ei": "Ob",
+      "te": "Ob",
+      "ton": "Obu",
+      "na": "Obami",
+      "la": "Obai",
+      "lon": "Obai",
+      "note": "Regular conjugation."
+    },
+    {
+      "infinitive": "Jai",
+      "meaning": "To do / To make",
+      "type": "regular",
+      "ei": "Ja",
+      "te": "Ja",
+      "ton": "Jau",
+      "na": "Jaami",
+      "la": "Jaai",
+      "lon": "Jaai",
+      "note": "Forms compound 'jai-semen' (action-word/verb)."
+    },
+    {
+      "infinitive": "Sarpi",
+      "meaning": "To sleep",
+      "type": "regular",
+      "ei": "Sarp",
+      "te": "Sarp",
+      "ton": "Sarpu",
+      "na": "Sarpami",
+      "la": "Sarpai",
+      "lon": "Sarpai",
+      "note": "Jorn's table showed 'Na Sapami' (typo for Sarpami)."
+    },
+    {
+      "infinitive": "Ragoi",
+      "meaning": "To agree / To vibe",
+      "type": "regular",
+      "ei": "Rago",
+      "te": "Rago",
+      "ton": "Ragou",
+      "na": "Ragoami",
+      "la": "Ragoai",
+      "lon": "Ragoai",
+      "note": "Thy used 'rago' as standalone response to Jorn's 'wa xaai \"eens\"?'."
+    },
+    {
+      "infinitive": "Kini",
+      "meaning": "To need",
+      "type": "regular",
+      "ei": "Kin",
+      "te": "Kin",
+      "ton": "Kinu",
+      "na": "Kinami",
+      "la": "Kinai",
+      "lon": "Kinai",
+      "note": "Takes a noun object or an infinitive verb complement ('Ëi kin zorpei te')."
+    },
+    {
+      "infinitive": "Kiniwai",
+      "meaning": "To explain",
+      "type": "irregular",
+      "ei": "Kiniwa",
+      "te": "Kiniwa",
+      "ton": "Kiniwau",
+      "na": "Kiniwaami",
+      "la": "Kiniwaai",
+      "lon": "Kiniwaai",
+      "note": "Confirmed irregular paradigm retaining stem vowel -a."
+    },
+    {
+      "infinitive": "Poni",
+      "meaning": "To understand",
+      "type": "regular",
+      "ei": "Pon",
+      "te": "Pon",
+      "ton": "Ponu",
+      "na": "Ponami",
+      "la": "Ponai",
+      "lon": "Ponai",
+      "note": "Meaning: to understand (NOT to think/ponder, which is pansai)."
+    },
+    {
+      "infinitive": "Mikëi",
+      "meaning": "To rain",
+      "type": "weather",
+      "ei": "Mike",
+      "te": "Mike",
+      "ton": "Mikeu",
+      "na": "Mikeami",
+      "la": "Mikeai",
+      "lon": "Mikeai",
+      "note": "Weather verb/noun following regular conjugation."
+    },
+    {
+      "infinitive": "Obisëi",
+      "meaning": "To speak / vocalize",
+      "type": "regular",
+      "ei": "Obise",
+      "te": "Obise",
+      "ton": "Obiseu",
+      "na": "Obiseami",
+      "la": "Obiseai",
+      "lon": "Obiseai",
+      "note": "Confirmed by Jorn's correction 'Obisei*' for infinitive."
+    },
+    {
+      "infinitive": "Zetëi",
+      "meaning": "To eat",
+      "type": "regular",
+      "ei": "zete",
+      "te": "zete",
+      "ton": "zeteu",
+      "na": "zeteami",
+      "la": "zeteai",
+      "lon": "zeteai",
+      "note": "Drops -ëi and adds -u (Ton), -ai (La/Lon), -ami (Na)."
+    },
+    {
+      "infinitive": "Pansai",
+      "meaning": "To think / To ponder",
+      "type": "orphaned",
+      "ei": "Pansa",
+      "te": "Pansa",
+      "ton": "Pansau",
+      "na": "Pansaami",
+      "la": "Pansaai",
+      "lon": "Pansaai",
+      "note": "Reconfirmed by Jorn ('Ëi pansa', 'La/lon pansaai*')."
+    },
+    {
+      "infinitive": "Zorpei",
+      "meaning": "To ask / To question",
+      "type": "regular",
+      "ei": "Zorpe",
+      "te": "Zorpe",
+      "ton": "Zorpeu",
+      "na": "Zorpeami",
+      "la": "Zorpeai",
+      "lon": "Zorpeai",
+      "note": "Nominalized stem: 1 zorpe (question), 2+ zorpon (questions)."
+    }
+  ],
+  "dialogues": [
+    {
+      "id": "scene_1",
+      "title": "Scene 1: Panke Greetings & Energy Check",
+      "scene": "☀️ Pan xaai in eke (Daytime). You meet your friend (buana) for the first time today.",
+      "speaker": "Buana",
+      "seamenese": "Tamako, ta buana! Etpanke xaai wo tuk panke! Wu xa te? Te xa lipo zo sarpo?",
+      "gloss": "Hello, my friend! Today is a very good day! How are you? Are you awake/energetic or tired?",
+      "options": [
+        {
+          "reply": "Tamako! Ëi ni xa sarpo, ëi xa wo lipo u mubu etpanke!",
+          "natural": true,
+          "feedback": "Wo tuk! You used 'ni xa sarpo' (= lipo) and the correct 1sg copula 'ëi xa'."
+        },
+        {
+          "reply": "Ëi xa sarpo, ap ëi kin monster u tumu, beto!",
+          "natural": true,
+          "feedback": "Tuk! 'Ap' (but) + 'ëi kin' (I need) + 'beto' (please) is completely natural Seamenese."
+        },
+        {
+          "reply": "Ta xaai lipo!",
+          "natural": false,
+          "feedback": "Watch out: 'Ta' means 'my' (possessive), and 'xaai' is for La/Lon (3rd person). Say 'Ëi xa lipo!'"
+        }
+      ]
+    },
+    {
+      "id": "scene_2",
+      "title": "Scene 2: Sharing Tumu & Feeding the Silhbi",
+      "scene": "🍽️ Lunchtime! Your friend has fish (blobber) and salad (blubur), and their small cat (ti silhbi) is watching.",
+      "speaker": "Buana",
+      "seamenese": "Ëi kin zetëi tumu! Wa te skan zetëi: blobber zo blubur? Ap bet — ta ti silhbi san kinai blobber!",
+      "gloss": "I need to eat food! What do you like to eat: fish or salad? But wait — my small cat also needs fish!",
+      "options": [
+        {
+          "reply": "Ëi zete blubur! Ob tëi ti silhbi blobber, beto.",
+          "natural": true,
+          "feedback": "Wo tuk! You ate the salad ('ëi zete blubur') and told your friend to give ('ob') the fish to their small cat ('tëi ti silhbi')."
+        },
+        {
+          "reply": "Na zeteami blobber u blubur! Silhbi san zeteai!",
+          "natural": true,
+          "feedback": "Rago! You used the 1st-person plural 'Na zeteami' (we eat) and 3rd-person singular 'zeteai' for the cat."
+        },
+        {
+          "reply": "Ëi zetëi blobber.",
+          "natural": false,
+          "feedback": "Close! 'Zetëi' is the infinitive ('to eat'). With 'Ëi', drop -ëi and use the bare stem: 'Ëi zete blobber'."
+        }
+      ]
+    },
+    {
+      "id": "scene_3",
+      "title": "Scene 3: Learning Lulu Semen (Meta-Language Immersion)",
+      "scene": "📖 Studying Seamenese together. Your friend wants to ask you a question (zorpe) about verbs (jai-semen) and question words (zorpe-semen).",
+      "speaker": "Buana",
+      "seamenese": "Ap bet! Ëi kin zorpei te 1 zorpe. Te pon lulu semen? Bero kiniwa: wa xaai 'jai-semen' u 'zorpe-semen'?",
+      "gloss": "But wait! I need to ask you 1 question. Do you understand the new words? Please explain: what are 'jai-semen' and 'zorpe-semen'?",
+      "options": [
+        {
+          "reply": "Ha, ëi pon! Jai-semen jaai ('obisëi', 'zetëi'), u zorpe-semen zorpeai ('wa', 'we', 'wu')!",
+          "natural": true,
+          "feedback": "Wo tuk kiniwako! You explained both compound nouns using pure Seamenese!"
+        },
+        {
+          "reply": "Hani... ëi ni pon. Te kiniwa ëi, beto!",
+          "natural": true,
+          "feedback": "Natural response! Using 'Hani' (maybe) and asking your partner to explain ('Te kiniwa ëi, beto') keeps the conversation in Seamenese."
+        }
+      ]
+    },
+    {
+      "id": "scene_4",
+      "title": "Scene 4: Etwuke Vibes, Ezuki & Skantar",
+      "scene": "🌝 Wubu xaai in eke — it is tonight (etwuke). Music (ezuki) is playing, and a group of friends (lon) are celebrating.",
+      "speaker": "Buana",
+      "seamenese": "Daka! Etwuke lon obiseai, lon skanai ezuki, u ta buana itxai lai skantar! Te rago?",
+      "gloss": "Cheers! Tonight they are talking, they like the music, and my friend kisses his/her crush! Do you agree/vibe?",
+      "options": [
+        {
+          "reply": "Daka! Ha, ëi rago! Etwuke na xaami wo mubu u na wo skanami ezuki!",
+          "natural": true,
+          "feedback": "Daka! You used 'na xaami' (we are) and the intensified 'wo skanami' (we love)!"
+        },
+        {
+          "reply": "Eke mikeai u ëi xa sarpo. Taki, ta buana! Etwuke ëi sarp.",
+          "natural": true,
+          "feedback": "Great situational contrast! 'Eke mikeai' (the sky is raining) + 'ëi xa sarpo' (I am sleepy) + 'Taki' (Bye)."
+        }
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "part1": "Pan (Sun ☀️)",
+      "part2": "Eke (Sky 🌌)",
+      "result": "Panke",
+      "meaning": "Day ('sun-sky')"
+    },
+    {
+      "part1": "Wubu (Moon 🌝)",
+      "part2": "Eke (Sky 🌌)",
+      "result": "Wuke",
+      "meaning": "Night ('moon-sky')"
+    },
+    {
+      "part1": "Et (This)",
+      "part2": "Panke (Day 🌤️)",
+      "result": "Etpanke",
+      "meaning": "Today ('this-day')"
+    },
+    {
+      "part1": "Et (This)",
+      "part2": "Wuke (Night 🌙)",
+      "result": "Etwuke",
+      "meaning": "Tonight ('this-night')"
+    },
+    {
+      "part1": "Ha (Yes ✅)",
+      "part2": "Ni (No ❌)",
+      "result": "Hani",
+      "meaning": "Maybe ('yes-no')"
+    },
+    {
+      "part1": "Jai (To do 🛠️)",
+      "part2": "Semen (Word 🔤)",
+      "result": "Jai-semen",
+      "meaning": "Verb / Action-word ('do-word')"
+    },
+    {
+      "part1": "Zorpe (To ask ❓)",
+      "part2": "Semen (Word 🔤)",
+      "result": "Zorpe-semen",
+      "meaning": "Question-word ('asking-word': Wa, We, Wu)"
+    },
+    {
+      "part1": "Skan (To like ❤️)",
+      "part2": "-tar (Person suffix)",
+      "result": "Skantar",
+      "meaning": "Crush / Lover"
+    },
+    {
+      "part1": "Wo (Big/Amplifier)",
+      "part2": "Skani (To like ❤️)",
+      "result": "Wo skani",
+      "meaning": "To love / Like very much (❤️❤️)"
+    },
+    {
+      "part1": "Ni (Not ❌)",
+      "part2": "Sarpo (Tired 🥱)",
+      "result": "Lipo",
+      "meaning": "Awake / Energetic (🤩)"
+    }
+  ]
+}
