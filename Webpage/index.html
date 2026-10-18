@@ -692,7 +692,7 @@
           Formula: <code>&lt;noun&gt; minus last vowel + on</code><br/>
           • <strong>1 sobo</strong> (1 foot) → <strong>2 sobon</strong> (2 feet)<br/>
           • <strong>1 buana</strong> (1 friend) → <strong>2 buanon</strong> (2 friends)<br/>
-          • <strong>1 skantar</strong> (1 crush/lover) → <strong>2 skataron / skantaron</strong> (2 crushes/lovers)<br/>
+          • <strong>1 skantar</strong> (1 crush/lover) → <strong>2 skantaron</strong> (2 crushes/lovers)<br/>
           • <strong>1 texik</strong> (1 asshole) → <strong>2 texikon</strong> (2 assholes)<br/>
           • <strong>1 zorpe</strong> (1 question) → <strong>2 zorpon</strong> (2 questions)
         </p>
@@ -922,7 +922,7 @@
       { id: "semen", term: "Semen", pos: "noun", status: "confirmed", emoji: "🔤", meaning: "Word", hint: "A unit of vocabulary (plural: semenon)", example: "Te pon et lulu semen?", notes: "Forms compounds jai-semen (verb) and zorpe-semen (question-word)." },
       { id: "silhbi", term: "Silhbi", pos: "noun", status: "confirmed", emoji: "🐱", meaning: "Cat", hint: "Feline pet that loves zetëi blobber (plural: silhbon)", example: "Ta ti silhbi sarpai.", notes: "Plural drops '-i' and adds '-on': Silhbon." },
       { id: "skani", term: "Skani", pos: "verb", status: "confirmed", emoji: "❤️", meaning: "To like", hint: "Feeling affection; 'wo skan' = to love!", example: "Ëi skan ezuki. Te wo skan ezuki?", notes: "Conjugates: Ëi/Te=Skan, Ton=Skanu, Na=Skanami, La/Lon=Skanai." },
-      { id: "skantar", term: "Skantar", pos: "noun", status: "confirmed", emoji: "💘", meaning: "Crush / lover", hint: "Romantic partner or crush ('1 skantar, 2 skataron / skantaron')", example: "Luke, ëi ni xa tëi buana. Ëi xa tëi skantar.", notes: "Plural attested as both skataron (in Plural Rule) and skantaron (in Example #39)." },
+      { id: "skantar", term: "Skantar", pos: "noun", status: "confirmed", emoji: "💘", meaning: "Crush / lover", hint: "Romantic partner or crush ('1 skantar, 2 skantaron')", example: "Luke, ëi ni xa tëi buana. Ëi xa tëi skantar.", notes: "Plural attested as skantaron (in Example #39)." },
       { id: "sobo", term: "Sobo", pos: "noun", status: "confirmed", emoji: "🦶", meaning: "Foot", hint: "Body part for standing; plural 'Feet' is Sobon (drop -o + on)", example: "1 sobo, 2 sobon! Ta sobon xaai wo.", notes: "Canonical plural rule example: 1 sobo, 2 sobon." },
       { id: "ta", term: "Ta", pos: "pronoun", status: "confirmed", emoji: "🏷️", meaning: "My", hint: "1st person singular possessive pronoun", example: "Tamako ta buanon! Ta panke xaai tuk.", notes: "Always use Ta (never Ëi) before a noun for 'my'." },
       { id: "taki", term: "Taki", pos: "noun", status: "confirmed", emoji: "👋", meaning: "Bye", hint: "Parting farewell ('Taki! Tuk wuke')", example: "Taki! Tuk wuke, ta buana.", notes: "Opposite of Tamako." },
@@ -1521,7 +1521,7 @@
       { part1: "Zorpe (To ask ❓)", part2: "Semen (Word 🔤)", result: "Zorpe-semen", meaning: "Question-word ('asking-word': Wa, We, Wu)" },
       { part1: "Obisëi (To vocalize 🗣️)", part2: "Ezuki (Music 🎵)", result: "Obisëi ezuki", meaning: "To sing ('vocalize music')" },
       { part1: "Wo (Amplifier 🐘)", part2: "Skani (To like ❤️)", result: "Wo skani", meaning: "To love ('Ëi wo skan' = I love)" },
-      { part1: "<Noun> minus last vowel", part2: "-on (Plural suffix)", result: "Sobon / Buanon / Skataron", meaning: "Plural nouns (Feet, Friends, Lovers)" }
+      { part1: "<Noun> minus last vowel", part2: "-on (Plural suffix)", result: "Sobon / Buanon / Skantaron", meaning: "Plural nouns (Feet, Friends, Lovers)" }
     ];
 
     // =========================================================================
@@ -1547,7 +1547,7 @@
           correctChoice: "Crush / lover",
           choices: ["Crush / lover", "Friend", "Asshole", "Explanation"],
           displayAnswer: "Crush / lover",
-          explanation: "'Skantar' means 'Crush / lover' (derived from skani = to like). Plural: Skataron / Skantaron."
+          explanation: "'Skantar' means 'Crush / lover' (derived from skani = to like). Plural: Skantaron."
         },
         {
           id: "type_foot",
@@ -1619,9 +1619,9 @@
           qType: "typing",
           prompt: "Write 'Crushes / Lovers' (plural of Skantar) in Seamenese",
           subHint: "Plural rule: 1 skantar, 2 ___",
-          accepted: ["skataron", "skantaron"],
-          displayAnswer: "Skataron / Skantaron",
-          explanation: "Both 'Skataron' (listed in the Plural Rule section) and 'Skantaron' (Corpus #39) are accepted!"
+          accepted: ["skantaron"],
+          displayAnswer: "Skantaron",
+          explanation: "Skantaron is the plural of Skantar. Remember the plural rule: <noun> -last vowel +on"
         }
       ];
 
@@ -1892,7 +1892,6 @@
         tokenMap[pluralDirect] = entry;
       }
     });
-    tokenMap["skataron"] = LEXICON.find(e => e.id === "skantar");
     tokenMap["skantaron"] = LEXICON.find(e => e.id === "skantar");
     tokenMap["sobon"] = LEXICON.find(e => e.id === "sobo");
     tokenMap["buanon"] = LEXICON.find(e => e.id === "buana");
