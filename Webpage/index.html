@@ -1,27 +1,91 @@
+The webapp has been updated and redesigned to incorporate the ground-truth dictionary from `SeameneseDictionary.txt` alongside your requested UI and pedagogical improvements:
+
+### Summary of Updates
+
+1. **Ground-Truth Dictionary Sync (`SeameneseDictionary.txt`)**:
+* **Added**: `Brux` (Red), `Liron` (Green), `Peke` (Blue), and standalone `Et` (This).
+
+
+* **Removed**: `Dingding` and `Monster` (removed from the lexicon, stories, and examples).
+
+
+* **New Grammar, Plural, Pronunciation & Corpus Rules Added**:
+* **Plural Rule**: `<noun> -last vowel +on` (e.g., `1 sobo` $\rightarrow$ `2 sobon`, `1 buana` $\rightarrow$ `2 buanon`, `1 skantar` $\rightarrow$ `2 skataron / skantaron`, `texikon`).
+
+
+* **Multi-Verb Chaining**: When using multiple verbs for a single subject, only the first verb is conjugated while the second stays in the infinitive (e.g., `Ëi skan obisëi ezuki`, `Lon kinu zetëi tumu`).
+
+
+* **Complex Expressions**: `Obisëi ezuki` ("to sing", literally "to vocalize music") and `Wo` as an amplifier (`Ëi skan` = I like $\rightarrow$ `Ëi wo skan` = I love).
+
+
+* **Pronunciation Guide**: `E` followed by `I` is always written `Ë` (`Ëi`, `Zetëi`) and pronounced *"ay"*, normal `E` is pronounced like *"a"* in *amp*, and `X` is pronounced *"sh"*.
+
+
+* **45 Canonical Examples**: Added a searchable corpus viewer inside the Grammar & Reference tab featuring all 45 examples from `SeameneseDictionary.txt`.
+
+
+
+
+
+
+2. **UI & UX Overhaul (`seamenese.com` Aesthetic & Larger Controls)**:
+* Restyled with a high-contrast dark maritime/obsidian palette, gold/amber and cyan accents, monospace grammatical badges, and larger touch targets (`min-height: 54px` on interactive buttons).
+* **Unmissable "Next Drill" Button**: In the **Jai-Semen (Verb Dojo)** tab, answering a conjugation question now reveals a full-width, high-contrast primary **"Next Drill →"** button directly below the feedback box (plus a permanent **"Skip / Another Drill"** button).
+
+
+3. **16 Single-Answer Immersion Scenes with Harder Grammar & Spelling Distractors**:
+* Expanded from 4 scenes to **16 scenes** covering greetings, plurals (`-on`), colors (`Brux`, `Liron`, `Peke`), singing (`Obisëi ezuki`), multi-verb chains, possessives (`Ta` vs `Ëi`, `Tëi` vs `Tëion`, `Lai` vs `Laion`), question syntax (`Wa` object-fronting vs `We` SVO vs `Wu` copula), and `Ë` orthography.
+* Every scene now has **4 options with strictly 1 correct answer** and 3 targeted distractors that test subtle spelling and grammar traps (e.g., double-conjugating verbs, missing `ë` diaeresis on infinitives, keeping infinitive endings on conjugated stems, or forgetting to drop the final vowel before `-on` in plurals).
+
+
+4. **New "Learn Words" Tab (Active Typing + Multiple Choice with Spaced Re-Queueing)**:
+* Dedicated **Learn Words** tab featuring both **Typing prompts** (starting directly with *"Write 'Feet' in Seamenese"* $\rightarrow$ `Sobon`) and **Multiple Choice prompts** (such as *"What is 'Skantar'?"* $\rightarrow$ `Crush / lover`).
+* Includes a quick character bar for inserting `Ë` / `ë`.
+* **Failure & Re-Queue Logic**: Correct answers advance immediately and mark the item mastered. Wrong answers (or skipped items) display the full correct answer and grammar explanation in a callout box, skip the word for now, and automatically re-insert it several positions back in the queue so it reappears later until mastered.
+
+
+
+---
+
+### Complete `index.html`
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#090d16" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Seamenese Immersion — Complete 81-Word Edition</title>
+  <title>Seamenese Immersion — Official Reference & Trainer</title>
   <style>
     :root {
-      --bg: #0b1120;
-      --surface: #1e293b;
-      --surface-elevated: #334155;
+      /* seamenese.com inspired dark obsidian, sea-cyan & nautical amber palette */
+      --bg: #090d16;
+      --bg-card: #111827;
+      --bg-elevated: #1e293b;
+      --bg-input: #0b111e;
+      --border: #283548;
+      --border-focus: #38bdf8;
       --primary: #38bdf8;
-      --primary-dim: rgba(56, 189, 248, 0.16);
+      --primary-hover: #7dd3fc;
+      --primary-dim: rgba(56, 189, 248, 0.14);
+      --amber: #f59e0b;
+      --amber-dim: rgba(245, 158, 11, 0.15);
       --accent: #a78bfa;
-      --success: #4ade80;
-      --danger: #f87171;
-      --warning: #fbbf24;
+      --success: #22c55e;
+      --success-dim: rgba(34, 197, 94, 0.16);
+      --danger: #ef4444;
+      --danger-dim: rgba(239, 68, 68, 0.16);
       --text: #f8fafc;
+      --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
       --radius: 16px;
+      --radius-sm: 12px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
 
     * {
@@ -31,53 +95,79 @@
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
+      background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08), transparent 60%);
       color: var(--text);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      padding-bottom: 82px;
+      padding-bottom: 96px;
     }
 
     header {
       position: sticky;
       top: 0;
-      z-index: 30;
-      background: rgba(11, 17, 32, 0.94);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--surface-elevated);
-      padding: 12px 16px;
+      z-index: 40;
+      background: rgba(9, 13, 22, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      flex-direction: column;
     }
 
     .app-title {
-      font-size: 1.05rem;
+      font-size: 1.18rem;
       font-weight: 800;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .site-pill {
+      font-size: 0.72rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      color: var(--amber);
+      background: var(--amber-dim);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
     }
 
     .app-subtitle {
-      font-size: 0.72rem;
-      color: var(--primary);
-      display: block;
-      margin-top: 2px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 3px;
     }
 
     .toggle-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.76rem;
-      color: var(--text-muted);
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      cursor: pointer;
     }
 
     .switch {
       position: relative;
       display: inline-block;
-      width: 42px;
+      width: 44px;
       height: 24px;
     }
     .switch input {
@@ -89,7 +179,7 @@
       position: absolute;
       cursor: pointer;
       inset: 0;
-      background-color: var(--surface-elevated);
+      background-color: var(--bg-elevated);
       transition: 0.2s;
       border-radius: 24px;
     }
@@ -108,66 +198,82 @@
       background-color: var(--primary);
     }
     input:checked + .slider:before {
-      transform: translateX(18px);
+      transform: translateX(20px);
     }
 
     main {
       flex: 1;
-      padding: 16px;
-      max-width: 680px;
+      padding: 20px 16px;
+      max-width: 780px;
       width: 100%;
       margin: 0 auto;
     }
 
     .tab-view {
       display: none;
-      animation: fadeIn 0.18s ease-out;
+      animation: fadeIn 0.2s ease-out;
     }
     .tab-view.active {
       display: block;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
+      from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .section-title {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: 800;
-      margin: 0 0 4px 0;
+      margin: 0 0 6px 0;
+      letter-spacing: -0.02em;
     }
     .section-desc {
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      margin: 0 0 16px 0;
-      line-height: 1.45;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin: 0 0 18px 0;
+      line-height: 1.5;
     }
 
     .card {
-      background: var(--surface);
-      border: 1px solid var(--surface-elevated);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
     }
 
     .scene-badge {
-      display: inline-block;
-      font-size: 0.74rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-weight: 700;
       color: var(--primary);
       background: var(--primary-dim);
-      padding: 4px 10px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 4px 12px;
       border-radius: 999px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .badge-amber {
+      color: var(--amber);
+      background: var(--amber-dim);
+      border-color: rgba(245, 158, 11, 0.35);
     }
 
     .dialogue-line {
-      font-size: 1.08rem;
+      font-size: 1.15rem;
       font-weight: 600;
-      margin: 8px 0 12px 0;
-      line-height: 1.65;
+      margin: 10px 0 14px 0;
+      line-height: 1.7;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 12px 14px;
+      border-left: 3px solid var(--primary);
+      border-radius: 0 10px 10px 0;
     }
 
     .clickable-word {
@@ -175,116 +281,193 @@
       padding: 1px 5px;
       margin: 1px 0;
       border-radius: 6px;
-      border-bottom: 1px dashed var(--primary);
+      border-bottom: 2px dashed rgba(56, 189, 248, 0.65);
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: all 0.15s;
     }
     .clickable-word:hover, .clickable-word:active {
       background: var(--primary-dim);
       color: var(--primary);
+      border-bottom-style: solid;
+    }
+
+    /* Larger, friendly buttons */
+    .btn {
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      color: #06101e;
+      font-weight: 800;
+      border: none;
+      padding: 15px 22px;
+      min-height: 54px;
+      border-radius: var(--radius-sm);
+      font-size: 1.02rem;
+      cursor: pointer;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.12s, filter 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25);
+    }
+    .btn:hover {
+      filter: brightness(1.08);
+    }
+    .btn:active {
+      transform: scale(0.99);
+    }
+
+    .btn-amber {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: #090d16;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-outline {
+      background: var(--bg-elevated);
+      color: var(--text);
+      border: 2px solid var(--border);
+      font-weight: 700;
+      padding: 14px 18px;
+      min-height: 52px;
+      border-radius: var(--radius-sm);
+      font-size: 0.96rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.15s;
+    }
+    .btn-outline:hover {
+      border-color: var(--primary);
+      background: var(--primary-dim);
     }
 
     .reply-btn {
       width: 100%;
       text-align: left;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--surface-elevated);
+      background: var(--bg-input);
+      border: 2px solid var(--border);
       color: var(--text);
-      padding: 11px 14px;
-      border-radius: 12px;
-      margin-top: 8px;
-      font-size: 0.9rem;
+      padding: 15px 18px;
+      min-height: 56px;
+      border-radius: var(--radius-sm);
+      margin-top: 10px;
+      font-size: 0.98rem;
+      font-weight: 600;
       cursor: pointer;
-      line-height: 1.4;
+      line-height: 1.45;
+      transition: all 0.15s;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
     }
-    .reply-btn:active {
-      background: var(--primary-dim);
+    .reply-btn:hover {
       border-color: var(--primary);
+      background: rgba(56, 189, 248, 0.06);
+    }
+    .reply-btn.correct-choice {
+      border-color: var(--success);
+      background: var(--success-dim);
+    }
+    .reply-btn.wrong-choice {
+      border-color: var(--danger);
+      background: var(--danger-dim);
+    }
+
+    .opt-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--bg-elevated);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
     }
 
     .feedback-msg {
-      font-size: 0.82rem;
-      margin-top: 8px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      display: none;
-      line-height: 1.4;
-    }
-
-    .btn {
-      background: var(--primary);
-      color: #0b1120;
-      font-weight: 800;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 12px;
       font-size: 0.94rem;
-      cursor: pointer;
-      width: 100%;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--surface-elevated);
-      font-weight: 600;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 0.88rem;
-      cursor: pointer;
+      margin-top: 10px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      display: none;
+      line-height: 1.5;
+      font-weight: 500;
+      border: 1px solid transparent;
     }
 
     .srs-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
       margin-top: 14px;
+    }
+
+    @media (max-width: 520px) {
+      .srs-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .conj-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.84rem;
+      margin-top: 12px;
+      font-size: 0.9rem;
     }
     .conj-table th, .conj-table td {
-      border: 1px solid var(--surface-elevated);
-      padding: 7px 9px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
       text-align: left;
     }
     .conj-table th {
-      background: rgba(56, 189, 248, 0.1);
+      background: rgba(56, 189, 248, 0.12);
       color: var(--primary);
       font-weight: 700;
     }
 
-    .search-bar {
+    .search-bar, .trainer-input {
       width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--surface-elevated);
+      background: var(--bg-input);
+      border: 2px solid var(--border);
       color: var(--text);
-      padding: 12px 14px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      font-size: 0.94rem;
+      padding: 15px 18px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+      font-size: 1.05rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-bar:focus, .trainer-input:focus {
+      border-color: var(--primary);
     }
 
     .filter-row {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       overflow-x: auto;
       padding-bottom: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
     .chip {
-      background: var(--surface);
-      border: 1px solid var(--surface-elevated);
-      color: var(--text-muted);
-      padding: 6px 12px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      color: var(--text-secondary);
+      padding: 10px 16px;
       border-radius: 999px;
-      font-size: 0.76rem;
-      font-weight: 600;
+      font-size: 0.86rem;
+      font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
+      transition: all 0.15s;
+    }
+    .chip:hover {
+      border-color: var(--primary);
     }
     .chip.active {
       background: var(--primary-dim);
@@ -292,45 +475,94 @@
       border-color: var(--primary);
     }
 
+    /* Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--bg-input);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0 18px 0;
+      border: 1px solid var(--border);
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--amber));
+      transition: width 0.25s ease;
+    }
+
+    /* Special character bar for typing */
+    .char-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .char-btn {
+      background: var(--bg-elevated);
+      border: 2px solid var(--border);
+      color: var(--amber);
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .char-btn:hover {
+      border-color: var(--amber);
+      background: var(--amber-dim);
+    }
+
+    /* Bottom Navigation */
     nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 68px;
-      background: rgba(11, 17, 32, 0.96);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid var(--surface-elevated);
+      height: 78px;
+      background: rgba(9, 13, 22, 0.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-around;
       align-items: center;
-      z-index: 30;
+      z-index: 40;
+      padding: 0 6px;
     }
 
     .nav-btn {
       background: none;
       border: none;
       color: var(--text-muted);
-      font-size: 0.68rem;
-      font-weight: 600;
+      font-size: 0.75rem;
+      font-weight: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       cursor: pointer;
-      padding: 6px 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      transition: all 0.15s;
+      min-width: 60px;
+    }
+    .nav-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
     }
     .nav-btn.active {
       color: var(--primary);
+      background: var(--primary-dim);
     }
     .nav-icon {
-      font-size: 1.18rem;
+      font-size: 1.3rem;
     }
 
+    /* Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.72);
+      background: rgba(0, 0, 0, 0.76);
       display: none;
       align-items: flex-end;
       justify-content: center;
@@ -340,25 +572,36 @@
       display: flex;
     }
     .modal-sheet {
-      background: var(--surface);
+      background: var(--bg-card);
       width: 100%;
-      max-width: 680px;
-      border-radius: 22px 22px 0 0;
-      padding: 20px 20px 28px 20px;
-      border-top: 1px solid var(--surface-elevated);
+      max-width: 720px;
+      border-radius: 24px 24px 0 0;
+      padding: 24px 22px 32px 22px;
+      border-top: 2px solid var(--border);
       max-height: 85vh;
       overflow-y: auto;
+    }
+
+    .pulse-btn {
+      animation: pulseGlow 1.5s infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.45); }
+      50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div>
-      <span class="app-title">Seamenese & Bonk Immersion</span>
-      <span class="app-subtitle">81 Official Words • 19 Verb Tables • seamenese.com</span>
+    <div class="brand-wrap">
+      <div class="app-title">
+        <span>🌊 Seamenese Immersion</span>
+        <span class="site-pill">seamenese.com</span>
+      </div>
+      <span class="app-subtitle">83 Ground-Truth Entries • 16 Scenes • Word & Plural Trainer</span>
     </div>
-    <label class="toggle-wrap">
+    <label class="toggle-wrap" title="Hide English translations in the word inspector first">
       <span>Strict Immersion</span>
       <span class="switch">
         <input type="checkbox" id="strictImmersionToggle" checked />
@@ -368,40 +611,155 @@
   </header>
 
   <main>
-    <!-- TAB 1: IMMERSION STORIES -->
+    <!-- TAB 1: IMMERSION STORIES (16 SINGLE-ANSWER SCENES) -->
     <section id="tab-immersion" class="tab-view active">
-      <h2 class="section-title">Comprehensible Input Dialogues</h2>
-      <p class="section-desc">
-        <strong>Tap any underlined Seamenese word</strong> in a conversation to inspect its contextual cue, emoji, and verb conjugation—without breaking immersion!
-      </p>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h2 class="section-title">Comprehensible Input Scenes (16 Scenes)</h2>
+          <p class="section-desc" style="margin-bottom:8px;">
+            <strong>Tap any underlined Seamenese word</strong> to inspect its meaning and conjugation. Each scene has <strong>only ONE grammatically and orthographically correct response</strong>!
+          </p>
+        </div>
+        <span class="scene-badge badge-amber" id="sceneScoreBadge">Solved: 0 / 16</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="sceneProgressFill" style="width: 0%;"></div>
+      </div>
+
+      <div class="filter-row" id="sceneFilterRow">
+        <button class="chip active" onclick="filterScenes('all', this)">All 16 Scenes</button>
+        <button class="chip" onclick="filterScenes('unsolved', this)">Unsolved Only</button>
+        <button class="chip" onclick="filterScenes(' solved', this)">Completed</button>
+      </div>
+
       <div id="dialogueContainer"></div>
     </section>
 
-    <!-- TAB 2: JAI-SEMEN (CONJUGATION DOJO) -->
+    <!-- TAB 2: LEARN WORDS (ACTIVE TYPING & MULTIPLE CHOICE QUEUE) -->
+    <section id="tab-learn" class="tab-view">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h2 class="section-title">Learn Words & Plurals Trainer</h2>
+          <p class="section-desc" style="margin-bottom:8px;">
+            Practice active recall by typing Seamenese words (including plural <code>-on</code> forms like <em>Feet → Sobon</em>) and answering multiple-choice prompts. Missed words show the answer and <strong>reappear later in your queue</strong>!
+          </p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <span class="scene-badge" id="learnQueueBadge">Remaining: 0</span>
+          <span class="scene-badge badge-amber" id="learnMasteredBadge">Mastered: 0</span>
+        </div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="learnProgressFill" style="width: 0%;"></div>
+      </div>
+
+      <div class="filter-row" id="learnModeRow">
+        <button class="chip active" onclick="setLearnMode('mixed', this)">Mixed (Typing + Multiple Choice)</button>
+        <button class="chip" onclick="setLearnMode('typing', this)">Typing Only</button>
+        <button class="chip" onclick="setLearnMode('mc', this)">Multiple Choice Only</button>
+        <button class="chip" onclick="resetLearnQueue()">↻ Reset Deck</button>
+      </div>
+
+      <div class="card" id="learnCard" style="border-color: var(--primary);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span class="scene-badge" id="learnTypeBadge">Prompt</span>
+          <span style="font-size:0.82rem; color:var(--text-muted);" id="learnRequeueNotice"></span>
+        </div>
+
+        <div id="learnPromptText" style="font-size: 1.35rem; font-weight: 800; margin: 12px 0 8px 0;"></div>
+        <div id="learnSubHint" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;"></div>
+
+        <!-- Typing Container -->
+        <div id="learnTypingWrap" style="display: none;">
+          <div class="char-bar">
+            <span style="font-size:0.82rem; color:var(--text-muted); align-self:center; margin-right:4px;">Insert:</span>
+            <button type="button" class="char-btn" onclick="insertChar('Ë')">Ë</button>
+            <button type="button" class="char-btn" onclick="insertChar('ë')">ë</button>
+            <button type="button" class="char-btn" onclick="insertChar('-')">-</button>
+          </div>
+          <input type="text" id="learnInput" class="trainer-input" placeholder="Type your answer in Seamenese..." autocomplete="off" onkeydown="if(event.key==='Enter') handleLearnEnter()" />
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <button type="button" id="learnSubmitBtn" class="btn" style="flex:2;" onclick="submitTypingAnswer()">Check Answer ✓</button>
+            <button type="button" id="learnGiveUpBtn" class="btn-outline" style="flex:1;" onclick="failLearnCurrent('Skipped — here is the answer:')">Don't Know / Show Answer</button>
+          </div>
+        </div>
+
+        <!-- Multiple Choice Container -->
+        <div id="learnMcWrap" style="display: none;">
+          <div id="learnMcOptions" class="srs-grid"></div>
+        </div>
+
+        <!-- Feedback & Obvious Next Button -->
+        <div id="learnFeedbackBox" class="feedback-msg"></div>
+        <button type="button" id="learnNextBtn" class="btn btn-amber pulse-btn" style="display:none; margin-top:14px;" onclick="advanceLearnCard()">
+          Continue to Next Word →
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 3: JAI-SEMEN (CONJUGATION DOJO) -->
     <section id="tab-verbs" class="tab-view">
       <h2 class="section-title">Jai-Semen (Verb Conjugation Dojo)</h2>
       <p class="section-desc">
-        In Seamenese, <strong>Ëi</strong> (I) and <strong>Te</strong> (You sg.) use the bare stem, <strong>Ton</strong> (You pl.) adds <code>-u</code>, <strong>Na</strong> (We) adds <code>-ami</code>, and <strong>La / Lon</strong> (He/She/It/They) add <code>-ai</code>.
+        In Seamenese, <strong>Ëi</strong> (I) and <strong>Te</strong> (You sg.) use the bare stem, <strong>Ton</strong> (You pl.) adds <code>-u</code>, <strong>Na</strong> (We) adds <code>-ami</code>, and <strong>La / Lon</strong> (He/She/It/They) add <code>-ai</code>. When chaining two verbs for the same subject, <strong>only the first verb conjugates</strong> (e.g., <em>Ëi skan obisëi ezuki</em>).
       </p>
 
-      <!-- Interactive Conjugation Drill Card -->
-      <div class="card" style="border-color: var(--primary);">
-        <span class="scene-badge">Interactive Jai-Semen Drill</span>
-        <div id="drillPrompt" style="font-size: 1.05rem; font-weight: 700; margin: 6px 0 12px 0;"></div>
+      <!-- Interactive Conjugation Drill Card with Obvious Next Drill Button -->
+      <div class="card" style="border: 2px solid var(--primary);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span class="scene-badge">Interactive Jai-Semen Drill</span>
+          <span class="scene-badge badge-amber" id="verbStreakBadge">Streak: 0 🔥</span>
+        </div>
+
+        <div id="drillPrompt" style="font-size: 1.22rem; font-weight: 800; margin: 10px 0 16px 0; line-height: 1.4;"></div>
         <div id="drillOptions" class="srs-grid"></div>
         <div id="drillFeedback" class="feedback-msg"></div>
+
+        <!-- BIG OBVIOUS NEXT DRILL BUTTONS -->
+        <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
+          <button type="button" id="nextDrillMainBtn" class="btn btn-amber pulse-btn" style="display:none; flex:2; font-size:1.08rem;" onclick="nextVerbDrill()">
+            Next Verb Drill →
+          </button>
+          <button type="button" class="btn-outline" style="flex:1;" onclick="nextVerbDrill()">
+            ↻ Skip / Load New Drill
+          </button>
+        </div>
       </div>
 
-      <h3 class="section-title" style="font-size: 1.05rem; margin-top: 20px;">All 19 Official Conjugation Tables</h3>
+      <h3 class="section-title" style="font-size: 1.18rem; margin-top: 24px;">All 19 Official Conjugation Tables</h3>
       <div id="conjugationListContainer"></div>
     </section>
 
-    <!-- TAB 3: GRAMMAR & COMPOUND LAB -->
+    <!-- TAB 4: GRAMMAR, PLURALS, PRONUNCIATION & 45 EXAMPLES -->
     <section id="tab-grammar" class="tab-view">
-      <h2 class="section-title">Seamenese Grammar & Compound Lab</h2>
+      <h2 class="section-title">Seamenese Grammar, Plurals & Corpus</h2>
       <p class="section-desc">
-        Discover how Seamenese builds complex concepts from core roots (`pan + eke = panke`, `wubu + eke = wuke`) and structures pronouns and questions.
+        Complete grammatical rules, plural formation, pronunciation guide, and the 45 canonical sentences from <strong>seamenese.com</strong>.
       </p>
+
+      <div class="card">
+        <span class="scene-badge badge-amber">NEW • Official Plural Rule (-on)</span>
+        <p style="font-size: 0.95rem; line-height: 1.6; margin: 6px 0;">
+          Formula: <code>&lt;noun&gt; minus last vowel + on</code><br/>
+          • <strong>1 sobo</strong> (1 foot) → <strong>2 sobon</strong> (2 feet)<br/>
+          • <strong>1 buana</strong> (1 friend) → <strong>2 buanon</strong> (2 friends)<br/>
+          • <strong>1 skantar</strong> (1 crush/lover) → <strong>2 skataron / skantaron</strong> (2 crushes/lovers)<br/>
+          • <strong>1 texik</strong> (1 asshole) → <strong>2 texikon</strong> (2 assholes)<br/>
+          • <strong>1 zorpe</strong> (1 question) → <strong>2 zorpon</strong> (2 questions)
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="scene-badge">Pronunciation & Multi-Verb Chaining Rules</span>
+        <p style="font-size: 0.95rem; line-height: 1.6; margin: 6px 0;">
+          • <strong>Vowel Ë (Diaeresis):</strong> <code>E</code> followed by <code>I</code> always makes <code>Ë</code> (e.g., <em>Ëi</em>, <em>Zetëi</em>, <em>Obisëi</em>, <em>Mikëi</em>, <em>Zorpëi</em>). This is because <code>Ëi</code> is pronounced <strong>"ay"</strong>, whereas normally <code>E</code> is always pronounced like <strong>"a" in "amp"</strong>.<br/>
+          • <strong>Consonant X:</strong> Always pronounced as <strong>"sh"</strong> (e.g., <em>Xai</em> = "shai", <em>Texik</em> = "teshik", <em>Brux</em> = "brush").<br/>
+          • <strong>Multi-Verb Rule:</strong> When using more than one verb that refers to a single pronoun or subject, <strong>only the first verb is conjugated</strong>; the second stays in the infinitive! E.g.: <em>"Ëi skan obisëi ezuki"</em> (I like to sing), <em>"Ëi wo skan itxi tëi texik"</em>.<br/>
+          • <strong>Singing & Amplifier Wo:</strong> There is no single verb for "singing" — Seamenese uses <strong>"Obisëi ezuki"</strong> (vocalize music). And <strong>Wo</strong> is both "big" and an amplifier: <em>Ëi skan</em> = I like, <em>Ëi wo skan</em> = I love!
+        </p>
+      </div>
 
       <div class="card">
         <span class="scene-badge">Pronoun & Possessive Matrix</span>
@@ -425,46 +783,41 @@
         </table>
       </div>
 
-      <div class="card">
-        <span class="scene-badge">Zorpe-Semen (The Interrogative Triplet)</span>
-        <p style="font-size: 0.86rem; line-height: 1.5; margin: 6px 0;">
-          • <strong>Wa (What):</strong> Triggers object fronting or copula questions (<em>"Wa te zete?"</em> = What do you eat?, <em>"Wa xaai et?"</em> = What is this?).<br/>
-          • <strong>We (Why):</strong> Keeps standard Subject-Verb-Object order after <em>We</em> (<em>"We te xa sarpo?"</em> = Why are you tired?).<br/>
-          • <strong>Wu (How):</strong> Used in copula state questions (<em>"Wu xa te?"</em> = How are you?, <em>"Wu xaai etpanke?"</em> = How is today?).
-        </p>
-      </div>
-
-      <h3 class="section-title" style="font-size: 1.05rem; margin-top: 18px;">Compound Word Builder</h3>
+      <h3 class="section-title" style="font-size: 1.15rem; margin-top: 22px;">Compound Word Builder</h3>
       <div id="compoundsContainer"></div>
+
+      <h3 class="section-title" style="font-size: 1.15rem; margin-top: 24px;">Official 45 Corpus Sentences</h3>
+      <input type="text" id="corpusSearchInput" class="search-bar" placeholder="Search the 45 official sentences (e.g., ezuki, skantar, panke)..." oninput="renderCorpusExamples()" />
+      <div id="corpusListContainer"></div>
     </section>
 
-    <!-- TAB 4: SRS RECALL -->
+    <!-- TAB 5: SRS RECALL -->
     <section id="tab-srs" class="tab-view">
       <h2 class="section-title">SM-2 Contextual Active Recall</h2>
-      <p class="section-desc" id="srsStatsText">81-Word Spaced Repetition Deck</p>
+      <p class="section-desc" id="srsStatsText">83-Word Spaced Repetition Deck</p>
 
-      <div class="card" id="srsCard" style="text-align: center; padding: 22px 16px;">
+      <div class="card" id="srsCard" style="text-align: center; padding: 26px 20px;">
         <span class="scene-badge" id="srsIntervalBadge">Interval: 1 day</span>
-        <div id="srsEmoji" style="font-size: 2.2rem; margin: 6px 0;"></div>
-        <p style="color: var(--text-muted); font-size: 0.82rem; margin: 4px 0;">Situational Cue:</p>
-        <p id="srsHint" style="font-size: 1rem; font-weight: 600; margin: 0 0 14px 0;"></p>
-        <p id="srsSentence" class="dialogue-line" style="font-style: italic;"></p>
+        <div id="srsEmoji" style="font-size: 2.5rem; margin: 8px 0;"></div>
+        <p style="color: var(--text-muted); font-size: 0.86rem; margin: 4px 0;">Situational Cue:</p>
+        <p id="srsHint" style="font-size: 1.08rem; font-weight: 700; margin: 0 0 16px 0;"></p>
+        <p id="srsSentence" class="dialogue-line" style="font-style: italic; text-align:left;"></p>
 
-        <div id="srsAnswerSection" style="display: none; border-top: 1px solid var(--surface-elevated); margin-top: 16px; padding-top: 14px;">
-          <div style="font-size: 1.4rem; font-weight: 800; color: var(--primary);" id="srsTerm"></div>
-          <div style="font-size: 0.8rem; color: var(--accent); margin-bottom: 6px;" id="srsPos"></div>
-          <div style="font-size: 1.02rem; font-weight: 700; margin-bottom: 6px;" id="srsMeaning"></div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);" id="srsNotes"></div>
+        <div id="srsAnswerSection" style="display: none; border-top: 1px solid var(--border); margin-top: 18px; padding-top: 16px;">
+          <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="srsTerm"></div>
+          <div style="font-size: 0.85rem; color: var(--amber); margin-bottom: 8px; font-weight:700;" id="srsPos"></div>
+          <div style="font-size: 1.12rem; font-weight: 700; margin-bottom: 8px;" id="srsMeaning"></div>
+          <div style="font-size: 0.88rem; color: var(--text-muted);" id="srsNotes"></div>
         </div>
       </div>
 
-      <button id="srsRevealBtn" class="btn" onclick="revealSrsAnswer()">Verify Comprehension</button>
+      <button id="srsRevealBtn" class="btn" onclick="revealSrsAnswer()">Reveal Answer</button>
 
       <div id="srsGradeBtns" class="srs-grid" style="display: none;">
         <button class="btn-outline" style="border-color: var(--danger); color: var(--danger);" onclick="gradeCurrentCard(1)">
           Forgot (Reset 1d)
         </button>
-        <button class="btn-outline" style="border-color: var(--warning); color: var(--warning);" onclick="gradeCurrentCard(3)">
+        <button class="btn-outline" style="border-color: var(--amber); color: var(--amber);" onclick="gradeCurrentCard(3)">
           Hard Recall
         </button>
         <button class="btn-outline" style="border-color: var(--primary); color: var(--primary);" onclick="gradeCurrentCard(4)">
@@ -476,22 +829,22 @@
       </div>
     </section>
 
-    <!-- TAB 5: FULL 81-WORD LEXICON -->
+    <!-- TAB 6: FULL LEXICON -->
     <section id="tab-lexicon" class="tab-view">
-      <h2 class="section-title">The Seamenese & Bonk Lexicon (81 Entries)</h2>
+      <h2 class="section-title">The Official Seamenese Lexicon (83 Entries)</h2>
       <p class="section-desc">
-        Complete offline dictionary synced from <strong>https://seamenese.com</strong>. Tap any entry for full usage notes and conjugation forms.
+        Synced with <code>SeameneseDictionary.txt</code> and <strong>seamenese.com</strong> (including <em>Brux</em>, <em>Liron</em>, <em>Peke</em>, and <em>Et</em>). Tap any card to inspect full usage notes and verb tables.
       </p>
 
-      <input type="text" id="lexSearchInput" class="search-bar" placeholder="Search Seamenese word, English meaning, or note..." oninput="renderLexiconList()" />
+      <input type="text" id="lexSearchInput" class="search-bar" placeholder="Search Seamenese word, English meaning, or grammar note..." oninput="renderLexiconList()" />
 
       <div class="filter-row" id="posFilterRow">
-        <button class="chip active" onclick="setPosFilter('all', this)">All (81)</button>
+        <button class="chip active" onclick="setPosFilter('all', this)">All (83)</button>
         <button class="chip" onclick="setPosFilter('verb', this)">Verbs (20)</button>
-        <button class="chip" onclick="setPosFilter('noun', this)">Nouns (34)</button>
-        <button class="chip" onclick="setPosFilter('pronoun', this)">Pronouns (12)</button>
-        <button class="chip" onclick="setPosFilter('particle', this)">Particles (9)</button>
-        <button class="chip" onclick="setPosFilter('adjective', this)">Adjectives & Emotions (6)</button>
+        <button class="chip" onclick="setPosFilter('noun', this)">Nouns (32)</button>
+        <button class="chip" onclick="setPosFilter('pronoun', this)">Pronouns (13)</button>
+        <button class="chip" onclick="setPosFilter('particle', this)">Particles (10)</button>
+        <button class="chip" onclick="setPosFilter('adjective', this)">Adjectives, Colors & Emotions (8)</button>
       </div>
 
       <div id="lexiconListContainer"></div>
@@ -501,30 +854,30 @@
   <!-- WORD INSPECTOR MODAL -->
   <div id="inspectorModal" class="modal-backdrop" onclick="closeInspector()">
     <div class="modal-sheet" onclick="event.stopPropagation()">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
         <div>
-          <span id="modalEmoji" style="font-size: 1.5rem; margin-right: 6px;"></span>
-          <span id="modalTerm" style="font-size: 1.35rem; font-weight: 800; color: var(--primary);"></span>
+          <span id="modalEmoji" style="font-size: 1.7rem; margin-right: 6px;"></span>
+          <span id="modalTerm" style="font-size: 1.5rem; font-weight: 800; color: var(--primary);"></span>
           <span id="modalPos" class="scene-badge" style="margin-left: 8px;"></span>
         </div>
-        <button class="btn-outline" style="padding: 6px 12px;" onclick="speakCurrentTerm()">🔊 Listen</button>
+        <button class="btn-outline" style="padding: 8px 14px; min-height:42px;" onclick="speakCurrentTerm()">🔊 Listen</button>
       </div>
 
-      <p style="font-size: 0.92rem; margin: 12px 0 6px 0; line-height: 1.45;">
+      <p style="font-size: 0.96rem; margin: 14px 0 8px 0; line-height: 1.5;">
         <strong>Immersion Cue:</strong> <span id="modalHint"></span>
       </p>
-      <p style="font-size: 0.92rem; font-style: italic; color: var(--primary); margin: 0 0 12px 0;" id="modalSentence"></p>
+      <p style="font-size: 0.98rem; font-style: italic; color: var(--primary); margin: 0 0 14px 0;" id="modalSentence"></p>
 
-      <div id="modalConjBox" style="display:none; margin-bottom: 12px;"></div>
+      <div id="modalConjBox" style="display:none; margin-bottom: 14px;"></div>
 
-      <div id="modalMeaningBox" style="display:none; background: var(--bg); padding: 12px; border-radius: 12px; margin-bottom: 14px; border: 1px solid var(--surface-elevated);">
-        <div style="font-size: 0.98rem; font-weight: 700; color: var(--success); margin-bottom: 4px;" id="modalMeaning"></div>
-        <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;" id="modalNotes"></div>
+      <div id="modalMeaningBox" style="display:none; background: var(--bg-input); padding: 14px; border-radius: 12px; margin-bottom: 16px; border: 1px solid var(--border);">
+        <div style="font-size: 1.08rem; font-weight: 800; color: var(--success); margin-bottom: 6px;" id="modalMeaning"></div>
+        <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.45;" id="modalNotes"></div>
       </div>
 
-      <div style="display: flex; gap: 10px;">
+      <div style="display: flex; gap: 12px; flex-wrap:wrap;">
         <button id="peekBtn" class="btn-outline" style="flex: 1;" onclick="peekTranslation()">
-          Reveal Gloss (Schedules SRS Review)
+          Reveal English Gloss (Schedules SRS)
         </button>
         <button class="btn" style="flex: 1;" onclick="closeInspector()">Got It</button>
       </div>
@@ -535,7 +888,11 @@
   <nav>
     <button class="nav-btn active" onclick="switchTab('immersion', this)">
       <span class="nav-icon">💬</span>
-      <span>Stories</span>
+      <span>Scenes (16)</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('learn', this)">
+      <span class="nav-icon">🎯</span>
+      <span>Learn Words</span>
     </button>
     <button class="nav-btn" onclick="switchTab('verbs', this)">
       <span class="nav-icon">⚡</span>
@@ -543,7 +900,7 @@
     </button>
     <button class="nav-btn" onclick="switchTab('grammar', this)">
       <span class="nav-icon">🧩</span>
-      <span>Compounds</span>
+      <span>Grammar</span>
     </button>
     <button class="nav-btn" onclick="switchTab('srs', this)">
       <span class="nav-icon">🧠</span>
@@ -551,1290 +908,1331 @@
     </button>
     <button class="nav-btn" onclick="switchTab('lexicon', this)">
       <span class="nav-icon">📖</span>
-      <span>Lexicon (81)</span>
+      <span>Lexicon</span>
     </button>
   </nav>
 
   <script>
+    // =========================================================================
+    // 1. GROUND-TRUTH LEXICON (Synced with SeameneseDictionary.txt)
+    // =========================================================================
     const LEXICON = [
-  {
-    "id": "ap",
-    "term": "Ap",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "✋",
-    "meaning": "But (contrastive conjunction)",
-    "hint": "Contrastive linker used between clauses or before a command ('Ap bet!' = 'But wait!')",
-    "example": "Ëi xa sarpo, ap ëi kin obisëi seamenese.",
-    "notes": "Jorn corrected 'ap beti' -> 'ap bet*', confirming conjugated stem follows 'ap'."
-  },
-  {
-    "id": "beti",
-    "term": "Beti",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "⏳",
-    "meaning": "To wait",
-    "hint": "Action of pausing or holding on ('Ap bet, beto!')",
-    "example": "Ap bet, buana! Ëi kin zorpei te.",
-    "notes": "Conjugates regularly: Ëi=Bet, Te=Bet, Ton=Betu, Na=Betami, La=Betai, Lon=Betai."
-  },
-  {
-    "id": "beto",
-    "term": "Beto",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🙏",
-    "meaning": "Please (polite request marker)",
-    "hint": "Polite marker placed at the end of a request or used standalone (🙏)",
-    "example": "Ob ëi tumu, beto!",
-    "notes": "Equivalent to 🙏; used sentence-finally or standalone."
-  },
-  {
-    "id": "blobber",
-    "term": "Blobber",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🐟",
-    "meaning": "Fish (aquatic animal)",
-    "hint": "An aquatic creature that swims in water (🐟); often eaten as tumu",
-    "example": "Ta silhbi wo skan zetëi blobber.",
-    "notes": "Variant spelling: Blober."
-  },
-  {
-    "id": "blober",
-    "term": "Blober",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🐟",
-    "meaning": "Fish (variant spelling of Blobber)",
-    "hint": "Alternate spelling of Blobber (🐟)",
-    "example": "La zeteai ti blober.",
-    "notes": "Variant spelling of Blobber."
-  },
-  {
-    "id": "blubur",
-    "term": "Blubur",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🥗",
-    "meaning": "Salad (vegetable dish)",
-    "hint": "Green vegetable dish (🥗), a type of healthy tumu",
-    "example": "Etpanke ëi zete blubur u blobber.",
-    "notes": "Likely derived from the appearance of a green salad or 🥗."
-  },
-  {
-    "id": "buana",
-    "term": "Buana",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🤝",
-    "meaning": "Friend",
-    "hint": "A person you like and trust (🤝)",
-    "example": "Tamako, ta buana! Wu xa te?",
-    "notes": "Used frequently in greetings ('ta buana' = my friend)."
-  },
-  {
-    "id": "daka",
-    "term": "Daka",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🍻",
-    "meaning": "Cheers! (celebratory drinking word)",
-    "hint": "Exclamation said when raising drinks together in celebration (🍻)",
-    "example": "Daka, ta buana! Etwuke na xaami mubu!",
-    "notes": "Celebratory word said when drinking. Similar to cheers."
-  },
-  {
-    "id": "dingding",
-    "term": "Dingding",
-    "pos": "slang",
-    "status": "high+",
-    "emoji": "🔥",
-    "meaning": "Horny / Freaky",
-    "hint": "Slang describing someone feeling freaky or aroused",
-    "example": "Etwuke la xaai dingding.",
-    "notes": "Marked high+ slang in the lexicon."
-  },
-  {
-    "id": "ei",
-    "term": "Ëi",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🙋",
-    "meaning": "I (1st person singular pronoun)",
-    "hint": "Refers to the speaker themselves (subject/object, never possessive)",
-    "example": "Ëi skan seamenese u ëi pon lulu semen.",
-    "notes": "NOT used as possessive before nouns — use 'Ta' instead."
-  },
-  {
-    "id": "eke",
-    "term": "Eke",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🌌",
-    "meaning": "Sky (the heavens above)",
-    "hint": "The expanse above the earth; combines with pan (sun) or wubu (moon)",
-    "example": "Pan u wubu xaaiuk eke.",
-    "notes": "Used in compounds: pan+eke=panke (day), wubu+eke=wuke (night)."
-  },
-  {
-    "id": "etpanke",
-    "term": "Etpanke",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "📅",
-    "meaning": "Today",
-    "hint": "This current sun-sky (et + panke)",
-    "example": "Etpanke xaai wo tuk panke!",
-    "notes": "Specific day/date referent; takes 3sg copula 'xaai' when used as subject."
-  },
-  {
-    "id": "etwuke",
-    "term": "Etwuke",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🌃",
-    "meaning": "Tonight / This night",
-    "hint": "This current moon-sky (et + wuke)",
-    "example": "Etwuke na sarpami zo na obiseami?",
-    "notes": "Compound of 'et' (this) + 'wuke' (night); literally 'this-night'."
-  },
-  {
-    "id": "ezuki",
-    "term": "Ezuki",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🎵",
-    "meaning": "Music / Song",
-    "hint": "Melodic sound and rhythm (🎵)",
-    "example": "Ëi wo skan tuk ezuki!",
-    "notes": "Represents music or a song (🎵)."
-  },
-  {
-    "id": "faki",
-    "term": "Faki",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🔞",
-    "meaning": "To fuck",
-    "hint": "Vulgar/intimate action verb",
-    "example": "La skantar u la fakai.",
-    "notes": "Conjugates regularly: Ëi=Fak, Te=Fak, Ton=Faku, Na=Fakami, La=Fakai, Lon=Fakai."
-  },
-  {
-    "id": "fasma",
-    "term": "fasma",
-    "pos": "adjective",
-    "status": "confirmed+",
-    "emoji": "⚡",
-    "meaning": "Tired (entry gloss) / Awake (in Lipo/sarpo notes)",
-    "hint": "State of energy/fatigue (listed as 'Tired' in F, and grouped with 'lipo' as antonym of 'sarpo' in L/S)",
-    "example": "Ëi xa fasma etpanke.",
-    "notes": "Lexicon entry F says 'Tired', while Lipo and sarpo entries note 'synonym of fasma; antonym of sarpo'."
-  },
-  {
-    "id": "ha",
-    "term": "Ha",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "✅",
-    "meaning": "Yes",
-    "hint": "Affirmative response particle (opposite of Ni)",
-    "example": "Ha! Ëi rago u ëi pon!",
-    "notes": "Combines with 'ni' to form 'hani' (maybe)."
-  },
-  {
-    "id": "hani",
-    "term": "Hani",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "🤔",
-    "meaning": "Maybe",
-    "hint": "Uncertain response: literally 'yes-no' (ha + ni)",
-    "example": "Hani la betai, hani ni.",
-    "notes": "Composite of ha 'yes' + ni 'no'; literally 'not no, not yes'."
-  },
-  {
-    "id": "itxi",
-    "term": "Itxi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "💋",
-    "meaning": "To kiss",
-    "hint": "Romantic gesture with the lips (💋)",
-    "example": "Ëi itx ta skantar etwuke.",
-    "notes": "Conjugates regularly: Ëi=Itx, Te=Itx, Ton=Itxu, Na=Itxami, La=Itxai, Lon=Itxai."
-  },
-  {
-    "id": "jai",
-    "term": "Jai",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🛠️",
-    "meaning": "To do / To make",
-    "hint": "Core action verb of doing, making, or creating",
-    "example": "Wa te ja etpanke?",
-    "notes": "Conjugates: Ëi=Ja, Te=Ja, Ton=Jau, Na=Jaami, La=Jaai, Lon=Jaai."
-  },
-  {
-    "id": "jai-semen",
-    "term": "Jai-semen",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🏃",
-    "meaning": "Verb / Action-word",
-    "hint": "Compound of jai (to do) + semen (word): a word that acts",
-    "example": "'Obisëi' u 'zetëi' xaai jai-semen.",
-    "notes": "Literally 'do-word' or 'action-word'."
-  },
-  {
-    "id": "ka",
-    "term": "Ka",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🍆",
-    "meaning": "Penis",
-    "hint": "Male anatomical noun",
-    "example": "Ka xaai semen.",
-    "notes": "Anatomical noun."
-  },
-  {
-    "id": "kani",
-    "term": "Kani",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🌸",
-    "meaning": "Vagina",
-    "hint": "Female anatomical noun",
-    "example": "Kani xaai semen.",
-    "notes": "Anatomical noun."
-  },
-  {
-    "id": "kini",
-    "term": "Kini",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🎯",
-    "meaning": "To need",
-    "hint": "Expresses necessity or strong desire; takes a noun or an infinitive verb",
-    "example": "Ëi kin zorpei te! Na kinami tumu.",
-    "notes": "Conjugates: Ëi=Kin, Te=Kin, Ton=Kinu, Na=Kinami, La=Kinai, Lon=Kinai."
-  },
-  {
-    "id": "kiniwai",
-    "term": "Kiniwai",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "💡",
-    "meaning": "To explain",
-    "hint": "Making a concept or word clear to someone",
-    "example": "Beto, kiniwa lulu semen!",
-    "notes": "Irregular paradigm: Ëi=Kiniwa, Te=Kiniwa, Ton=Kiniwau, Na=Kiniwaami, La=Kiniwaai, Lon=Kiniwaai."
-  },
-  {
-    "id": "kiniwako",
-    "term": "Kiniwako",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "📖",
-    "meaning": "Explanation",
-    "hint": "The noun form of kiniwai (something that clarifies meaning)",
-    "example": "Tëi kiniwako xaai wo tuk! Ëi pon.",
-    "notes": "Derived from kiniwai + -ko."
-  },
-  {
-    "id": "kixixi",
-    "term": "Kixixi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🤫",
-    "meaning": "To shut up",
-    "hint": "Stopping someone from speaking / telling them to be quiet (🤫)",
-    "example": "Texik, kixix!",
-    "notes": "Conjugates: Ëi=Kixix, Te=Kixix, Ton=Kixixu, Na=Kixixami, La=Kixixai, Lon=Kixixai."
-  },
-  {
-    "id": "la",
-    "term": "La",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "👤",
-    "meaning": "He / She / It (3rd person singular)",
-    "hint": "Refers to any single third person or thing (not Ëi, Te, or Na)",
-    "example": "La obiseai seamenese u la xaai mubu.",
-    "notes": "For groups of 3rd persons, use Lon instead."
-  },
-  {
-    "id": "lai",
-    "term": "Lai",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🏷️",
-    "meaning": "His / Her / Its (3rd person singular possessive)",
-    "hint": "Placed before a noun to show it belongs to 'La'",
-    "example": "Lai silhbi xaai ti u tuk.",
-    "notes": "Parallel to La. Plural form is Laion."
-  },
-  {
-    "id": "laion",
-    "term": "Laion",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🏷️",
-    "meaning": "Their (3rd person plural possessive)",
-    "hint": "Placed before a noun to show it belongs to 'Lon' (they)",
-    "example": "Lon skanai laion buana.",
-    "notes": "Plural form of Lai (Lai + -on)."
-  },
-  {
-    "id": "lipo",
-    "term": "Lipo",
-    "pos": "adjective",
-    "status": "confirmed+",
-    "emoji": "🤩",
-    "meaning": "Awake / Energetic / Excited / Not tired",
-    "hint": "Full of energy and wide awake (🤩; 'ni sarpo')",
-    "example": "Ëi ni xa sarpo, ëi xa lipo!",
-    "notes": "Antonym of sarpo ('ni sarpo')."
-  },
-  {
-    "id": "lon",
-    "term": "Lon",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "👥",
-    "meaning": "They / Them (3rd person plural)",
-    "hint": "Refers to a group of other people or things (plural of La)",
-    "example": "Lon zeteai tumu u lon obiseai.",
-    "notes": "Takes the same -ai verb ending as La."
-  },
-  {
-    "id": "lulu",
-    "term": "Lulu",
-    "pos": "adjective",
-    "status": "confirmed+",
-    "emoji": "✨",
-    "meaning": "New / Novel",
-    "hint": "Fresh, recently created, or unfamiliar ('lulu semen' = new word)",
-    "example": "Etpanke ëi pon lulu semen!",
-    "notes": "Used before nouns ('lulu semen') or after copula."
-  },
-  {
-    "id": "mibi",
-    "term": "Mibi",
-    "pos": "emotion",
-    "status": "confirmed+",
-    "emoji": "😠",
-    "meaning": "Angry",
-    "hint": "Feeling mad or frustrated (😠; opposite mood of mubu)",
-    "example": "We te xa mibi, buana?",
-    "notes": "Emotion adjective/noun used with copula Xai."
-  },
-  {
-    "id": "mikei",
-    "term": "Mikëi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🌧️",
-    "meaning": "To rain",
-    "hint": "Water falling from the sky (eke) as weather (🌧️)",
-    "example": "Etpanke eke mikeai.",
-    "notes": "Conjugates: Ëi=Mike, Te=Mike, Ton=Mikeu, Na=Mikeami, La=Mikeai, Lon=Mikeai."
-  },
-  {
-    "id": "monster",
-    "term": "Monster",
-    "pos": "noun",
-    "status": "medium+",
-    "emoji": "👾",
-    "meaning": "Monster (creature or consumable/energy drink)",
-    "hint": "A creature, or a consumable item/drink in context (likely making one lipo!)",
-    "example": "Ëi kin monster, ëi xa sarpo.",
-    "notes": "Can function as a creature or food/consumable item in context."
-  },
-  {
-    "id": "mubu",
-    "term": "Mubu",
-    "pos": "emotion",
-    "status": "confirmed+",
-    "emoji": "🙂",
-    "meaning": "Happy",
-    "hint": "Feeling glad, joyful, and positive (🙂)",
-    "example": "Ëi xa wo mubu etpanke!",
-    "notes": "Emotion term used with Xai ('ëi xa mubu')."
-  },
-  {
-    "id": "na",
-    "term": "Na",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🫂",
-    "meaning": "We / Us (1st person plural)",
-    "hint": "The speaker plus others together (takes -ami verb ending)",
-    "example": "Na obiseami seamenese u na ragoami!",
-    "notes": "Possessive form is Nai."
-  },
-  {
-    "id": "nai",
-    "term": "Nai",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🏷️",
-    "meaning": "Our / Ours (1st person plural possessive)",
-    "hint": "Shows something belongs to 'Na' (us)",
-    "example": "Seamenese xaai nai tuk semen!",
-    "notes": "1st person plural possessive pronoun."
-  },
-  {
-    "id": "ni",
-    "term": "Ni",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "❌",
-    "meaning": "No / Not (negation particle)",
-    "hint": "Negates a verb, adjective, or answers a question negatively",
-    "example": "Ni, te ni pon! Ëi ni xa sarpo.",
-    "notes": "Placed before the verb or adjective being negated."
-  },
-  {
-    "id": "nimi",
-    "term": "Nimi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🙌",
-    "meaning": "To thank",
-    "hint": "Expressing gratitude to someone ('Ëi nim te' = Thank you)",
-    "example": "Ëi nim te, ta buana!",
-    "notes": "Conjugates: Ëi=Nim, Te=Nim, Ton=Nimu, Na=Nimami, La=Nimai, Lon=Nimai."
-  },
-  {
-    "id": "obi",
-    "term": "Obi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🎁",
-    "meaning": "To give",
-    "hint": "Handing or offering something to someone",
-    "example": "La obai tumu ta silhbi.",
-    "notes": "Conjugates: Ëi=Ob, Te=Ob, Ton=Obu, Na=Obami, La=Obai, Lon=Obai."
-  },
-  {
-    "id": "obisei",
-    "term": "Obisëi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🗣️",
-    "meaning": "To speak / To vocalize (NOT to sing)",
-    "hint": "Talking and expressing words aloud (🗣️)",
-    "example": "Te obise seamenese wo tuk!",
-    "notes": "Conjugates: Ëi=Obise, Te=Obise, Ton=Obiseu, Na=Obiseami, La=Obiseai, Lon=Obiseai."
-  },
-  {
-    "id": "pan",
-    "term": "Pan",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "☀️",
-    "meaning": "Sun",
-    "hint": "The bright star in the daytime sky (☀️)",
-    "example": "Pan xaai wo u tuk.",
-    "notes": "Combines with eke (sky) to form panke (day)."
-  },
-  {
-    "id": "panke",
-    "term": "Panke",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🌤️",
-    "meaning": "Day",
-    "hint": "Compound of pan (sun) + eke (sky): literally 'sun-sky'",
-    "example": "Tuk panke, ta buana!",
-    "notes": "Base of etpanke (today)."
-  },
-  {
-    "id": "pansai",
-    "term": "Pansai",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "💭",
-    "meaning": "To think / To ponder",
-    "hint": "Mental reflection or holding an opinion (distinct from poni = understand)",
-    "example": "Ëi pansa seamenese xaai wo tuk.",
-    "notes": "From conjugation tables: Ëi=Pansa, Te=Pansa, Ton=Pansau, Na=Pansaami, La=Pansaai, Lon=Pansaai."
-  },
-  {
-    "id": "poni",
-    "term": "Poni",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🧠",
-    "meaning": "To understand",
-    "hint": "Comprehending the meaning of words or explanations",
-    "example": "Ha, ëi pon tëi kiniwako!",
-    "notes": "Conjugates: Ëi=Pon, Te=Pon, Ton=Ponu, Na=Ponami, La=Ponai, Lon=Ponai."
-  },
-  {
-    "id": "ragoi",
-    "term": "Ragoi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🤜🤛",
-    "meaning": "To agree / To vibe / To be on the same wavelength",
-    "hint": "Sharing the same view or feeling in harmony with someone ('Rago!')",
-    "example": "Rago! Na ragoami!",
-    "notes": "Conjugates: Ëi=Rago, Te=Rago, Ton=Ragou, Na=Ragoami, La=Ragoai, Lon=Ragoai."
-  },
-  {
-    "id": "san",
-    "term": "San",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "➕",
-    "meaning": "Also / Too / Same / Likewise",
-    "hint": "Indicates addition or similarity ('Ëi san!' = 'Me too!')",
-    "example": "Te skan ezuki? Ëi san skan ezuki!",
-    "notes": "Can appear between subject & verb, verb & object, or standalone '[pronoun] san'."
-  },
-  {
-    "id": "sanai",
-    "term": "Sanai",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🔁",
-    "meaning": "To cycle / To loop / To repeat / Q&A pattern",
-    "hint": "Repeating a cycle or going back-and-forth in question-and-answer drills (🔁)",
-    "example": "Na sanaami lulu semen!",
-    "notes": "Related to san (same/also); repeating a loop."
-  },
-  {
-    "id": "sarpi",
-    "term": "Sarpi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "😴",
-    "meaning": "To sleep / To be asleep",
-    "hint": "Resting with eyes closed at night (😴💤)",
-    "example": "Etwuke ëi sarp.",
-    "notes": "Conjugates: Ëi=Sarp, Te=Sarp, Ton=Sarpu, Na=Sarpami, La=Sarpai, Lon=Sarpai."
-  },
-  {
-    "id": "sarpo",
-    "term": "sarpo",
-    "pos": "adjective",
-    "status": "confirmed+",
-    "emoji": "🥱",
-    "meaning": "Tired / Sleepy",
-    "hint": "Needing sleep (🥱; opposite of lipo; used with copula: 'ëi xa sarpo')",
-    "example": "Wuke xaai, ëi xa sarpo.",
-    "notes": "'ni sarpo' = lipo (awake/energetic)."
-  },
-  {
-    "id": "seamenese",
-    "term": "seamenese",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🗣️",
-    "meaning": "The Seamenese language ('language of words')",
-    "hint": "Derived from semen (word) + -ese",
-    "example": "Ëi wo skan seamenese!",
-    "notes": "Attested in Jorn's sentence: 'ëi skan seamenese'."
-  },
-  {
-    "id": "semen",
-    "term": "Semen",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🔤",
-    "meaning": "Word",
-    "hint": "Any vocabulary unit in the language (forms compounds like jai-semen, zorpe-semen)",
-    "example": "Te pon et lulu semen?",
-    "notes": "Applies to all lexical items."
-  },
-  {
-    "id": "silhbi",
-    "term": "Silhbi",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🐱",
-    "meaning": "Cat (domestic feline)",
-    "hint": "A furry pet that likes eating blobber (🐱)",
-    "example": "Ta ti silhbi sarpai.",
-    "notes": "Domestic feline (🐱)."
-  },
-  {
-    "id": "skani",
-    "term": "Skani",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "❤️",
-    "meaning": "To like ('wo skan' = to love)",
-    "hint": "Feeling affection or enjoyment for something (❤️; amplified with 'wo' -> ❤️❤️)",
-    "example": "Ëi skan blubur, ap ëi wo skan te!",
-    "notes": "Conjugates: Ëi=Skan, Te=Skan, Ton=Skanu, Na=Skanami, La=Skanai, Lon=Skanai."
-  },
-  {
-    "id": "skantar",
-    "term": "Skantar",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "💘",
-    "meaning": "Crush / Lover",
-    "hint": "A person you 'wo skan' (derived from skan + -tar)",
-    "example": "La itxai lai skantar.",
-    "notes": "Derived from skan (to like) + -tar."
-  },
-  {
-    "id": "sobo",
-    "term": "Sobo",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🦶",
-    "meaning": "Foot",
-    "hint": "Body part at the bottom of the leg used for standing and walking (🦶)",
-    "example": "Ta sobo xaai wo.",
-    "notes": "Anatomical noun (🦶)."
-  },
-  {
-    "id": "ta",
-    "term": "Ta",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🏷️",
-    "meaning": "My (1st person singular possessive)",
-    "hint": "Placed before a noun to show it belongs to 'Ëi' ('ta buana' = my friend)",
-    "example": "Ta buana u ta silhbi xaai mubu.",
-    "notes": "Always use Ta (never Ëi) for 'my'."
-  },
-  {
-    "id": "taki",
-    "term": "Taki",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "👋",
-    "meaning": "Bye / Goodbye",
-    "hint": "Parting word said when leaving (opposite of Tamako)",
-    "example": "Taki, ta buana! Tuk wuke!",
-    "notes": "Standard farewell."
-  },
-  {
-    "id": "tamako",
-    "term": "Tamako",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🖐️",
-    "meaning": "Hello",
-    "hint": "Friendly greeting when meeting someone",
-    "example": "Tamako! Wu xa te etpanke?",
-    "notes": "Standard greeting."
-  },
-  {
-    "id": "te",
-    "term": "Te",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "👉",
-    "meaning": "You (2nd person singular)",
-    "hint": "Refers to the single person you are speaking to",
-    "example": "Te obise seamenese! Ëi pon te.",
-    "notes": "Singular only; for plural 'you', use Ton."
-  },
-  {
-    "id": "tei",
-    "term": "Tëi",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🏷️",
-    "meaning": "Your (2nd person singular possessive)",
-    "hint": "Placed before a noun to show it belongs to 'Te'",
-    "example": "Wa xaai tëi lulu semen?",
-    "notes": "Singular possessive; plural is Tëion."
-  },
-  {
-    "id": "teion",
-    "term": "Tëion",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🏷️",
-    "meaning": "Your (2nd person plural possessive)",
-    "hint": "Placed before a noun to show it belongs to 'Ton' (you all)",
-    "example": "Ton skanu tëion ezuki.",
-    "notes": "Plural form of tëi (tëi + -on)."
-  },
-  {
-    "id": "texik",
-    "term": "Texik",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🤬",
-    "meaning": "Asshole",
-    "hint": "Insult used when someone is rude or makes you mibi (😠)",
-    "example": "La xaai texik! Kixix!",
-    "notes": "Pejorative noun."
-  },
-  {
-    "id": "ti",
-    "term": "Ti",
-    "pos": "adjective",
-    "status": "confirmed+",
-    "emoji": "🤏",
-    "meaning": "Small / Little",
-    "hint": "Compact in size (🤏; opposite of wo = big)",
-    "example": "Ta silhbi zeteai ti blobber.",
-    "notes": "Antonym of wo."
-  },
-  {
-    "id": "ton",
-    "term": "Ton",
-    "pos": "pronoun",
-    "status": "confirmed+",
-    "emoji": "🫵",
-    "meaning": "You all (2nd person plural)",
-    "hint": "Addressing two or more people (takes -u verb ending)",
-    "example": "Tamako, ton! Wu xau ton?",
-    "notes": "Plural of Te (Te + -on)."
-  },
-  {
-    "id": "tuk",
-    "term": "Tuk",
-    "pos": "adjective",
-    "status": "confirmed+",
-    "emoji": "👍",
-    "meaning": "Good",
-    "hint": "Positive quality, well done, or pleasant ('wo tuk' = very good!)",
-    "example": "Etpanke xaai wo tuk! Tëi kiniwako xaai tuk.",
-    "notes": "Core positive adjective."
-  },
-  {
-    "id": "tumu",
-    "term": "Tumu",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🍽️",
-    "meaning": "Food",
-    "hint": "Anything edible (such as blobber or blubur) that you zete",
-    "example": "Ëi kin tumu! Ëi skan zetëi tuk tumu.",
-    "notes": "General category for edible items."
-  },
-  {
-    "id": "u",
-    "term": "U",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "🔗",
-    "meaning": "And",
-    "hint": "Coordinating conjunction linking words or clauses together",
-    "example": "Pan u wubu, ëi u te!",
-    "notes": "Standard 'and' particle."
-  },
-  {
-    "id": "wa",
-    "term": "Wa",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "❓",
-    "meaning": "What (question word)",
-    "hint": "Zorpe-semen asking 'what' (triggers object fronting or copula inquiry)",
-    "example": "Wa te zete? Wa xaai et?",
-    "notes": "Part of the wa / we / wu interrogative triplet."
-  },
-  {
-    "id": "we",
-    "term": "We",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "🤔",
-    "meaning": "Why (question word)",
-    "hint": "Zorpe-semen asking the reason; keeps standard Subject-Verb-Object order after 'We'",
-    "example": "We te xa sarpo? We la xaai mibi?",
-    "notes": "Keeps standard SVO order after 'We'."
-  },
-  {
-    "id": "wo",
-    "term": "Wo",
-    "pos": "adjective",
-    "status": "confirmed+",
-    "emoji": "🐘",
-    "meaning": "Big / Very (Amplifier)",
-    "hint": "Means 'big' on nouns AND intensifies adjectives/verbs ('wo tuk' = very good, 'wo skan' = love)",
-    "example": "Ëi wo skan te! Te xa wo tuk buana.",
-    "notes": "Antonym of ti (small); also general intensifier/amplifier."
-  },
-  {
-    "id": "wu",
-    "term": "Wu",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "🧭",
-    "meaning": "How (question word)",
-    "hint": "Zorpe-semen asking manner or condition ('Wu xa te?' = 'How are you?')",
-    "example": "Wu xa te etpanke? Wu xaai tëi buana?",
-    "notes": "Used in copula questions 'wu xa [X]?'."
-  },
-  {
-    "id": "wubu",
-    "term": "Wubu",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🌝",
-    "meaning": "Moon",
-    "hint": "Shines in the night sky (🌝; combines with eke to form wuke)",
-    "example": "Wubu xaai wo etwuke.",
-    "notes": "Base of wuke (wubu + eke = night)."
-  },
-  {
-    "id": "wuke",
-    "term": "Wuke",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "🌙",
-    "meaning": "Night / Nighttime",
-    "hint": "Compound of wubu (moon) + eke (sky): literally 'moon-sky'",
-    "example": "Wuke xaai, na sarpami.",
-    "notes": "Compound of wubu + eke."
-  },
-  {
-    "id": "xai",
-    "term": "Xai",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🟰",
-    "meaning": "To be (copula)",
-    "hint": "Links a subject to its description or state (Ëi/Te = xa, La/Lon = xaai, Na = xaami, Ton = xau)",
-    "example": "Ëi xa lipo, te xa tuk, u etpanke xaai wo tuk!",
-    "notes": "La/Lon form is 'xaai', NOT 'xa'."
-  },
-  {
-    "id": "zetei",
-    "term": "Zetëi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🍴",
-    "meaning": "To eat",
-    "hint": "Consuming tumu like blobber or blubur",
-    "example": "Na zeteami blubur u blobber.",
-    "notes": "Conjugates: Ëi=zete, Te=zete, Ton=zeteu, Na=zeteami, La=zeteai, Lon=zeteai."
-  },
-  {
-    "id": "zo",
-    "term": "Zo",
-    "pos": "particle",
-    "status": "confirmed+",
-    "emoji": "⚖️",
-    "meaning": "Or",
-    "hint": "Presents a choice or alternative between two options",
-    "example": "Te kin blobber zo blubur? Ha zo ni?",
-    "notes": "Disjunctive particle 'or'."
-  },
-  {
-    "id": "zorpe-semen",
-    "term": "Zorpe-semen",
-    "pos": "noun",
-    "status": "confirmed+",
-    "emoji": "❔",
-    "meaning": "Question-word (Wa, We, Wu)",
-    "hint": "Compound of zorpe (ask) + semen (word): a word that asks",
-    "example": "'Wa', 'We', u 'Wu' xaai zorpe-semen.",
-    "notes": "Literally 'asking-word'."
-  },
-  {
-    "id": "zorpei",
-    "term": "Zorpëi",
-    "pos": "verb",
-    "status": "confirmed+",
-    "emoji": "🙋‍♂️",
-    "meaning": "To ask / To question (Nominalized: 1 zorpe, 2+ zorpon)",
-    "hint": "Inquiring or posing a question ('Ëi kin zorpei te')",
-    "example": "Ëi kin zorpei te: te pon seamenese?",
-    "notes": "Conjugates: Ëi=Zorpe, Te=Zorpe, Ton=Zorpeu, Na=Zorpeami, La=Zorpeai, Lon=Zorpeai."
-  }
-];
-    const CONJUGATIONS = [
-  {
-    "infinitive": "Beti",
-    "meaning": "To wait",
-    "type": "regular",
-    "ei": "Bet",
-    "te": "Bet",
-    "ton": "Betu",
-    "na": "Betami",
-    "la": "Betai",
-    "lon": "Betai",
-    "note": "Jorn corrected 'ap beti' -> 'ap bet*', confirming the conjugated stem is 'bet'."
-  },
-  {
-    "infinitive": "Itxi",
-    "meaning": "To kiss",
-    "type": "regular",
-    "ei": "Itx",
-    "te": "Itx",
-    "ton": "Itxu",
-    "na": "Itxami",
-    "la": "Itxai",
-    "lon": "Itxai",
-    "note": "Regular conjugation; Lon=Itxai, same as La."
-  },
-  {
-    "infinitive": "Faki",
-    "meaning": "To fuck",
-    "type": "regular",
-    "ei": "Fak",
-    "te": "Fak",
-    "ton": "Faku",
-    "na": "Fakami",
-    "la": "Fakai",
-    "lon": "Fakai",
-    "note": "Regular conjugation; Lon=Fakai, same as La."
-  },
-  {
-    "infinitive": "Skani",
-    "meaning": "To like ('wo skan' = love)",
-    "type": "regular",
-    "ei": "Skan",
-    "te": "Skan",
-    "ton": "Skanu",
-    "na": "Skanami",
-    "la": "Skanai",
-    "lon": "Skanai",
-    "note": "Attested in 'ëi skan seamenese'."
-  },
-  {
-    "infinitive": "Kixixi",
-    "meaning": "To shut up",
-    "type": "regular",
-    "ei": "Kixix",
-    "te": "Kixix",
-    "ton": "Kixixu",
-    "na": "Kixixami",
-    "la": "Kixixai",
-    "lon": "Kixixai",
-    "note": "Regular conjugation."
-  },
-  {
-    "infinitive": "Nimi",
-    "meaning": "To thank",
-    "type": "regular",
-    "ei": "Nim",
-    "te": "Nim",
-    "ton": "Nimu",
-    "na": "Nimami",
-    "la": "Nimai",
-    "lon": "Nimai",
-    "note": "Regular conjugation."
-  },
-  {
-    "infinitive": "Xai",
-    "meaning": "To be (copula)",
-    "type": "copula",
-    "ei": "Xa",
-    "te": "Xa",
-    "ton": "Xau",
-    "na": "Xaami",
-    "la": "Xaai",
-    "lon": "Xaai",
-    "note": "La/Lon form is 'xaai', NOT 'xa'."
-  },
-  {
-    "infinitive": "Obi",
-    "meaning": "To give",
-    "type": "regular",
-    "ei": "Ob",
-    "te": "Ob",
-    "ton": "Obu",
-    "na": "Obami",
-    "la": "Obai",
-    "lon": "Obai",
-    "note": "Regular conjugation."
-  },
-  {
-    "infinitive": "Jai",
-    "meaning": "To do / To make",
-    "type": "regular",
-    "ei": "Ja",
-    "te": "Ja",
-    "ton": "Jau",
-    "na": "Jaami",
-    "la": "Jaai",
-    "lon": "Jaai",
-    "note": "Forms compound 'jai-semen' (action-word/verb)."
-  },
-  {
-    "infinitive": "Sarpi",
-    "meaning": "To sleep",
-    "type": "regular",
-    "ei": "Sarp",
-    "te": "Sarp",
-    "ton": "Sarpu",
-    "na": "Sarpami",
-    "la": "Sarpai",
-    "lon": "Sarpai",
-    "note": "Jorn's table showed 'Na Sapami' (typo for Sarpami)."
-  },
-  {
-    "infinitive": "Ragoi",
-    "meaning": "To agree / To vibe",
-    "type": "regular",
-    "ei": "Rago",
-    "te": "Rago",
-    "ton": "Ragou",
-    "na": "Ragoami",
-    "la": "Ragoai",
-    "lon": "Ragoai",
-    "note": "Thy used 'rago' as standalone response to Jorn's 'wa xaai \"eens\"?'."
-  },
-  {
-    "infinitive": "Kini",
-    "meaning": "To need",
-    "type": "regular",
-    "ei": "Kin",
-    "te": "Kin",
-    "ton": "Kinu",
-    "na": "Kinami",
-    "la": "Kinai",
-    "lon": "Kinai",
-    "note": "Takes a noun object or an infinitive verb complement ('Ëi kin zorpei te')."
-  },
-  {
-    "infinitive": "Kiniwai",
-    "meaning": "To explain",
-    "type": "irregular",
-    "ei": "Kiniwa",
-    "te": "Kiniwa",
-    "ton": "Kiniwau",
-    "na": "Kiniwaami",
-    "la": "Kiniwaai",
-    "lon": "Kiniwaai",
-    "note": "Confirmed irregular paradigm retaining stem vowel -a."
-  },
-  {
-    "infinitive": "Poni",
-    "meaning": "To understand",
-    "type": "regular",
-    "ei": "Pon",
-    "te": "Pon",
-    "ton": "Ponu",
-    "na": "Ponami",
-    "la": "Ponai",
-    "lon": "Ponai",
-    "note": "Meaning: to understand (NOT to think/ponder, which is pansai)."
-  },
-  {
-    "infinitive": "Mikëi",
-    "meaning": "To rain",
-    "type": "weather",
-    "ei": "Mike",
-    "te": "Mike",
-    "ton": "Mikeu",
-    "na": "Mikeami",
-    "la": "Mikeai",
-    "lon": "Mikeai",
-    "note": "Weather verb/noun following regular conjugation."
-  },
-  {
-    "infinitive": "Obisëi",
-    "meaning": "To speak / vocalize",
-    "type": "regular",
-    "ei": "Obise",
-    "te": "Obise",
-    "ton": "Obiseu",
-    "na": "Obiseami",
-    "la": "Obiseai",
-    "lon": "Obiseai",
-    "note": "Confirmed by Jorn's correction 'Obisei*' for infinitive."
-  },
-  {
-    "infinitive": "Zetëi",
-    "meaning": "To eat",
-    "type": "regular",
-    "ei": "zete",
-    "te": "zete",
-    "ton": "zeteu",
-    "na": "zeteami",
-    "la": "zeteai",
-    "lon": "zeteai",
-    "note": "Drops -ëi and adds -u (Ton), -ai (La/Lon), -ami (Na)."
-  },
-  {
-    "infinitive": "Pansai",
-    "meaning": "To think / To ponder",
-    "type": "orphaned",
-    "ei": "Pansa",
-    "te": "Pansa",
-    "ton": "Pansau",
-    "na": "Pansaami",
-    "la": "Pansaai",
-    "lon": "Pansaai",
-    "note": "Reconfirmed by Jorn ('Ëi pansa', 'La/lon pansaai*')."
-  },
-  {
-    "infinitive": "Zorpei",
-    "meaning": "To ask / To question",
-    "type": "regular",
-    "ei": "Zorpe",
-    "te": "Zorpe",
-    "ton": "Zorpeu",
-    "na": "Zorpeami",
-    "la": "Zorpeai",
-    "lon": "Zorpeai",
-    "note": "Nominalized stem: 1 zorpe (question), 2+ zorpon (questions)."
-  }
-];
-    const DIALOGUES = [
-  {
-    "id": "scene_1",
-    "title": "Scene 1: Panke Greetings & Energy Check",
-    "scene": "☀️ Pan xaai in eke (Daytime). You meet your friend (buana) for the first time today.",
-    "speaker": "Buana",
-    "seamenese": "Tamako, ta buana! Etpanke xaai wo tuk panke! Wu xa te? Te xa lipo zo sarpo?",
-    "gloss": "Hello, my friend! Today is a very good day! How are you? Are you awake/energetic or tired?",
-    "options": [
-      {
-        "reply": "Tamako! Ëi ni xa sarpo, ëi xa wo lipo u mubu etpanke!",
-        "natural": true,
-        "feedback": "Wo tuk! You used 'ni xa sarpo' (= lipo) and the correct 1sg copula 'ëi xa'."
-      },
-      {
-        "reply": "Ëi xa sarpo, ap ëi kin monster u tumu, beto!",
-        "natural": true,
-        "feedback": "Tuk! 'Ap' (but) + 'ëi kin' (I need) + 'beto' (please) is completely natural Seamenese."
-      },
-      {
-        "reply": "Ta xaai lipo!",
-        "natural": false,
-        "feedback": "Watch out: 'Ta' means 'my' (possessive), and 'xaai' is for La/Lon (3rd person). Say 'Ëi xa lipo!'"
-      }
-    ]
-  },
-  {
-    "id": "scene_2",
-    "title": "Scene 2: Sharing Tumu & Feeding the Silhbi",
-    "scene": "🍽️ Lunchtime! Your friend has fish (blobber) and salad (blubur), and their small cat (ti silhbi) is watching.",
-    "speaker": "Buana",
-    "seamenese": "Ëi kin zetëi tumu! Wa te skan zetëi: blobber zo blubur? Ap bet — ta ti silhbi san kinai blobber!",
-    "gloss": "I need to eat food! What do you like to eat: fish or salad? But wait — my small cat also needs fish!",
-    "options": [
-      {
-        "reply": "Ëi zete blubur! Ob tëi ti silhbi blobber, beto.",
-        "natural": true,
-        "feedback": "Wo tuk! You ate the salad ('ëi zete blubur') and told your friend to give ('ob') the fish to their small cat ('tëi ti silhbi')."
-      },
-      {
-        "reply": "Na zeteami blobber u blubur! Silhbi san zeteai!",
-        "natural": true,
-        "feedback": "Rago! You used the 1st-person plural 'Na zeteami' (we eat) and 3rd-person singular 'zeteai' for the cat."
-      },
-      {
-        "reply": "Ëi zetëi blobber.",
-        "natural": false,
-        "feedback": "Close! 'Zetëi' is the infinitive ('to eat'). With 'Ëi', drop -ëi and use the bare stem: 'Ëi zete blobber'."
-      }
-    ]
-  },
-  {
-    "id": "scene_3",
-    "title": "Scene 3: Learning Lulu Semen (Meta-Language Immersion)",
-    "scene": "📖 Studying Seamenese together. Your friend wants to ask you a question (zorpe) about verbs (jai-semen) and question words (zorpe-semen).",
-    "speaker": "Buana",
-    "seamenese": "Ap bet! Ëi kin zorpei te 1 zorpe. Te pon lulu semen? Bero kiniwa: wa xaai 'jai-semen' u 'zorpe-semen'?",
-    "gloss": "But wait! I need to ask you 1 question. Do you understand the new words? Please explain: what are 'jai-semen' and 'zorpe-semen'?",
-    "options": [
-      {
-        "reply": "Ha, ëi pon! Jai-semen jaai ('obisëi', 'zetëi'), u zorpe-semen zorpeai ('wa', 'we', 'wu')!",
-        "natural": true,
-        "feedback": "Wo tuk kiniwako! You explained both compound nouns using pure Seamenese!"
-      },
-      {
-        "reply": "Hani... ëi ni pon. Te kiniwa ëi, beto!",
-        "natural": true,
-        "feedback": "Natural response! Using 'Hani' (maybe) and asking your partner to explain ('Te kiniwa ëi, beto') keeps the conversation in Seamenese."
-      }
-    ]
-  },
-  {
-    "id": "scene_4",
-    "title": "Scene 4: Etwuke Vibes, Ezuki & Skantar",
-    "scene": "🌝 Wubu xaai in eke — it is tonight (etwuke). Music (ezuki) is playing, and a group of friends (lon) are celebrating.",
-    "speaker": "Buana",
-    "seamenese": "Daka! Etwuke lon obiseai, lon skanai ezuki, u ta buana itxai lai skantar! Te rago?",
-    "gloss": "Cheers! Tonight they are talking, they like the music, and my friend kisses his/her crush! Do you agree/vibe?",
-    "options": [
-      {
-        "reply": "Daka! Ha, ëi rago! Etwuke na xaami wo mubu u na wo skanami ezuki!",
-        "natural": true,
-        "feedback": "Daka! You used 'na xaami' (we are) and the intensified 'wo skanami' (we love)!"
-      },
-      {
-        "reply": "Eke mikeai u ëi xa sarpo. Taki, ta buana! Etwuke ëi sarp.",
-        "natural": true,
-        "feedback": "Great situational contrast! 'Eke mikeai' (the sky is raining) + 'ëi xa sarpo' (I am sleepy) + 'Taki' (Bye)."
-      }
-    ]
-  }
-];
-    const COMPOUNDS = [
-  {
-    "part1": "Pan (Sun ☀️)",
-    "part2": "Eke (Sky 🌌)",
-    "result": "Panke",
-    "meaning": "Day ('sun-sky')"
-  },
-  {
-    "part1": "Wubu (Moon 🌝)",
-    "part2": "Eke (Sky 🌌)",
-    "result": "Wuke",
-    "meaning": "Night ('moon-sky')"
-  },
-  {
-    "part1": "Et (This)",
-    "part2": "Panke (Day 🌤️)",
-    "result": "Etpanke",
-    "meaning": "Today ('this-day')"
-  },
-  {
-    "part1": "Et (This)",
-    "part2": "Wuke (Night 🌙)",
-    "result": "Etwuke",
-    "meaning": "Tonight ('this-night')"
-  },
-  {
-    "part1": "Ha (Yes ✅)",
-    "part2": "Ni (No ❌)",
-    "result": "Hani",
-    "meaning": "Maybe ('yes-no')"
-  },
-  {
-    "part1": "Jai (To do 🛠️)",
-    "part2": "Semen (Word 🔤)",
-    "result": "Jai-semen",
-    "meaning": "Verb / Action-word ('do-word')"
-  },
-  {
-    "part1": "Zorpe (To ask ❓)",
-    "part2": "Semen (Word 🔤)",
-    "result": "Zorpe-semen",
-    "meaning": "Question-word ('asking-word': Wa, We, Wu)"
-  },
-  {
-    "part1": "Skan (To like ❤️)",
-    "part2": "-tar (Person suffix)",
-    "result": "Skantar",
-    "meaning": "Crush / Lover"
-  },
-  {
-    "part1": "Wo (Big/Amplifier)",
-    "part2": "Skani (To like ❤️)",
-    "result": "Wo skani",
-    "meaning": "To love / Like very much (❤️❤️)"
-  },
-  {
-    "part1": "Ni (Not ❌)",
-    "part2": "Sarpo (Tired 🥱)",
-    "result": "Lipo",
-    "meaning": "Awake / Energetic (🤩)"
-  }
-];
+      { id: "ap", term: "Ap", pos: "particle", status: "confirmed", emoji: "✋", meaning: "But", hint: "Contrastive particle linking clauses or preceding a command ('Ap bet!' = 'But wait!')", example: "Ëi xa sarpo, ap ëi skan obisëi seamenese.", notes: "Followed by a conjugated verb stem (e.g., 'ap bet')." },
+      { id: "beti", term: "Beti", pos: "verb", status: "confirmed", emoji: "⏳", meaning: "To wait", hint: "Pausing or holding on ('Ap bet, beto!')", example: "Ap bet, ta buana! Ëi kin zorpëi te.", notes: "Conjugates: Ëi/Te=Bet, Ton=Betu, Na=Betami, La/Lon=Betai." },
+      { id: "beto", term: "Beto", pos: "noun", status: "confirmed", emoji: "🙏", meaning: "Please", hint: "Polite marker placed at the end of a request or used standalone", example: "Ob ëi tumu, beto!", notes: "Listed as a noun in the dictionary; used like 'please'." },
+      { id: "blobber", term: "Blobber", pos: "noun", status: "confirmed", emoji: "🐟", meaning: "Fish", hint: "Aquatic animal that swims in water; eaten as tumu", example: "Ta silhbi wo skanai zetëi blobber.", notes: "Variant spelling: Blober. Plural: Blobberon." },
+      { id: "blober", term: "Blober", pos: "noun", status: "confirmed", emoji: "🐟", meaning: "Fish", hint: "Alternate spelling of Blobber (fish)", example: "La zeteai ti blober.", notes: "Variant spelling of Blobber." },
+      { id: "blubur", term: "Blubur", pos: "noun", status: "confirmed", emoji: "🥗", meaning: "Salad", hint: "Liron (green) vegetable dish, a type of tumu", example: "Etpanke ëi zete liron blubur u blobber.", notes: "Noun for salad." },
+      { id: "brux", term: "Brux", pos: "adjective", status: "confirmed", emoji: "🟥", meaning: "Red", hint: "Warm primary color of fire and rubies", example: "Ta skantar skanai brux tumu.", notes: "Color adjective added in the updated dictionary." },
+      { id: "buana", term: "Buana", pos: "noun", status: "confirmed", emoji: "🤝", meaning: "Friend", hint: "Someone you trust and like ('1 buana, 2 buanon')", example: "Tamako ta buanon! Wu xaai tëion panke?", notes: "Plural drops final vowel '-a' and adds '-on': Buanon." },
+      { id: "daka", term: "Daka", pos: "noun", status: "confirmed", emoji: "🍻", meaning: "Celebratory word said when drinking. Similar to cheers.", hint: "Exclamation said when raising drinks together", example: "Daka, ta buanon! Etwuke na xaami mubu!", notes: "Used like 'Cheers!'." },
+      { id: "ei", term: "Ëi", pos: "pronoun", status: "confirmed", emoji: "🙋", meaning: "I (1st person singular pronoun)", hint: "Refers to the speaker (subject/object; never possessive)", example: "Ëi skan seamenese u ëi pon lulu semenon.", notes: "E followed by I is always written Ë and pronounced 'ay'. For 'my', use Ta." },
+      { id: "eke", term: "Eke", pos: "noun", status: "confirmed", emoji: "🌌", meaning: "Sky", hint: "The peke (blue) expanse above; combines with pan or wubu", example: "Eke xaai peke etpanke.", notes: "Forms compounds: pan + eke = panke (day), wubu + eke = wuke (night)." },
+      { id: "et", term: "Et", pos: "pronoun", status: "confirmed", emoji: "👇", meaning: "This", hint: "Demonstrative pronoun pointing to something near or current", example: "Wa xaai et? Et xaai lulu semen.", notes: "Combines with panke -> etpanke (today) and wuke -> etwuke (tonight)." },
+      { id: "etpanke", term: "Etpanke", pos: "noun", status: "confirmed", emoji: "📅", meaning: "Today", hint: "Compound of et (this) + panke (day)", example: "Etpanke xaai wo tuk panke!", notes: "Takes 3sg copula 'xaai' when used as a subject." },
+      { id: "etwuke", term: "Etwuke", pos: "noun", status: "confirmed", emoji: "🌃", meaning: "Tonight / This night", hint: "Compound of et (this) + wuke (night time)", example: "Etwuke na sarpami zo na obiseami ezuki?", notes: "Compound of et + wuke." },
+      { id: "ezuki", term: "Ezuki", pos: "noun", status: "confirmed", emoji: "🎵", meaning: "Music / Song", hint: "Melodic sound; 'Obisëi ezuki' means 'to sing'", example: "Ëi skan obisëi tuk ezuki!", notes: "To express 'singing', Seamenese says 'Obisëi ezuki'." },
+      { id: "faki", term: "Faki", pos: "verb", status: "confirmed", emoji: "🔞", meaning: "To fuck", hint: "Intimate/vulgar action verb", example: "Ëi skan itxi tëi texik u ëi skan san faki tëi wo ka.", notes: "Conjugates: Ëi/Te=Fak, Ton=Faku, Na=Fakami, La/Lon=Fakai." },
+      { id: "fasma", term: "fasma", pos: "adjective", status: "confirmed", emoji: "⚡", meaning: "Tired", hint: "Adjective describing fatigue", example: "Ëi xa fasma etwuke.", notes: "Listed in the dictionary as adjective: Tired." },
+      { id: "ha", term: "Ha", pos: "particle", status: "confirmed", emoji: "✅", meaning: "Yes", hint: "Affirmative particle (opposite of Ni)", example: "Ha, ëi skan!", notes: "Combines with 'ni' to form 'hani' (maybe)." },
+      { id: "hani", term: "Hani", pos: "particle", status: "confirmed", emoji: "🤔", meaning: "Maybe", hint: "Compound of ha (yes) + ni (no)", example: "Hani xaai ha + ni.", notes: "Attested in corpus example #26: 'hani xaai ha + ni'." },
+      { id: "itxi", term: "Itxi", pos: "verb", status: "confirmed", emoji: "💋", meaning: "To kiss", hint: "Affectionate action with the lips ('X' is pronounced 'sh')", example: "Ton itxu texikon.", notes: "Conjugates: Ëi/Te=Itx, Ton=Itxu, Na=Itxami, La/Lon=Itxai." },
+      { id: "jai", term: "Jai", pos: "verb", status: "confirmed", emoji: "🛠️", meaning: "To do / To make", hint: "Core action verb (also tagged as pronoun in dictionary header)", example: "Wa te ja etpanke?", notes: "Conjugates: Ëi/Te=Ja, Ton=Jau, Na=Jaami, La/Lon=Jaai." },
+      { id: "jai-semen", term: "Jai-semen", pos: "noun", status: "confirmed", emoji: "🏃", meaning: "An action-word / a verb / a word that does or acts", hint: "Compound of jai (to do) + semen (word)", example: "'Obisëi' u 'zetëi' xaai jai-semen.", notes: "Literally 'do-word'." },
+      { id: "ka", term: "Ka", pos: "noun", status: "confirmed", emoji: "🍆", meaning: "Penis", hint: "Male anatomical noun ('ti ka' vs 'wo ka')", example: "Ëi ni skan wo ka.", notes: "Attested across corpus examples #10, #11, #16, #17, #32, #34, #42." },
+      { id: "kani", term: "Kani", pos: "noun", status: "confirmed", emoji: "🌸", meaning: "Vagina", hint: "Female anatomical noun", example: "Kani xaai semen.", notes: "Anatomical noun." },
+      { id: "kini", term: "Kini", pos: "verb", status: "confirmed", emoji: "🎯", meaning: "To need", hint: "Expresses necessity; if followed by another verb, only Kini conjugates", example: "Ëi kin zorpëi te! Na kinami tumu.", notes: "Conjugates: Ëi/Te=Kin, Ton=Kinu, Na=Kinami, La/Lon=Kinai." },
+      { id: "kiniwai", term: "Kiniwai", pos: "verb", status: "confirmed", emoji: "💡", meaning: "To explain", hint: "Making a concept or word clear to someone", example: "Beto, kiniwa et lulu semen!", notes: "Conjugates: Ëi/Te=Kiniwa, Ton=Kiniwau, Na=Kiniwaami, La/Lon=Kiniwaai." },
+      { id: "kiniwako", term: "Kiniwako", pos: "noun", status: "confirmed", emoji: "📖", meaning: "Explanation", hint: "Noun form of kiniwai (to explain)", example: "Tëi kiniwako xaai wo tuk!", notes: "Derived from kiniwai + -ko." },
+      { id: "kixixi", term: "Kixixi", pos: "verb", status: "confirmed", emoji: "🤫", meaning: "To shut up", hint: "Telling someone to stop talking ('X' pronounced 'sh')", example: "Texik, kixix!", notes: "Conjugates: Ëi/Te=Kixix, Ton=Kixixu, Na=Kixixami, La/Lon=Kixixai." },
+      { id: "la", term: "La", pos: "pronoun", status: "confirmed", emoji: "👤", meaning: "He / She / It (3rd person SINGULAR pronoun)", hint: "Refers to any single third person or thing", example: "La obiseai ezuki u la xaai mubu.", notes: "Takes -ai verb ending. Plural is Lon." },
+      { id: "lai", term: "Lai", pos: "pronoun", status: "confirmed", emoji: "🏷️", meaning: "His / Her / Its (3rd person SINGULAR possessive pronoun)", hint: "Shows ownership by a single third person (La)", example: "Lai silhbi xaai ti u tuk.", notes: "Singular possessive; plural is Laion." },
+      { id: "laion", term: "Laion", pos: "pronoun", status: "confirmed", emoji: "🏷️", meaning: "Their", hint: "3rd person plural possessive pronoun (belongs to Lon)", example: "Lon skanai laion buanon.", notes: "Formed from Lai + -on." },
+      { id: "lipo", term: "Lipo", pos: "adjective", status: "confirmed", emoji: "🤩", meaning: "Awake / Energetic / Excited / Not tired", hint: "Full of energy; opposite of sarpo", example: "Ëi ni xa sarpo, ëi xa lipo!", notes: "Antonym of sarpo." },
+      { id: "liron", term: "Liron", pos: "adjective", status: "confirmed", emoji: "🟩", meaning: "Green", hint: "The color of blubur (salad) and grass", example: "Blubur xaai liron tumu.", notes: "Color adjective added in the updated dictionary." },
+      { id: "lon", term: "Lon", pos: "pronoun", status: "confirmed", emoji: "👥", meaning: "They / Them", hint: "3rd person plural pronoun (takes -ai verb ending)", example: "Lon zeteai tumu u lon obiseai.", notes: "Conjugates with -ai, same as La." },
+      { id: "lulu", term: "Lulu", pos: "noun", status: "confirmed", emoji: "✨", meaning: "New", hint: "Fresh or novel (listed under noun in dictionary, modifies nouns like 'lulu semen')", example: "Etpanke ëi pon lulu semen!", notes: "Listed as 'noun: New' in SeameneseDictionary.txt." },
+      { id: "mibi", term: "Mibi", pos: "emotion", status: "confirmed", emoji: "😠", meaning: "Angry", hint: "Feeling mad or upset (opposite of mubu)", example: "We te xa mibi, ta buana?", notes: "Emotion word used with copula Xai." },
+      { id: "mikei", term: "Mikëi", pos: "verb", status: "confirmed", emoji: "🌧️", meaning: "To rain", hint: "Water falling from the eke (sky); note the Ë before I", example: "Etpanke eke mikeai.", notes: "Conjugates: Ëi/Te=Mike, Ton=Mikeu, Na=Mikeami, La/Lon=Mikeai." },
+      { id: "mubu", term: "Mubu", pos: "emotion", status: "confirmed", emoji: "🙂", meaning: "Happy", hint: "Feeling joyful and glad", example: "Ëi xa wo mubu etpanke!", notes: "Emotion word used with Xai." },
+      { id: "na", term: "Na", pos: "pronoun", status: "confirmed", emoji: "🫂", meaning: "We / Us", hint: "1st person plural pronoun (takes -ami verb ending)", example: "Na skanami ezuki!", notes: "Possessive form is Nai." },
+      { id: "nai", term: "Nai", pos: "pronoun", status: "confirmed", emoji: "🏷️", meaning: "Our / Ours", hint: "1st person plural possessive pronoun", example: "Seamenese xaai nai tuk semen!", notes: "Belonging to Na (we)." },
+      { id: "ni", term: "Ni", pos: "particle", status: "confirmed", emoji: "❌", meaning: "No / Not", hint: "Negates a verb or adjective ('ni tuk ezuki' = bad music)", example: "Ëi ni skan wo ka. Ni tuk ezuki.", notes: "Placed directly before the negated word." },
+      { id: "nimi", term: "Nimi", pos: "verb", status: "confirmed", emoji: "🙌", meaning: "To thank", hint: "Expressing gratitude ('Ëi nim te' = I thank you)", example: "Ëi nim te, ta buana!", notes: "Conjugates: Ëi/Te=Nim, Ton=Nimu, Na=Nimami, La/Lon=Nimai." },
+      { id: "obi", term: "Obi", pos: "verb", status: "confirmed", emoji: "🎁", meaning: "To give", hint: "Handing or offering something to someone", example: "La obai tumu ta silhbi.", notes: "Conjugates: Ëi/Te=Ob, Ton=Obu, Na=Obami, La/Lon=Obai." },
+      { id: "obisei", term: "Obisëi", pos: "verb", status: "confirmed", emoji: "🗣️", meaning: "To speak / To vocalize", hint: "Talking aloud; 'Obisëi ezuki' = To sing!", example: "Ëi skan obisëi ezuki.", notes: "Conjugates: Ëi/Te=Obise, Ton=Obiseu, Na=Obiseami, La/Lon=Obiseai." },
+      { id: "pan", term: "Pan", pos: "noun", status: "confirmed", emoji: "☀️", meaning: "Sun", hint: "Bright daytime star; pan + eke = panke (day)", example: "Ëi skan wubu u ëi skan pan.", notes: "Root of panke." },
+      { id: "panke", term: "Panke", pos: "noun", status: "confirmed", emoji: "🌤️", meaning: "Day", hint: "Compound of pan (sun) + eke (sky); 'wo panke' = long/tough day", example: "Jorn, wu xaai tëi panke? Ta panke xaai tuk.", notes: "Attested in examples #02, #13, #21, #23, #24, #25." },
+      { id: "pansai", term: "Pansai", pos: "verb", status: "confirmed", emoji: "💭", meaning: "To think / To ponder", hint: "Mental reflection (from the official verb conjugation table)", example: "Ëi pansa seamenese xaai wo tuk.", notes: "Conjugates: Ëi/Te=Pansa, Ton=Pansau, Na=Pansaami, La/Lon=Pansaai." },
+      { id: "peke", term: "Peke", pos: "adjective", status: "confirmed", emoji: "🟦", meaning: "Blue", hint: "The color of a clear daytime eke (sky) and deep ocean", example: "Eke xaai peke u blubur xaai liron.", notes: "Color adjective added in the updated dictionary." },
+      { id: "poni", term: "Poni", pos: "verb", status: "confirmed", emoji: "🧠", meaning: "To understand", hint: "Comprehending meaning or explanations", example: "Ha, ëi pon tëi kiniwako!", notes: "Conjugates: Ëi/Te=Pon, Ton=Ponu, Na=Ponami, La/Lon=Ponai." },
+      { id: "ragoi", term: "Ragoi", pos: "verb", status: "confirmed", emoji: "🤜🤛", meaning: "To agree / to be on the same wavelength", hint: "Sharing the same view or vibe", example: "Rago! Na ragoami!", notes: "Conjugates: Ëi/Te=Rago, Ton=Ragou, Na=Ragoami, La/Lon=Ragoai." },
+      { id: "san", term: "San", pos: "particle", status: "confirmed", emoji: "➕", meaning: "Also / Too / Same (adverb)", hint: "Indicates addition ('Ëi san' = Me too)", example: "Blui skanai tëi ezuki - ëi san skan tëi ezuki.", notes: "Can appear before the verb, after the verb, or standalone after a pronoun." },
+      { id: "sanai", term: "Sanai", pos: "verb", status: "confirmed", emoji: "🔁", meaning: "To cycle / to loop / to repeat / to do a question-answer pattern", hint: "Repeating a drill or Q&A loop", example: "Na sanaami lulu semenon!", notes: "Related to san (same/also)." },
+      { id: "sarpi", term: "Sarpi", pos: "verb", status: "confirmed", emoji: "😴", meaning: "To sleep / To be asleep", hint: "Resting at wuke (night)", example: "Etwuke ëi sarp.", notes: "Conjugates: Ëi/Te=Sarp, Ton=Sarpu, Na=Sarpami, La/Lon=Sarpai." },
+      { id: "sarpo", term: "sarpo", pos: "adjective", status: "confirmed", emoji: "🥱", meaning: "Tired / Sleepy", hint: "Needing sleep (opposite of lipo)", example: "Wuke xaai, ëi xa sarpo.", notes: "Used with copula Xai." },
+      { id: "seamenese", term: "seamenese", pos: "noun", status: "confirmed", emoji: "🌊", meaning: "The conlang itself", hint: "The official name of this language", example: "Ëi wo skan obisëi seamenese!", notes: "Derived from semen (word)." },
+      { id: "semen", term: "Semen", pos: "noun", status: "confirmed", emoji: "🔤", meaning: "Word", hint: "A unit of vocabulary (plural: semenon)", example: "Te pon et lulu semen?", notes: "Forms compounds jai-semen (verb) and zorpe-semen (question-word)." },
+      { id: "silhbi", term: "Silhbi", pos: "noun", status: "confirmed", emoji: "🐱", meaning: "Cat", hint: "Feline pet that loves zetëi blobber (plural: silhbon)", example: "Ta ti silhbi sarpai.", notes: "Plural drops '-i' and adds '-on': Silhbon." },
+      { id: "skani", term: "Skani", pos: "verb", status: "confirmed", emoji: "❤️", meaning: "To like", hint: "Feeling affection; 'wo skan' = to love!", example: "Ëi skan ezuki. Te wo skan ezuki?", notes: "Conjugates: Ëi/Te=Skan, Ton=Skanu, Na=Skanami, La/Lon=Skanai." },
+      { id: "skantar", term: "Skantar", pos: "noun", status: "confirmed", emoji: "💘", meaning: "Crush / lover", hint: "Romantic partner or crush ('1 skantar, 2 skataron / skantaron')", example: "Luke, ëi ni xa tëi buana. Ëi xa tëi skantar.", notes: "Plural attested as both skataron (in Plural Rule) and skantaron (in Example #39)." },
+      { id: "sobo", term: "Sobo", pos: "noun", status: "confirmed", emoji: "🦶", meaning: "Foot", hint: "Body part for standing; plural 'Feet' is Sobon (drop -o + on)", example: "1 sobo, 2 sobon! Ta sobon xaai wo.", notes: "Canonical plural rule example: 1 sobo, 2 sobon." },
+      { id: "ta", term: "Ta", pos: "pronoun", status: "confirmed", emoji: "🏷️", meaning: "My", hint: "1st person singular possessive pronoun", example: "Tamako ta buanon! Ta panke xaai tuk.", notes: "Always use Ta (never Ëi) before a noun for 'my'." },
+      { id: "taki", term: "Taki", pos: "noun", status: "confirmed", emoji: "👋", meaning: "Bye", hint: "Parting farewell ('Taki! Tuk wuke')", example: "Taki! Tuk wuke, ta buana.", notes: "Opposite of Tamako." },
+      { id: "tamako", term: "Tamako", pos: "noun", status: "confirmed", emoji: "🖐️", meaning: "Hello (greeting)", hint: "Friendly greeting when meeting someone", example: "Tamako, wu xa te?", notes: "Standard greeting." },
+      { id: "te", term: "Te", pos: "pronoun", status: "confirmed", emoji: "👉", meaning: "You (2nd person singular pronoun — singular only)", hint: "Addressing one person (takes bare verb stem)", example: "Te xa ta buana, Jorn.", notes: "Singular only; for plural 'you all', use Ton." },
+      { id: "tei", term: "Tëi", pos: "pronoun", status: "confirmed", emoji: "🏷️", meaning: "Your (2nd person possessive)", hint: "Belonging to one person (Te); note the Ë!", example: "Jorn, wu xaai tëi panke?", notes: "Singular possessive; plural is Tëion." },
+      { id: "teion", term: "Tëion", pos: "pronoun", status: "confirmed", emoji: "🏷️", meaning: "Your (2nd person plural possessive)", hint: "Belonging to multiple people (Ton)", example: "Tamako ta buanon. Wu xaai tëion panke?", notes: "Attested in corpus example #13." },
+      { id: "texik", term: "Texik", pos: "noun", status: "confirmed", emoji: "🤬", meaning: "Asshole", hint: "Pejorative or anatomical noun (plural: texikon)", example: "Ton itxu texikon.", notes: "X is pronounced 'sh'." },
+      { id: "ti", term: "Ti", pos: "adjective", status: "confirmed", emoji: "🤏", meaning: "Small", hint: "Little in size (opposite of wo)", example: "Ti ka. Ta ti silhbi zeteai blobber.", notes: "Antonym of wo." },
+      { id: "ton", term: "Ton", pos: "pronoun", status: "confirmed", emoji: "🫵", meaning: "You (plural)", hint: "Addressing two or more people (takes -u verb ending)", example: "Ëi skan ton! Ton itxu texikon.", notes: "2nd person plural pronoun." },
+      { id: "tuk", term: "Tuk", pos: "adjective", status: "confirmed", emoji: "👍", meaning: "Good", hint: "Positive quality ('ni tuk' = bad, 'wo tuk' = very good)", example: "Ëi skan tuk ezuki. Tuk wuke!", notes: "Core positive adjective." },
+      { id: "tumu", term: "Tumu", pos: "noun", status: "confirmed", emoji: "🍽️", meaning: "Food", hint: "Anything edible (like blobber or blubur)", example: "Lon kinu zetëi tumu.", notes: "General noun for food." },
+      { id: "u", term: "U", pos: "particle", status: "confirmed", emoji: "🔗", meaning: "And", hint: "Coordinating conjunction linking words or clauses", example: "Ëi skan wubu u ëi skan pan.", notes: "Standard 'and' particle." },
+      { id: "wa", term: "Wa", pos: "particle", status: "confirmed", emoji: "❓", meaning: "What", hint: "Question word triggering object fronting ('Wa ezuki te skan?')", example: "Wa ezuki te skan?", notes: "Attested in example #09." },
+      { id: "we", term: "We", pos: "particle", status: "confirmed", emoji: "🤔", meaning: "Why", hint: "Question word asking reason ('We te skan ezuki?')", example: "We te skan ezuki?", notes: "Attested in examples #07 and #08." },
+      { id: "wo", term: "Wo", pos: "adjective", status: "confirmed", emoji: "🐘", meaning: "Big / Amplifier (intensifies verbs, adverbs & adjectives)", hint: "Means 'big' on nouns ('wo ka', 'wo panke') and amplifies verbs ('wo skan' = love)", example: "Te wo skan ezuki? Wo panke.", notes: "Amplifier and size adjective." },
+      { id: "wu", term: "Wu", pos: "particle", status: "confirmed", emoji: "🧭", meaning: "How", hint: "Question word used with copula Xai ('Wu xa te?')", example: "Tamako, wu xa te? Wu xaai tëi panke?", notes: "Attested in examples #13, #23, #44, #45." },
+      { id: "wubu", term: "Wubu", pos: "noun", status: "confirmed", emoji: "🌝", meaning: "Moon", hint: "Shines at night; wubu + eke = wuke", example: "Wubu + eke = wuke.", notes: "Root of wuke (night)." },
+      { id: "wuke", term: "Wuke", pos: "noun", status: "confirmed", emoji: "🌙", meaning: "Night time", hint: "Compound of wubu (moon) + eke (sky)", example: "Taki! Tuk wuke!", notes: "Attested in examples #12, #20, #22, #44." },
+      { id: "xai", term: "Xai", pos: "particle", status: "confirmed", emoji: "🟰", meaning: "To be", hint: "Copula linking subject to state (Ëi/Te=xa, Ton=xau, Na=xaami, La/Lon=xaai)", example: "Ta panke xaai tuk. Ëi xa tëi skantar.", notes: "Tagged as particle in Dictionary list and conjugated in Verb Tables." },
+      { id: "zetei", term: "Zetëi", pos: "verb", status: "confirmed", emoji: "🍴", meaning: "To eat", hint: "Consuming tumu; infinitive has Ë, conjugated stems drop -ëi", example: "Na zeteami blubur u blobber.", notes: "Conjugates: Ëi/Te=zete, Ton=zeteu, Na=zeteami, La/Lon=zeteai." },
+      { id: "zo", term: "Zo", pos: "particle", status: "confirmed", emoji: "⚖️", meaning: "Or", hint: "Choice particle between alternatives", example: "Te skan peke zo liron?", notes: "Disjunctive particle 'or'." },
+      { id: "zorpe-semen", term: "Zorpe-semen", pos: "noun", status: "confirmed", emoji: "❔", meaning: "A question-word / a word that asks", hint: "Compound of zorpe (ask) + semen (word): Wa, We, Wu", example: "'Wa', 'We', u 'Wu' xaai zorpe-semen.", notes: "Literally 'asking-word'." },
+      { id: "zorpei", term: "Zorpëi", pos: "verb", status: "confirmed", emoji: "🙋‍♂️", meaning: "To ask / To question", hint: "Inquiring or posing a question", example: "Ëi kin zorpëi te: te pon seamenese?", notes: "Conjugates: Ëi/Te=Zorpe, Ton=Zorpeu, Na=Zorpeami, La/Lon=Zorpeai." }
+    ];
 
-    const STORAGE_KEY_SRS = "seamenese_complete_srs_v2";
+    // =========================================================================
+    // 2. OFFICIAL 19 CONJUGATION TABLES
+    // =========================================================================
+    const CONJUGATIONS = [
+      { infinitive: "Beti", meaning: "To wait", type: "regular", ei: "Bet", te: "Bet", ton: "Betu", na: "Betami", la: "Betai", lon: "Betai", note: "Conjugated stem 'bet' follows particles like 'ap' ('ap bet')." },
+      { infinitive: "Itxi", meaning: "To kiss", type: "regular", ei: "Itx", te: "Itx", ton: "Itxu", na: "Itxami", la: "Itxai", lon: "Itxai", note: "Attested in 'Ton itxu texikon' and 'Ëi wo skan itxi tëi texik'." },
+      { infinitive: "Faki", meaning: "To fuck", type: "regular", ei: "Fak", te: "Fak", ton: "Faku", na: "Fakami", la: "Fakai", lon: "Fakai", note: "Regular conjugation; La and Lon both take -ai." },
+      { infinitive: "Skani", meaning: "To like ('wo skan' = love)", type: "regular", ei: "Skan", te: "Skan", ton: "Skanu", na: "Skanami", la: "Skanai", lon: "Skanai", note: "Amplified with 'wo': 'Ëi wo skan' = I love." },
+      { infinitive: "Kixixi", meaning: "To shut up", type: "regular", ei: "Kixix", te: "Kixix", ton: "Kixixu", na: "Kixixami", la: "Kixixai", lon: "Kixixai", note: "All X's are pronounced 'sh'." },
+      { infinitive: "Nimi", meaning: "To thank", type: "regular", ei: "Nim", te: "Nim", ton: "Nimu", na: "Nimami", la: "Nimai", lon: "Nimai", note: "Regular conjugation." },
+      { infinitive: "Xai", meaning: "To be (copula)", type: "copula", ei: "Xa", te: "Xa", ton: "Xau", na: "Xaami", la: "Xaai", lon: "Xaai", note: "3rd person singular/plural and noun subjects take 'xaai'." },
+      { infinitive: "Obi", meaning: "To give", type: "regular", ei: "Ob", te: "Ob", ton: "Obu", na: "Obami", la: "Obai", lon: "Obai", note: "Regular conjugation." },
+      { infinitive: "Jai", meaning: "To do / To make", type: "regular", ei: "Ja", te: "Ja", ton: "Jau", na: "Jaami", la: "Jaai", lon: "Jaai", note: "Root of 'jai-semen' (verb / action-word)." },
+      { infinitive: "Sarpi", meaning: "To sleep", type: "regular", ei: "Sarp", te: "Sarp", ton: "Sarpu", na: "Sarpami", la: "Sarpai", lon: "Sarpai", note: "Distinct from adjective 'sarpo' (tired/sleepy)." },
+      { infinitive: "Ragoi", meaning: "To agree / vibe", type: "regular", ei: "Rago", te: "Rago", ton: "Ragou", na: "Ragoami", la: "Ragoai", lon: "Ragoai", note: "Used standalone as 'Rago!' (Agreed!)." },
+      { infinitive: "Kini", meaning: "To need", type: "regular", ei: "Kin", te: "Kin", ton: "Kinu", na: "Kinami", la: "Kinai", lon: "Kinai", note: "When followed by a second verb, only Kini conjugates." },
+      { infinitive: "Kiniwai", meaning: "To explain", type: "irregular", ei: "Kiniwa", te: "Kiniwa", ton: "Kiniwau", na: "Kiniwaami", la: "Kiniwaai", lon: "Kiniwaai", note: "Retains stem vowel '-a' across all persons." },
+      { infinitive: "Poni", meaning: "To understand", type: "regular", ei: "Pon", te: "Pon", ton: "Ponu", na: "Ponami", la: "Ponai", lon: "Ponai", note: "Means to understand (whereas Pansai = to think)." },
+      { infinitive: "Mikëi", meaning: "To rain", type: "weather", ei: "Mike", te: "Mike", ton: "Mikeu", na: "Mikeami", la: "Mikeai", lon: "Mikeai", note: "Infinitive has Ë ('Mikëi'); conjugated stems use plain 'e'." },
+      { infinitive: "Obisëi", meaning: "To speak / vocalize", type: "regular", ei: "Obise", te: "Obise", ton: "Obiseu", na: "Obiseami", la: "Obiseai", lon: "Obiseai", note: "'Obisëi ezuki' = To sing." },
+      { infinitive: "Zetëi", meaning: "To eat", type: "regular", ei: "zete", te: "zete", ton: "zeteu", na: "zeteami", la: "zeteai", lon: "zeteai", note: "Drops '-ëi' in conjugated forms." },
+      { infinitive: "Pansai", meaning: "To think / ponder", type: "regular", ei: "Pansa", te: "Pansa", ton: "Pansau", na: "Pansaami", la: "Pansaai", lon: "Pansaai", note: "Retains stem '-a' before suffixes." },
+      { infinitive: "Zorpëi", meaning: "To ask / question", type: "regular", ei: "Zorpe", te: "Zorpe", ton: "Zorpeu", na: "Zorpeami", la: "Zorpeai", lon: "Zorpeai", note: "Root of 'zorpe-semen' (question-word)." }
+    ];
+
+    // =========================================================================
+    // 3. 16 SINGLE-ANSWER IMMERSION SCENES WITH HARD DISTRACTORS
+    // =========================================================================
+    const DIALOGUES = [
+      {
+        id: "scene_1",
+        title: "Scene 1: Greeting Multiple Friends (Plurals & Possessives)",
+        scene: "☀️ Daytime (Panke). You walk up to two of your friends (buanon) and want to say: 'Hello my friends! How is your (plural) day?'",
+        speaker: "Narrator",
+        seamenese: "Ton xaau ta buanon! Ëi kin obisëi ton...",
+        gloss: "You all are my friends! I need to speak to you all...",
+        options: [
+          {
+            reply: "Tamako ta buanon. Wu xaai tëion panke?",
+            correct: true,
+            feedback: "Wo tuk! 'Buana' drops '-a' + '-on' → 'buanon' (friends), 'tëion' is 2nd-person plural possessive ('your all's'), and 'panke' (3rd-person singular noun) takes 'xaai' (Corpus #13)."
+          },
+          {
+            reply: "Tamako ta buanaon. Wu xaai tëion panke?",
+            correct: false,
+            feedback: "Spelling trap! The plural rule is <noun> minus the last vowel + 'on'. Drop the final '-a' in 'buana' to get 'buanon', not 'buanaon'."
+          },
+          {
+            reply: "Tamako ëi buanon. Wu xaai tëi panke?",
+            correct: false,
+            feedback: "Grammar trap! 'Ëi' is never possessive ('Ta' = my), and since you are addressing multiple friends, you must use plural 'tëion' instead of singular 'tëi'."
+          },
+          {
+            reply: "Tamako ta buanon. Wu xau tëion panke?",
+            correct: false,
+            feedback: "Conjugation trap! Even though 'tëion' is plural ('your'), the subject of the verb is 'panke' (day, 3rd person singular), so the copula must be 'xaai', not 'xau'."
+          }
+        ]
+      },
+      {
+        id: "scene_2",
+        title: "Scene 2: Singing Good Music (Multi-Verb Chaining Rule)",
+        scene: "🎵 Your friend asks what you like to do. You want to say: 'I like to sing good music!'",
+        speaker: "Buana",
+        seamenese: "Tamako! Wa te skan jai etpanke?",
+        gloss: "Hello! What do you like to do today?",
+        options: [
+          {
+            reply: "Ëi skan obisëi tuk ezuki!",
+            correct: true,
+            feedback: "Wo tuk! In Seamenese, 'to sing' is 'obisëi ezuki', and when two verbs refer to the same subject ('Ëi'), ONLY the first verb conjugates ('skan') while the second stays in the infinitive ('obisëi') with the diaeresis 'ë'!"
+          },
+          {
+            reply: "Ëi skan obise tuk ezuki!",
+            correct: false,
+            feedback: "Multi-verb grammar trap! When two verbs share one subject, only the first verb ('skan') conjugates. The second verb must remain in the infinitive ('obisëi'), not conjugated ('obise')."
+          },
+          {
+            reply: "Ëi skani obisëi tuk ezuki!",
+            correct: false,
+            feedback: "Conjugation trap! The first verb must be conjugated for 'Ëi' ('skan'), not left in the infinitive ('skani')."
+          },
+          {
+            reply: "Ëi skan obisei tuk ezuki!",
+            correct: false,
+            feedback: "Spelling trap! In Seamenese, E followed by I always takes a diaeresis: 'obisëi', never 'obisei'."
+          }
+        ]
+      },
+      {
+        id: "scene_3",
+        title: "Scene 3: The Three Colors (Brux, Liron, Peke)",
+        scene: "🎨 Your friend points to the blue sky (eke), a green salad (blubur), and red food (tumu) and asks you to describe their colors.",
+        speaker: "Buana",
+        seamenese: "Beto kiniwa ëi: wu xaai eke, blubur, u et tumu?",
+        gloss: "Please explain to me: how are the sky, the salad, and this food?",
+        options: [
+          {
+            reply: "Eke xaai peke, blubur xaai liron, u et tumu xaai brux.",
+            correct: true,
+            feedback: "Wo tuk! 'Peke' = Blue (sky), 'Liron' = Green (salad), 'Brux' = Red, and 3rd-person singular nouns take the copula 'xaai'."
+          },
+          {
+            reply: "Eke xaai liron, blubur xaai brux, u et tumu xaai peke.",
+            correct: false,
+            feedback: "Vocabulary mix-up! 'Peke' is blue (for 'eke' sky) and 'liron' is green (for 'blubur' salad)."
+          },
+          {
+            reply: "Eke xa peke, blubur xa liron, u et tumu xa brux.",
+            correct: false,
+            feedback: "Grammar trap! 'Xa' is only for 'Ëi' (I) and 'Te' (You sg.). Third-person nouns like 'eke', 'blubur', and 'tumu' require 'xaai'."
+          },
+          {
+            reply: "Eke xaai peke, blubur xaai liron, u etpanke tumu xaai brux.",
+            correct: false,
+            feedback: "Word choice trap! 'Et' means 'this' ('et tumu' = this food), whereas 'etpanke' means 'today'."
+          }
+        ]
+      },
+      {
+        id: "scene_4",
+        title: "Scene 4: Counting Feet & Cats (Applying the Plural Rule)",
+        scene: "🦶🐱 Your friend is practicing the Seamenese plural rule (<noun> -last vowel + on) and asks how to say '1 foot, 2 feet, and 2 small cats'.",
+        speaker: "Buana",
+        seamenese: "Te pon nai lulu semenon? Kiniwa: 1 sobo, 2 ___ u 2 ti ___!",
+        gloss: "Do you understand our new words? Explain: 1 foot, 2 [feet] and 2 small [cats]!",
+        options: [
+          {
+            reply: "1 sobo, 2 sobon, u 2 ti silhbon!",
+            correct: true,
+            feedback: "Wo tuk! Both 'sobo' (drop -o + on → sobon) and 'silhbi' (drop -i + on → silhbon) follow the exact plural rule."
+          },
+          {
+            reply: "1 sobo, 2 soboon, u 2 ti silhbion!",
+            correct: false,
+            feedback: "Plural spelling trap! You must remove the final vowel ('-o' and '-i') before adding '-on': 'sobon' and 'silhbon'."
+          },
+          {
+            reply: "1 sobo, 2 sobon, u 2 tion silhbon!",
+            correct: false,
+            feedback: "Grammar trap! Adjectives like 'ti' (small) do not take the noun plural suffix '-on'; only the noun ('silhbon') pluralizes."
+          },
+          {
+            reply: "1 sobo, 2 sobos, u 2 ti silhbis!",
+            correct: false,
+            feedback: "Seamenese never uses '-s' for plurals! Drop the last vowel and add '-on' ('sobon', 'silhbon')."
+          }
+        ]
+      },
+      {
+        id: "scene_5",
+        title: "Scene 5: Clarifying Relationship Status (Buana vs. Skantar)",
+        scene: "💘 Luke thinks you are just his friend (buana), but you want to tell him: 'Luke, I am not your friend. I am your crush/lover.'",
+        speaker: "Luke",
+        seamenese: "Tamako! Te xa ta wo tuk buana, ha?",
+        gloss: "Hello! You are my very good friend, yes?",
+        options: [
+          {
+            reply: "Luke, ëi ni xa tëi buana. Ëi xa tëi skantar.",
+            correct: true,
+            feedback: "Wo tuk! Exact match for Corpus #37: 'ni' precedes the conjugated copula 'xa', and 'tëi' (with diaeresis ë) means 'your' (singular)."
+          },
+          {
+            reply: "Luke, ëi xa ni tëi buana. Ëi xa tëi skantar.",
+            correct: false,
+            feedback: "Word order trap! The negation particle 'ni' goes BEFORE the verb ('ëi ni xa'), not after it."
+          },
+          {
+            reply: "Luke, ëi ni xa te buana. Ëi xa te skantar.",
+            correct: false,
+            feedback: "Pronoun trap! 'Te' is the subject/object pronoun ('you'). Before a noun, you must use the possessive pronoun 'tëi' ('your')."
+          },
+          {
+            reply: "Luke, ëi ni xaai tëi buana. Ëi xaai tëi skantar.",
+            correct: false,
+            feedback: "Conjugation trap! With 'Ëi' (I), the copula Xai conjugates to 'xa', never 'xaai'."
+          }
+        ]
+      },
+      {
+        id: "scene_6",
+        title: "Scene 6: What Music Do You Like? (Wa Object Fronting vs. We SVO)",
+        scene: "❓ You want to ask your friend two questions: 'What music do you like?' and 'Why do you like music?'",
+        speaker: "Buana",
+        seamenese: "Ëi wo skan ezuki! Te kin zorpëi ëi?",
+        gloss: "I really love music! Do you need to ask me?",
+        options: [
+          {
+            reply: "Wa ezuki te skan? U we te skan ezuki?",
+            correct: true,
+            feedback: "Wo tuk! Matches Corpus #08 & #09: 'Wa' fronts the questioned object ('Wa ezuki te skan?'), while 'We' (why) keeps standard Subject-Verb-Object order ('We te skan ezuki?')."
+          },
+          {
+            reply: "Wa te skan ezuki? U we ezuki te skan?",
+            correct: false,
+            feedback: "Interrogative syntax trap! 'Wa ezuki' (what music) fronts the noun phrase before 'te skan', whereas 'We' (why) is followed directly by 'te skan ezuki'."
+          },
+          {
+            reply: "Wu ezuki te skan? U wa te skan ezuki?",
+            correct: false,
+            feedback: "Wrong question words! 'Wu' means 'How', not 'What' ('Wa') or 'Why' ('We')."
+          },
+          {
+            reply: "Wa ezuki te skani? U we te skani ezuki?",
+            correct: false,
+            feedback: "Conjugation trap! For 'Te' (you sg.), conjugate 'skani' to its bare stem 'skan'."
+          }
+        ]
+      },
+      {
+        id: "scene_7",
+        title: "Scene 7: A Long, Tough Day & Rainy Sky (Wo Panke & Mikëi)",
+        scene: "🌧️ It has been a big/tough day ('wo panke'), the sky is raining, and you are sleepy. Express this accurately.",
+        speaker: "Buana",
+        seamenese: "Jorn, wu xaai tëi panke? Te xa lipo?",
+        gloss: "Jorn, how is your day? Are you energetic?",
+        options: [
+          {
+            reply: "Ni, etpanke xaai wo panke! Eke mikeai u ëi xa sarpo.",
+            correct: true,
+            feedback: "Wo tuk! 'Wo panke' = big/tough day (Corpus #02), 'Eke mikeai' drops the diaeresis in the 3sg conjugated form of 'Mikëi', and 'ëi xa sarpo' uses the adjective 'sarpo'."
+          },
+          {
+            reply: "Ni, etpanke xaai wo panke! Eke mikëai u ëi xa sarpo.",
+            correct: false,
+            feedback: "Orthography trap! 'Ë' only occurs when E is directly followed by I ('Mikëi'). In 'mikeai', E is followed by A, so it is spelled 'mikeai', not 'mikëai'!"
+          },
+          {
+            reply: "Ni, etpanke xaai wo panke! Eke mikeai u ëi xa sarpi.",
+            correct: false,
+            feedback: "POS trap! 'Sarpi' is the verb 'to sleep'. After the copula 'ëi xa' (I am), use the adjective 'sarpo' (sleepy/tired)."
+          },
+          {
+            reply: "Ni, etpanke xa wo panke! Eke mike u ëi xaai sarpo.",
+            correct: false,
+            feedback: "Conjugation trap! 'Etpanke' and 'Eke' are 3rd-person singular nouns requiring '-ai' ('xaai', 'mikeai'), while 'Ëi' takes 'xa'."
+          }
+        ]
+      },
+      {
+        id: "scene_8",
+        title: "Scene 8: Agreeing with 'San' (Me Too / Also)",
+        scene: "➕ Blui likes your friend's music, and you want to say: 'Blui likes your music — I also like your music!'",
+        speaker: "Buana",
+        seamenese: "Te skan ta ezuki 'semen demen'?",
+        gloss: "Do you like my music 'semen demen'?",
+        options: [
+          {
+            reply: "Ha! Blui skanai tëi ezuki - ëi san skan tëi ezuki!",
+            correct: true,
+            feedback: "Wo tuk! Matches Corpus #28 word-for-word: 3rd-person 'Blui skanai', 1st-person 'ëi san skan', and singular possessive 'tëi ezuki'."
+          },
+          {
+            reply: "Ha! Blui skan tëi ezuki - ëi san skanai tëi ezuki!",
+            correct: false,
+            feedback: "Inverted conjugations! 'Blui' (La, 3rd person) takes 'skanai', while 'Ëi' (1st person) takes bare stem 'skan'."
+          },
+          {
+            reply: "Ha! Blui skanai tei ezuki - ei san skan tei ezuki!",
+            correct: false,
+            feedback: "Spelling trap! Remember the pronunciation rule: E followed by I always makes Ë ('tëi', 'ëi')."
+          },
+          {
+            reply: "Ha! Blui skanai tëi ezuki - ta san skan tëi ezuki!",
+            correct: false,
+            feedback: "Pronoun trap! 'Ta' means 'my' (possessive). The subject pronoun 'I' is 'Ëi' ('ëi san skan')."
+          }
+        ]
+      },
+      {
+        id: "scene_9",
+        title: "Scene 9: Feeding the Cats Together (1st Pl -ami & 3rd Pl -ai)",
+        scene: "🍽️ You and your friend ('Na') are eating green salad, while the cats ('Lon') need to eat fish.",
+        speaker: "Buana",
+        seamenese: "Wa na zeteami etpanke? U wa silhbon kinai?",
+        gloss: "What do we eat today? And what do the cats need?",
+        options: [
+          {
+            reply: "Na zeteami liron blubur, u lon kinai zetëi blobber.",
+            correct: true,
+            feedback: "Wo tuk! 'Na' takes '-ami' ('zeteami'), 'lon' takes '-ai' on the first verb ('kinai'), and the second verb in the chain stays in the infinitive ('zetëi')."
+          },
+          {
+            reply: "Na zeteami liron blubur, u lon kinai zeteai blobber.",
+            correct: false,
+            feedback: "Multi-verb trap! In 'lon kinai zetëi blobber', only the first verb ('kinai') conjugates; the second verb must stay infinitive ('zetëi')."
+          },
+          {
+            reply: "Na zeteu liron blubur, u lon kinu zetëi blobber.",
+            correct: false,
+            feedback: "Conjugation trap! '-u' is for 'Ton' (you plural). 'Na' (we) takes '-ami' and 'Lon' (they) takes '-ai'."
+          },
+          {
+            reply: "Nai zeteami liron blubur, u laion kinai zetëi blobber.",
+            correct: false,
+            feedback: "Pronoun trap! 'Nai' (our) and 'Laion' (their) are possessives; use subject pronouns 'Na' (we) and 'Lon' (they)."
+          }
+        ]
+      },
+      {
+        id: "scene_10",
+        title: "Scene 10: Explaining Hani & Compound Words (Kiniwai Irregular Stem)",
+        scene: "💡 A learner asks you to explain the word 'hani'. Reply: 'I explain! Hani is ha + ni. Do you all understand my explanation?'",
+        speaker: "Buana",
+        seamenese: "Ap bet! Ëi ni pon 'hani'. Te kiniwa?",
+        gloss: "But wait! I don't understand 'hani'. Do you explain?",
+        options: [
+          {
+            reply: "Ëi kiniwa! Hani xaai ha + ni. Ton ponu ta kiniwako?",
+            correct: true,
+            feedback: "Wo tuk! 'Kiniwai' retains its '-a' stem ('Ëi kiniwa'), 'Hani xaai ha + ni' is Corpus #26, and 'Ton' (you plural) takes '-u' ('Ton ponu')."
+          },
+          {
+            reply: "Ëi kiniw! Hani xaai ha + ni. Ton ponu ta kiniwako?",
+            correct: false,
+            feedback: "Irregular verb trap! 'Kiniwai' keeps its '-a' vowel in the stem: 'Ëi kiniwa', never 'Ëi kiniw'."
+          },
+          {
+            reply: "Ëi kiniwa! Hani xa ha + ni. Ton pon ta kiniwako?",
+            correct: false,
+            feedback: "Conjugation trap! 'Hani' (3sg noun/concept) requires 'xaai', and 'Ton' (you pl.) requires 'ponu' with '-u'."
+          },
+          {
+            reply: "Ëi kiniwa! Hani xaai ha + ni. Ton ponu ëi kiniwako?",
+            correct: false,
+            feedback: "Possessive trap! Never use 'Ëi' for 'my'; use 'Ta kiniwako' (my explanation)."
+          }
+        ]
+      },
+      {
+        id: "scene_11",
+        title: "Scene 11: Thinking vs. Understanding (Pansai vs. Poni)",
+        scene: "💭 You want to say: 'She thinks Seamenese is very good, and we agree!'",
+        speaker: "Buana",
+        seamenese: "Wa la pansaai? U ton ragou?",
+        gloss: "What does she think? And do you all agree?",
+        options: [
+          {
+            reply: "La pansaai seamenese xaai wo tuk, u na ragoami!",
+            correct: true,
+            feedback: "Wo tuk! 'Pansai' retains its stem '-a' + '-ai' → 'La pansaai', 'seamenese' takes 'xaai', and 'Na' takes 'ragoami'."
+          },
+          {
+            reply: "La pansai seamenese xaai wo tuk, u na ragoami!",
+            correct: false,
+            feedback: "Stem trap! The infinitive is 'Pansai' (stem 'Pansa-'), so adding 3rd-person '-ai' produces double-a: 'La pansaai', not 'pansai'!"
+          },
+          {
+            reply: "La ponai seamenese xaai wo tuk, u na ragoami!",
+            correct: false,
+            feedback: "Lexical trap! 'Poni' means 'to understand'. For 'to think/ponder', use 'Pansai' ('La pansaai')."
+          },
+          {
+            reply: "Lai pansaai seamenese xaai wo tuk, u na ragoami!",
+            correct: false,
+            feedback: "Pronoun trap! 'Lai' means 'his/her' (possessive). Use subject pronoun 'La' (he/she)."
+          }
+        ]
+      },
+      {
+        id: "scene_12",
+        title: "Scene 12: Two Lovers Celebrating at Night (Plural Nouns & Daka)",
+        scene: "🍻 Vgaggia and Small are crushes/lovers ('skantaron'). Raise a glass and say: 'Cheers! Vgaggia and Small are lovers, and tonight they kiss!'",
+        speaker: "Buana",
+        seamenese: "Daka! Wa jaai Vgaggia u Small etwuke?",
+        gloss: "Cheers! What are Vgaggia and Small doing tonight?",
+        options: [
+          {
+            reply: "Daka! Vgaggia u Small xaai skantaron, u etwuke lon itxai!",
+            correct: true,
+            feedback: "Wo tuk! Matches Corpus #39 ('Vgaggia u Small xaai skantaron'), and 3rd-person plural 'lon' takes '-ai' ('lon itxai')."
+          },
+          {
+            reply: "Daka! Vgaggia u Small xau skantaron, u etwuke lon itxu!",
+            correct: false,
+            feedback: "Conjugation trap! '-u' ('xau', 'itxu') is only for 'Ton' (you plural). 3rd-person plural ('Vgaggia u Small' / 'lon') takes '-ai' ('xaai', 'itxai')."
+          },
+          {
+            reply: "Daka! Vgaggia u Small xaai skantar, u etwuke la itxai!",
+            correct: false,
+            feedback: "Number trap! Two people are plural: use plural noun 'skantaron' and plural pronoun 'lon' (they), not 'la' (he/she)."
+          },
+          {
+            reply: "Daka! Vgaggia u Small xaai skantaron, u etpanke lon itxai!",
+            correct: false,
+            feedback: "Time trap! The scene is tonight ('etwuke'), not today ('etpanke')."
+          }
+        ]
+      },
+      {
+        id: "scene_13",
+        title: "Scene 13: Dealing with a Loud Texik (Imperatives & Insults)",
+        scene: "🤬 Someone is being rude while your friends are singing. Tell them: 'You are an asshole! Shut up! We need to sing our music!'",
+        speaker: "Texik",
+        seamenese: "Tëion ezuki xaai ni tuk! Ëi ni skan!",
+        gloss: "Your (plural) music is bad! I don't like it!",
+        options: [
+          {
+            reply: "Te xa texik! Kixix! Na kinami obisëi nai ezuki!",
+            correct: true,
+            feedback: "Wo tuk! 'Te xa texik' (You are an asshole), bare stem imperative 'Kixix!' (Shut up!), 'Na kinami obisëi' (first verb conjugated, second infinitive), and 'nai' (our)."
+          },
+          {
+            reply: "Te xa texik! Kixixi! Na kinami obiseami nai ezuki!",
+            correct: false,
+            feedback: "Double trap! Commands for 'Te' use the bare stem ('Kixix!', not 'Kixixi!'), and in 'kinami obisëi', the second verb must stay infinitive ('obisëi')."
+          },
+          {
+            reply: "Te xaai texik! Kixix! Na kinami obisëi na ezuki!",
+            correct: false,
+            feedback: "Grammar trap! 'Te' takes 'xa' (not 'xaai'), and 'our music' requires possessive 'nai ezuki' (not 'na ezuki')."
+          },
+          {
+            reply: "Tëi xa texik! Kixix! Na kinami obisëi nai ezuki!",
+            correct: false,
+            feedback: "Pronoun trap! 'Tëi' is possessive ('your'). 'You are' is 'Te xa'."
+          }
+        ]
+      },
+      {
+        id: "scene_14",
+        title: "Scene 14: Sun, Moon, and Compound Time Words",
+        scene: "☀️🌝 Explain how 'day' and 'night' are formed in Seamenese: 'I like the moon and I like the sun. Moon + sky = night, and sun + sky = day!'",
+        speaker: "Buana",
+        seamenese: "We seamenese jaai 'panke' u 'wuke'?",
+        gloss: "Why/how does Seamenese make 'panke' and 'wuke'?",
+        options: [
+          {
+            reply: "Ëi skan wubu u ëi skan pan. Wubu + eke = wuke, u pan + eke = panke!",
+            correct: true,
+            feedback: "Wo tuk! Matches Corpus #20, #21, and #40: Wubu (moon) + eke (sky) = wuke (night), Pan (sun) + eke (sky) = panke (day)."
+          },
+          {
+            reply: "Ëi skan wubu u ëi skan pan. Pan + eke = wuke, u wubu + eke = panke!",
+            correct: false,
+            feedback: "Root mix-up! 'Pan' is sun (panke = day) and 'Wubu' is moon (wuke = night), not the other way around."
+          },
+          {
+            reply: "Ëi skanai wubu u ëi skanai pan. Wubu + eke = wuke, u pan + eke = panke!",
+            correct: false,
+            feedback: "Conjugation trap! With 'Ëi', use the bare stem 'skan', not 3rd-person 'skanai'."
+          },
+          {
+            reply: "Ëi skan wubu u ëi skan pan. Wubu + peke = wuke, u pan + peke = panke!",
+            correct: false,
+            feedback: "Word trap! 'Eke' means sky; 'peke' is the adjective blue."
+          }
+        ]
+      },
+      {
+        id: "scene_15",
+        title: "Scene 15: Spice & Bold Corpus Expressions (Amplifier Wo + Chaining)",
+        scene: "🔥 Your partner is testing your mastery of the spicy Corpus #33 & #42 grammar structures: 'I really love kissing your asshole, and I don't like big penises.'",
+        speaker: "Skantar",
+        seamenese: "Wa te wo skan jai etwuke, ta skantar?",
+        gloss: "What do you really love to do tonight, my lover?",
+        options: [
+          {
+            reply: "Ëi wo skan itxi tëi texik, u ëi ni skan wo ka!",
+            correct: true,
+            feedback: "Wo tuk! Combines Corpus #33 ('Ëi wo skan itxi tëi texik' — amplifier 'wo' + conjugated 'skan' + infinitive 'itxi') and Corpus #34 ('Ëi ni skan wo ka')."
+          },
+          {
+            reply: "Ëi wo skan itx tëi texik, u ëi ni skan wo ka!",
+            correct: false,
+            feedback: "Multi-verb trap! Since 'skan' is already conjugated for 'Ëi', the second verb 'itxi' (to kiss) must stay in the infinitive ('itxi', not 'itx')."
+          },
+          {
+            reply: "Ëi skan wo itxi tëi texik, u ëi skan ni wo ka!",
+            correct: false,
+            feedback: "Modifier placement trap! Both the amplifier 'wo' ('wo skan' = love) and negation 'ni' ('ni skan' = don't like) must go BEFORE 'skan'."
+          },
+          {
+            reply: "Ëi wo skan itxi te texik, u ëi ni skan ti ka!",
+            correct: false,
+            feedback: "Trap! Use possessive 'tëi texik' (not 'te'), and 'big' is 'wo' ('ti' means small)."
+          }
+        ]
+      },
+      {
+        id: "scene_16",
+        title: "Scene 16: Saying Goodnight & Thanking Your Friends",
+        scene: "🌙 The night ('wuke') is ending. Thank all your friends ('ton') for their gifts, wish them a good night, and say goodbye!",
+        speaker: "Buanon",
+        seamenese: "Na obami te brux u peke tumu! Wu xa tëi wuke?",
+        gloss: "We give you red and blue food! How is your night?",
+        options: [
+          {
+            reply: "Ëi nim ton, ta buanon! Ta wuke xaai wo tuk. Taki! Tuk wuke!",
+            correct: true,
+            feedback: "Wo tuk! 'Ëi nim ton' (I thank you all), 'ta buanon' (my friends), 'ta wuke xaai wo tuk' (my night is very good), and 'Taki! Tuk wuke!' (Bye! Good night! — Corpus #12)."
+          },
+          {
+            reply: "Ëi nimu ton, ta buanon! Ta wuke xaai wo tuk. Taki! Tuk wuke!",
+            correct: false,
+            feedback: "Subject-verb agreement trap! The verb agrees with the SUBJECT ('Ëi' → 'nim'), not the object ('ton')."
+          },
+          {
+            reply: "Ëi nim ton, ta buanon! Ta wuke xa wo tuk. Tamako! Tuk wuke!",
+            correct: false,
+            feedback: "Double trap! 'Ta wuke' (3sg noun) takes 'xaai' (not 'xa'), and 'Tamako' means Hello ('Taki' = Bye)."
+          },
+          {
+            reply: "Ëi nimi ton, ta buana! Ta wuke xaai wo tuk. Taki! Tuk panke!",
+            correct: false,
+            feedback: "Trap! Conjugate 'nimi' to 'nim', pluralize 'buanon', and 'good night' is 'tuk wuke' ('panke' = day)."
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 4. OFFICIAL 45 CORPUS EXAMPLES FROM SeameneseDictionary.txt
+    // =========================================================================
+    const CORPUS_EXAMPLES = [
+      { num: "01", sea: "Tamako ta buanon", eng: "Hello my friends" },
+      { num: "02", sea: "Wo panke", eng: "Big day (😔 — long/tough day)" },
+      { num: "03", sea: "Ëi skan tuk ezuki", eng: "I like good music" },
+      { num: "04", sea: "Tuk ezuki", eng: "Good music (✅🎵)" },
+      { num: "05", sea: "Ni tuk ezuki", eng: "Not good music / bad music (❌🎵)" },
+      { num: "06", sea: "Te skan ezuki?", eng: "Do you like music?" },
+      { num: "07", sea: "we te skan?", eng: "Why do you like [it]?" },
+      { num: "08", sea: "we te skan ezuki?", eng: "Why do you like music?" },
+      { num: "09", sea: "wa ezuki te skan?", eng: "What music do you like?" },
+      { num: "10", sea: "ti ka", eng: "Small penis (🤏🍆)" },
+      { num: "11", sea: "wo ka", eng: "Big penis (not small 🍆)" },
+      { num: "12", sea: "Taki! Tuk wuke", eng: "Bye! Good night" },
+      { num: "13", sea: "Tamako ta buanon. Wu xaai tëion panke?", eng: "Hello my friends. How is your (plural) day?" },
+      { num: "14", sea: "Ha, ëi skan!", eng: "Yes, I like [it]!" },
+      { num: "15", sea: "Ëi skan ezuki", eng: "I like music" },
+      { num: "16", sea: "Ëi skan ka", eng: "I like penis" },
+      { num: "17", sea: "Te wo skan ka?", eng: "Do you really like penis? / Do you love penis?" },
+      { num: "18", sea: "te wo skan ezuki?", eng: "Do you really like music? / Do you love music?" },
+      { num: "19", sea: "Te skan ta ezuki \"semen demen\"", eng: "You like my music '[track called] semen demen'" },
+      { num: "20", sea: "Wubu + eke = wuke", eng: "Moon + sky = night (compound formation)" },
+      { num: "21", sea: "Pan + eke = panke", eng: "Sun + sky = day (compound formation)" },
+      { num: "22", sea: "Tuk wuke", eng: "Good night" },
+      { num: "23", sea: "Jorn, wu xaai tëi panke?", eng: "Jorn, how is your day?" },
+      { num: "24", sea: "ta panke xaai tuk", eng: "My day is good" },
+      { num: "25", sea: "tëi panke xaai tuk?", eng: "Is your day good?" },
+      { num: "26", sea: "hani xaai ha + ni", eng: "Hani is ha + ni (maybe = yes + no)" },
+      { num: "27", sea: "Jorn skanai blui - ëi san", eng: "Jorn likes Blui — I also (do) / me too" },
+      { num: "28", sea: "Blui skanai tëi ezuki - ëi san skan tëi ezuki", eng: "Blui likes your music — I also like your music" },
+      { num: "29", sea: "Luke san skanai Jorn ezuki?", eng: "Does Luke also like Jorn's music?" },
+      { num: "30", sea: "Ëi skan ezuki. Ëi san skan tëi texik", eng: "I like music. I also like your asshole." },
+      { num: "31", sea: "ëi skan tëi texik", eng: "I like your asshole" },
+      { num: "32", sea: "ëi skan san tëi ka", eng: "I also like your penis" },
+      { num: "33", sea: "Ëi wo skan itxi tëi texik", eng: "I really love kissing your asshole" },
+      { num: "34", sea: "Ëi ni skan wo ka", eng: "I don't like big penises" },
+      { num: "35", sea: "ton itxu texikon", eng: "You (plural) kiss assholes" },
+      { num: "36", sea: "Ëi skan ton", eng: "I like you (plural / you all)" },
+      { num: "37", sea: "Luke, ëi ni xa tëi buana. Ëi xa tëi skantar", eng: "Luke, I am not your friend. I am your crush/lover." },
+      { num: "38", sea: "Vgaggia xaai Small skantar", eng: "Vgaggia is Small's crush/lover" },
+      { num: "39", sea: "Vgaggia u Small xaai skantaron", eng: "Vgaggia and Small are crushes/lovers" },
+      { num: "40", sea: "Ëi skan wubu u ëi skan pan", eng: "I like the moon and I like the sun" },
+      { num: "41", sea: "Te xa ta buana, Jorn", eng: "You are my friend, Jorn" },
+      { num: "42", sea: "Ëi skan itxi tëi texik u ëi skan san faki tëi wo ka", eng: "I like to kiss your asshole and I also like to fuck your big penis" },
+      { num: "43", sea: "Na skanami ezuki", eng: "We like music" },
+      { num: "44", sea: "wu xa tëi wuke?", eng: "How is your night?" },
+      { num: "45", sea: "Tamako, wu xa te?", eng: "Hello, how are you?" }
+    ];
+
+    const COMPOUNDS = [
+      { part1: "Pan (Sun ☀️)", part2: "Eke (Sky 🌌)", result: "Panke", meaning: "Day ('sun-sky')" },
+      { part1: "Wubu (Moon 🌝)", part2: "Eke (Sky 🌌)", result: "Wuke", meaning: "Night time ('moon-sky')" },
+      { part1: "Et (This 👇)", part2: "Panke (Day 🌤️)", result: "Etpanke", meaning: "Today ('this-day')" },
+      { part1: "Et (This 👇)", part2: "Wuke (Night 🌙)", result: "Etwuke", meaning: "Tonight ('this-night')" },
+      { part1: "Ha (Yes ✅)", part2: "Ni (No ❌)", result: "Hani", meaning: "Maybe ('yes-no')" },
+      { part1: "Jai (To do 🛠️)", part2: "Semen (Word 🔤)", result: "Jai-semen", meaning: "Verb / Action-word ('do-word')" },
+      { part1: "Zorpe (To ask ❓)", part2: "Semen (Word 🔤)", result: "Zorpe-semen", meaning: "Question-word ('asking-word': Wa, We, Wu)" },
+      { part1: "Obisëi (To vocalize 🗣️)", part2: "Ezuki (Music 🎵)", result: "Obisëi ezuki", meaning: "To sing ('vocalize music')" },
+      { part1: "Wo (Amplifier 🐘)", part2: "Skani (To like ❤️)", result: "Wo skani", meaning: "To love ('Ëi wo skan' = I love)" },
+      { part1: "<Noun> minus last vowel", part2: "-on (Plural suffix)", result: "Sobon / Buanon / Skataron", meaning: "Plural nouns (Feet, Friends, Lovers)" }
+    ];
+
+    // =========================================================================
+    // 5. WORD TRAINER BANK ("LEARN WORDS" TAB - TYPING & MULTIPLE CHOICE)
+    // =========================================================================
+    function buildMasterLearnDeck() {
+      // Featured priority items right at the top of the deck (matching user's examples!)
+      const priorityItems = [
+        {
+          id: "plural_feet",
+          qType: "typing",
+          prompt: "Write 'Feet' (plural of Foot) in Seamenese",
+          subHint: "Hint: 'Foot' is Sobo. Apply the plural rule: <noun> minus last vowel + on!",
+          accepted: ["sobon"],
+          displayAnswer: "Sobon",
+          explanation: "'Sobo' = Foot. Drop the final vowel '-o' and add '-on' → 'Sobon' (1 sobo, 2 sobon)."
+        },
+        {
+          id: "mc_skantar",
+          qType: "mc",
+          prompt: "What is 'Skantar'?",
+          subHint: "Select the correct English meaning from the dictionary:",
+          correctChoice: "Crush / lover",
+          choices: ["Crush / lover", "Friend", "Asshole", "Explanation"],
+          displayAnswer: "Crush / lover",
+          explanation: "'Skantar' means 'Crush / lover' (derived from skani = to like). Plural: Skataron / Skantaron."
+        },
+        {
+          id: "type_foot",
+          qType: "typing",
+          prompt: "Write 'Foot' (singular) in Seamenese",
+          subHint: "Anatomical noun (🦶)",
+          accepted: ["sobo"],
+          displayAnswer: "Sobo",
+          explanation: "'Sobo' means Foot (and 'Sobon' means Feet)."
+        },
+        {
+          id: "type_friends",
+          qType: "typing",
+          prompt: "Write 'Friends' (plural of Friend) in Seamenese",
+          subHint: "Hint: 'Friend' is Buana. Drop the last vowel and add -on!",
+          accepted: ["buanon"],
+          displayAnswer: "Buanon",
+          explanation: "1 buana (friend) → 2 buanon (friends), as in 'Tamako ta buanon'."
+        },
+        {
+          id: "type_red",
+          qType: "typing",
+          prompt: "Write 'Red' in Seamenese",
+          subHint: "New color adjective in the dictionary (🟥)",
+          accepted: ["brux"],
+          displayAnswer: "Brux",
+          explanation: "'Brux' is the Seamenese adjective for Red (pronounced 'brush')."
+        },
+        {
+          id: "mc_liron",
+          qType: "mc",
+          prompt: "What is 'Liron'?",
+          subHint: "Think of the color of Blubur (salad) 🥗:",
+          correctChoice: "Green",
+          choices: ["Green", "Blue", "Red", "Tired"],
+          displayAnswer: "Green",
+          explanation: "'Liron' means Green (Brux = Red, Peke = Blue)."
+        },
+        {
+          id: "type_blue",
+          qType: "typing",
+          prompt: "Write 'Blue' in Seamenese",
+          subHint: "The color of the daytime Eke (sky) 🟦",
+          accepted: ["peke"],
+          displayAnswer: "Peke",
+          explanation: "'Peke' means Blue."
+        },
+        {
+          id: "type_sing",
+          qType: "typing",
+          prompt: "Write 'To sing' in Seamenese (2 words)",
+          subHint: "Hint: Literally 'To speak/vocalize music'",
+          accepted: ["obisëi ezuki", "obisei ezuki"],
+          displayAnswer: "Obisëi ezuki",
+          explanation: "There is no single verb for singing; Seamenese uses 'Obisëi ezuki' (to vocalize music)."
+        },
+        {
+          id: "mc_et",
+          qType: "mc",
+          prompt: "What is 'Et'?",
+          subHint: "Found at the start of Etpanke (today) and Etwuke (tonight):",
+          correctChoice: "This",
+          choices: ["This", "Sky", "And", "Our / Ours"],
+          displayAnswer: "This",
+          explanation: "'Et' is the pronoun meaning 'This' (Et + panke = Today, Et + wuke = Tonight)."
+        },
+        {
+          id: "type_lovers_pl",
+          qType: "typing",
+          prompt: "Write 'Crushes / Lovers' (plural of Skantar) in Seamenese",
+          subHint: "Plural rule: 1 skantar, 2 ___",
+          accepted: ["skataron", "skantaron"],
+          displayAnswer: "Skataron / Skantaron",
+          explanation: "Both 'Skataron' (listed in the Plural Rule section) and 'Skantaron' (Corpus #39) are accepted!"
+        }
+      ];
+
+      // Dynamically add all dictionary words as both Typing and Multiple Choice items
+      const dynamicItems = [];
+      const allMeanings = LEXICON.map(e => e.meaning);
+
+      LEXICON.forEach((entry, idx) => {
+        const cleanTerm = entry.term.toLowerCase();
+        const plainAscii = cleanTerm.replace(/ë/g, "e");
+
+        // 1. Typing Card for this entry
+        dynamicItems.push({
+          id: `lex_type_${entry.id}`,
+          qType: "typing",
+          prompt: `Write "${entry.meaning}" in Seamenese`,
+          subHint: `${entry.emoji} Part of speech: ${entry.pos.toUpperCase()} • Cue: ${entry.hint}`,
+          accepted: Array.from(new Set([cleanTerm, plainAscii])),
+          displayAnswer: entry.term,
+          explanation: `${entry.term} (${entry.pos}) = ${entry.meaning}. Example: "${entry.example}"`
+        });
+
+        // 2. Multiple Choice Card for this entry
+        const wrongPool = allMeanings.filter(m => m !== entry.meaning);
+        const shuffledWrong = wrongPool.sort(() => Math.random() - 0.5).slice(0, 3);
+        const choices = [entry.meaning, ...shuffledWrong].sort(() => Math.random() - 0.5);
+
+        dynamicItems.push({
+          id: `lex_mc_${entry.id}`,
+          qType: "mc",
+          prompt: `What is "${entry.term}"?`,
+          subHint: `${entry.emoji} Example: "${entry.example}"`,
+          correctChoice: entry.meaning,
+          choices,
+          displayAnswer: entry.meaning,
+          explanation: `${entry.term} (${entry.pos}) means "${entry.meaning}". ${entry.notes}`
+        });
+      });
+
+      return [...priorityItems, ...dynamicItems];
+    }
+
+    let fullLearnDeck = [];
+    let activeLearnQueue = [];
+    let masteredLearnIds = new Set();
+    let currentLearnItem = null;
+    let currentLearnMode = "mixed"; // 'mixed', 'typing', 'mc'
+    let learnAwaitingNext = false;
+
+    function initLearnTrainer() {
+      fullLearnDeck = buildMasterLearnDeck();
+      filterAndRebuildLearnQueue();
+    }
+
+    function setLearnMode(mode, btnEl) {
+      currentLearnMode = mode;
+      document.querySelectorAll("#learnModeRow .chip").forEach(c => c.classList.remove("active"));
+      if (btnEl) btnEl.classList.add("active");
+      filterAndRebuildLearnQueue();
+    }
+
+    function resetLearnQueue() {
+      masteredLearnIds.clear();
+      filterAndRebuildLearnQueue();
+    }
+
+    function filterAndRebuildLearnQueue() {
+      activeLearnQueue = fullLearnDeck.filter(item => {
+        if (masteredLearnIds.has(item.id)) return false;
+        if (currentLearnMode === "typing") return item.qType === "typing";
+        if (currentLearnMode === "mc") return item.qType === "mc";
+        return true;
+      });
+      renderCurrentLearnCard();
+    }
+
+    function updateLearnProgressUI() {
+      const totalRelevant = fullLearnDeck.filter(item => {
+        if (currentLearnMode === "typing") return item.qType === "typing";
+        if (currentLearnMode === "mc") return item.qType === "mc";
+        return true;
+      }).length;
+      const masteredCount = totalRelevant - activeLearnQueue.length;
+      const pct = totalRelevant > 0 ? Math.round((masteredCount / totalRelevant) * 100) : 100;
+
+      document.getElementById("learnQueueBadge").textContent = `Remaining: ${activeLearnQueue.length}`;
+      document.getElementById("learnMasteredBadge").textContent = `Mastered: ${masteredCount} / ${totalRelevant}`;
+      document.getElementById("learnProgressFill").style.width = `${pct}%`;
+    }
+
+    function renderCurrentLearnCard() {
+      updateLearnProgressUI();
+      learnAwaitingNext = false;
+
+      const fbBox = document.getElementById("learnFeedbackBox");
+      const nextBtn = document.getElementById("learnNextBtn");
+      fbBox.style.display = "none";
+      nextBtn.style.display = "none";
+
+      if (activeLearnQueue.length === 0) {
+        document.getElementById("learnTypeBadge").textContent = "🎉 Deck Complete!";
+        document.getElementById("learnPromptText").textContent = "Wo tuk! You mastered every word in this queue!";
+        document.getElementById("learnSubHint").textContent = "Click 'Reset Deck' above or switch modes to practice again.";
+        document.getElementById("learnTypingWrap").style.display = "none";
+        document.getElementById("learnMcWrap").style.display = "none";
+        return;
+      }
+
+      currentLearnItem = activeLearnQueue[0];
+      document.getElementById("learnTypeBadge").textContent =
+        currentLearnItem.qType === "typing" ? "✍️ Type in Seamenese" : "🔘 Multiple Choice";
+      document.getElementById("learnRequeueNotice").textContent =
+        currentLearnItem.failedCount ? `🔁 Reappeared (Missed ${currentLearnItem.failedCount}x)` : "";
+      document.getElementById("learnPromptText").textContent = currentLearnItem.prompt;
+      document.getElementById("learnSubHint").textContent = currentLearnItem.subHint;
+
+      if (currentLearnItem.qType === "typing") {
+        document.getElementById("learnTypingWrap").style.display = "block";
+        document.getElementById("learnMcWrap").style.display = "none";
+        const inp = document.getElementById("learnInput");
+        inp.value = "";
+        inp.disabled = false;
+        document.getElementById("learnSubmitBtn").disabled = false;
+        document.getElementById("learnGiveUpBtn").disabled = false;
+        setTimeout(() => inp.focus(), 40);
+      } else {
+        document.getElementById("learnTypingWrap").style.display = "none";
+        document.getElementById("learnMcWrap").style.display = "block";
+        const mcContainer = document.getElementById("learnMcOptions");
+        mcContainer.innerHTML = "";
+        currentLearnItem.choices.forEach(choiceText => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn-outline";
+          btn.style.minHeight = "58px";
+          btn.style.fontSize = "1rem";
+          btn.textContent = choiceText;
+          btn.onclick = () => submitMcAnswer(choiceText, btn);
+          mcContainer.appendChild(btn);
+        });
+      }
+    }
+
+    function insertChar(ch) {
+      const inp = document.getElementById("learnInput");
+      if (inp.disabled) return;
+      const start = inp.selectionStart || inp.value.length;
+      const end = inp.selectionEnd || inp.value.length;
+      inp.value = inp.value.slice(0, start) + ch + inp.value.slice(end);
+      inp.focus();
+      inp.setSelectionRange(start + ch.length, start + ch.length);
+    }
+
+    function handleLearnEnter() {
+      if (learnAwaitingNext) {
+        advanceLearnCard();
+      } else {
+        submitTypingAnswer();
+      }
+    }
+
+    function submitTypingAnswer() {
+      if (!currentLearnItem || learnAwaitingNext) return;
+      const raw = document.getElementById("learnInput").value.trim().toLowerCase().replace(/\s+/g, " ");
+      if (!raw) return;
+
+      const isCorrect = currentLearnItem.accepted.includes(raw);
+      document.getElementById("learnInput").disabled = true;
+      document.getElementById("learnSubmitBtn").disabled = true;
+      document.getElementById("learnGiveUpBtn").disabled = true;
+
+      if (isCorrect) {
+        succeedLearnCurrent();
+      } else {
+        failLearnCurrent(`Not quite! You typed "${document.getElementById("learnInput").value.trim()}".`);
+      }
+    }
+
+    function submitMcAnswer(selectedText, btnEl) {
+      if (!currentLearnItem || learnAwaitingNext) return;
+      const allBtns = document.querySelectorAll("#learnMcOptions button");
+      allBtns.forEach(b => {
+        b.disabled = true;
+        if (b.textContent === currentLearnItem.correctChoice) {
+          b.style.borderColor = "var(--success)";
+          b.style.background = "var(--success-dim)";
+        }
+      });
+
+      if (selectedText === currentLearnItem.correctChoice) {
+        succeedLearnCurrent();
+      } else {
+        btnEl.style.borderColor = "var(--danger)";
+        btnEl.style.background = "var(--danger-dim)";
+        failLearnCurrent(`Incorrect choice ("${selectedText}").`);
+      }
+    }
+
+    function succeedLearnCurrent() {
+      learnAwaitingNext = true;
+      const item = activeLearnQueue.shift();
+      masteredLearnIds.add(item.id);
+      updateLearnProgressUI();
+
+      const fbBox = document.getElementById("learnFeedbackBox");
+      fbBox.style.display = "block";
+      fbBox.style.background = "var(--success-dim)";
+      fbBox.style.borderColor = "var(--success)";
+      fbBox.style.color = "#86efac";
+      fbBox.innerHTML = `
+        <div style="font-size:1.08rem; font-weight:800; margin-bottom:4px;">✅ Wo tuk! Correct: ${item.displayAnswer}</div>
+        <div>${item.explanation}</div>
+      `;
+
+      const nextBtn = document.getElementById("learnNextBtn");
+      nextBtn.textContent = "Next Word → (Press Enter)";
+      nextBtn.style.display = "inline-flex";
+      nextBtn.focus();
+    }
+
+    function failLearnCurrent(reasonPrefix) {
+      learnAwaitingNext = true;
+      const item = activeLearnQueue.shift();
+      item.failedCount = (item.failedCount || 0) + 1;
+
+      // Re-insert the failed word 3 positions later (or at end of queue if < 3 left) so it reappears later!
+      const reinsertIndex = Math.min(3, activeLearnQueue.length);
+      activeLearnQueue.splice(reinsertIndex, 0, item);
+      updateLearnProgressUI();
+
+      const fbBox = document.getElementById("learnFeedbackBox");
+      fbBox.style.display = "block";
+      fbBox.style.background = "var(--danger-dim)";
+      fbBox.style.borderColor = "var(--danger)";
+      fbBox.style.color = "#fca5a5";
+      fbBox.innerHTML = `
+        <div style="font-size:1.08rem; font-weight:800; margin-bottom:6px;">
+          ❌ ${reasonPrefix} Correct Answer: <span style="color:#fde047; text-decoration:underline;">${item.displayAnswer}</span>
+        </div>
+        <div style="color:var(--text);">${item.explanation}</div>
+        <div style="margin-top:8px; font-size:0.84rem; color:var(--amber);">
+          🔁 Skipped for now — this word has been queued to reappear in ${reinsertIndex + 1} cards!
+        </div>
+      `;
+
+      const nextBtn = document.getElementById("learnNextBtn");
+      nextBtn.textContent = "Got It — Continue (Will Reappear Later) →";
+      nextBtn.style.display = "inline-flex";
+    }
+
+    function advanceLearnCard() {
+      renderCurrentLearnCard();
+    }
+
+    // =========================================================================
+    // 6. CLICKABLE WORD TOKENIZER (Supporting Plurals & All Conjugated Forms)
+    // =========================================================================
+    const tokenMap = {};
+    LEXICON.forEach(entry => {
+      tokenMap[entry.term.toLowerCase()] = entry;
+      tokenMap[entry.id.toLowerCase()] = entry;
+      // Automatically map regular plural (-last vowel + on) back to the base noun entry
+      if (entry.pos === "noun") {
+        const base = entry.term.toLowerCase();
+        const pluralVowelDrop = base.replace(/[aeiouë]$/, "") + "on";
+        const pluralDirect = base + "on";
+        tokenMap[pluralVowelDrop] = entry;
+        tokenMap[pluralDirect] = entry;
+      }
+    });
+    tokenMap["skataron"] = LEXICON.find(e => e.id === "skantar");
+    tokenMap["skantaron"] = LEXICON.find(e => e.id === "skantar");
+    tokenMap["sobon"] = LEXICON.find(e => e.id === "sobo");
+    tokenMap["buanon"] = LEXICON.find(e => e.id === "buana");
+    tokenMap["texikon"] = LEXICON.find(e => e.id === "texik");
+    tokenMap["silhbon"] = LEXICON.find(e => e.id === "silhbi");
+    tokenMap["semenon"] = LEXICON.find(e => e.id === "semen");
+    tokenMap["zorpon"] = LEXICON.find(e => e.id === "zorpei");
+
+    CONJUGATIONS.forEach(c => {
+      const baseEntry = LEXICON.find(
+        e => e.term.toLowerCase() === c.infinitive.toLowerCase() ||
+             e.id === c.infinitive.toLowerCase().replace("ë", "e")
+      );
+      if (baseEntry) {
+        [c.infinitive, c.ei, c.te, c.ton, c.na, c.la, c.lon].forEach(form => {
+          tokenMap[form.toLowerCase()] = baseEntry;
+        });
+      }
+    });
+
+    function makeInteractiveText(text) {
+      return text.split(/(\s+)/).map(part => {
+        const clean = part.replace(/[^a-zA-ZëË\-]/g, "").toLowerCase();
+        if (clean && tokenMap[clean]) {
+          const entryId = tokenMap[clean].id;
+          return `<span class="clickable-word" onclick="openInspector('${entryId}')">${part}</span>`;
+        }
+        return part;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 7. RENDER 16 SINGLE-ANSWER IMMERSION SCENES
+    // =========================================================================
+    const STORAGE_KEY_SCENES = "seamenese_solved_scenes_v3";
+    let solvedScenes = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY_SCENES) || "[]"));
+    let currentSceneFilter = "all";
+
+    function filterScenes(mode, btnEl) {
+      currentSceneFilter = mode.trim();
+      document.querySelectorAll("#sceneFilterRow .chip").forEach(c => c.classList.remove("active"));
+      if (btnEl) btnEl.classList.add("active");
+      renderImmersionFeed();
+    }
+
+    function updateSceneProgressUI() {
+      const count = solvedScenes.size;
+      const pct = Math.round((count / DIALOGUES.length) * 100);
+      document.getElementById("sceneScoreBadge").textContent = `Solved: ${count} / ${DIALOGUES.length}`;
+      document.getElementById("sceneProgressFill").style.width = `${pct}%`;
+    }
+
+    function renderImmersionFeed() {
+      updateSceneProgressUI();
+      const container = document.getElementById("dialogueContainer");
+      container.innerHTML = "";
+
+      const letters = ["A", "B", "C", "D"];
+
+      DIALOGUES.forEach((d, dIdx) => {
+        const isSolved = solvedScenes.has(d.id);
+        if (currentSceneFilter === "unsolved" && isSolved) return;
+        if (currentSceneFilter === "solved" && !isSolved) return;
+
+        const card = document.createElement("div");
+        card.className = "card";
+        if (isSolved) card.style.borderColor = "rgba(34, 197, 94, 0.5)";
+
+        let optionsHtml = "";
+        d.options.forEach((opt, oIdx) => {
+          optionsHtml += `
+            <button id="scene-btn-${dIdx}-${oIdx}" class="reply-btn" onclick="selectSceneOption(${dIdx}, ${oIdx})">
+              <span class="opt-letter">${letters[oIdx]}</span>
+              <span>${opt.reply}</span>
+            </button>
+            <div id="fb-${dIdx}-${oIdx}" class="feedback-msg" style="background:${opt.correct ? 'var(--success-dim)' : 'var(--danger-dim)'}; border-color:${opt.correct ? 'var(--success)' : 'var(--danger)'}; color:${opt.correct ? '#86efac' : '#fca5a5'}">
+              <strong>${opt.correct ? '✅ Correct!' : '❌ Not quite:'}</strong> ${opt.feedback}
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <span class="scene-badge">${d.title}</span>
+            ${isSolved ? '<span class="scene-badge" style="color:var(--success); border-color:var(--success); background:var(--success-dim);">✓ Completed</span>' : '<span class="scene-badge badge-amber">1 Correct Answer</span>'}
+          </div>
+          <div style="font-size:0.92rem; color:var(--text-secondary); margin-bottom:8px; line-height:1.45;">${d.scene}</div>
+          <div class="dialogue-line">${d.speaker}: "${makeInteractiveText(d.seamenese)}"</div>
+          <div id="gloss-${dIdx}" style="display:none; font-size:0.9rem; color:var(--amber); margin-bottom:12px; font-style:italic;">
+            English Gloss: "${d.gloss}"
+          </div>
+          <button class="btn-outline" style="padding:8px 14px; min-height:40px; font-size:0.82rem; margin-bottom:6px;" onclick="toggleSceneGloss(${dIdx})">
+            👁️ Toggle English Prompt Hint
+          </button>
+          ${optionsHtml}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleSceneGloss(dIdx) {
+      const el = document.getElementById(`gloss-${dIdx}`);
+      el.style.display = el.style.display === "none" ? "block" : "none";
+    }
+
+    function selectSceneOption(dIdx, oIdx) {
+      const d = DIALOGUES[dIdx];
+      const opt = d.options[oIdx];
+      const fbEl = document.getElementById(`fb-${dIdx}-${oIdx}`);
+      const btnEl = document.getElementById(`scene-btn-${dIdx}-${oIdx}`);
+
+      if (fbEl) fbEl.style.display = "block";
+      if (btnEl) {
+        btnEl.classList.add(opt.correct ? "correct-choice" : "wrong-choice");
+      }
+
+      if (opt.correct) {
+        solvedScenes.add(d.id);
+        localStorage.setItem(STORAGE_KEY_SCENES, JSON.stringify(Array.from(solvedScenes)));
+        updateSceneProgressUI();
+      }
+    }
+
+    // =========================================================================
+    // 8. JAI-SEMEN CONJUGATION DOJO (WITH OBVIOUS NEXT DRILL BUTTON)
+    // =========================================================================
+    const pronounsList = [
+      { key: "ei", label: "Ëi (I)" },
+      { key: "te", label: "Te (You sg.)" },
+      { key: "ton", label: "Ton (You pl.)" },
+      { key: "na", label: "Na (We)" },
+      { key: "la", label: "La (He/She/It)" },
+      { key: "lon", label: "Lon (They)" }
+    ];
+    let verbStreak = 0;
+
+    function nextVerbDrill() {
+      const verb = CONJUGATIONS[Math.floor(Math.random() * CONJUGATIONS.length)];
+      const pron = pronounsList[Math.floor(Math.random() * pronounsList.length)];
+      const correctForm = verb[pron.key];
+
+      document.getElementById("drillPrompt").innerHTML =
+        `Conjugate <span style="color:var(--primary)">${verb.infinitive}</span> (<em>${verb.meaning}</em>) for <span style="color:var(--amber)">${pron.label}</span>:`;
+
+      // Build tough distractors including bare stem, -u, -ami, -ai, and infinitive
+      const distractorPool = new Set([correctForm]);
+      [verb.ei, verb.ton, verb.na, verb.la, verb.infinitive].forEach(f => distractorPool.add(f));
+      const choices = Array.from(distractorPool).slice(0, 4).sort(() => Math.random() - 0.5);
+
+      const optsEl = document.getElementById("drillOptions");
+      const fbEl = document.getElementById("drillFeedback");
+      const nextMainBtn = document.getElementById("nextDrillMainBtn");
+
+      fbEl.style.display = "none";
+      nextMainBtn.style.display = "none";
+      optsEl.innerHTML = "";
+
+      const pronWord = pron.label.split(" ")[0];
+
+      choices.forEach(ch => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn-outline";
+        btn.style.fontSize = "1.05rem";
+        btn.style.minHeight = "58px";
+        btn.textContent = `${pronWord} ${ch}`;
+        btn.onclick = () => {
+          fbEl.style.display = "block";
+          nextMainBtn.style.display = "inline-flex";
+
+          // Highlight correct & wrong buttons
+          Array.from(optsEl.children).forEach(b => {
+            b.disabled = true;
+            if (b.textContent.toLowerCase() === `${pronWord} ${correctForm}`.toLowerCase()) {
+              b.style.borderColor = "var(--success)";
+              b.style.background = "var(--success-dim)";
+            }
+          });
+
+          if (ch.toLowerCase() === correctForm.toLowerCase()) {
+            verbStreak++;
+            document.getElementById("verbStreakBadge").textContent = `Streak: ${verbStreak} 🔥`;
+            fbEl.style.background = "var(--success-dim)";
+            fbEl.style.borderColor = "var(--success)";
+            fbEl.style.color = "#86efac";
+            fbEl.innerHTML = `<strong>✅ Wo tuk!</strong> <em>${pronWord} ${correctForm}</em> is the exact conjugation! (${verb.note})`;
+          } else {
+            verbStreak = 0;
+            document.getElementById("verbStreakBadge").textContent = `Streak: 0 🔥`;
+            btn.style.borderColor = "var(--danger)";
+            btn.style.background = "var(--danger-dim)";
+            fbEl.style.background = "var(--danger-dim)";
+            fbEl.style.borderColor = "var(--danger)";
+            fbEl.style.color = "#fca5a5";
+            fbEl.innerHTML = `<strong>❌ Not quite!</strong> For <strong>${pron.label}</strong>, the correct form is <strong>${pronWord} ${correctForm}</strong>. (${verb.note})`;
+          }
+          nextMainBtn.focus();
+        };
+        optsEl.appendChild(btn);
+      });
+    }
+
+    function renderConjugationTables() {
+      const container = document.getElementById("conjugationListContainer");
+      container.innerHTML = "";
+      CONJUGATIONS.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div>
+              <span style="font-size:1.18rem; font-weight:800; color:var(--primary);">${c.infinitive}</span>
+              <span style="font-size:0.94rem; margin-left:8px; color:var(--text-secondary);">— ${c.meaning}</span>
+            </div>
+            <span class="scene-badge" style="margin:0;">${c.type}</span>
+          </div>
+          <table class="conj-table">
+            <thead>
+              <tr><th>Ëi / Te</th><th>Ton (-u)</th><th>Na (-ami)</th><th>La / Lon (-ai)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>${c.ei}</strong></td>
+                <td><strong>${c.ton}</strong></td>
+                <td><strong>${c.na}</strong></td>
+                <td><strong>${c.la}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="font-size:0.84rem; color:var(--text-muted); margin-top:10px;">${c.note}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // =========================================================================
+    // 9. GRAMMAR TAB: COMPOUNDS & 45 CORPUS EXAMPLES
+    // =========================================================================
+    function renderCompounds() {
+      const container = document.getElementById("compoundsContainer");
+      container.innerHTML = "";
+      COMPOUNDS.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+            <span style="font-weight:700; font-size:0.96rem;">${c.part1} + ${c.part2}</span>
+            <span style="color:var(--amber); font-weight:800; font-size:1.1rem;">→ ${c.result}</span>
+          </div>
+          <div style="font-size:0.88rem; color:var(--text-secondary); margin-top:6px;">Meaning: <strong>${c.meaning}</strong></div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderCorpusExamples() {
+      const query = (document.getElementById("corpusSearchInput")?.value || "").toLowerCase().trim();
+      const container = document.getElementById("corpusListContainer");
+      container.innerHTML = "";
+
+      const filtered = CORPUS_EXAMPLES.filter(item =>
+        !query ||
+        item.sea.toLowerCase().includes(query) ||
+        item.eng.toLowerCase().includes(query) ||
+        item.num.includes(query)
+      );
+
+      filtered.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.padding = "14px 18px";
+        card.style.marginBottom = "10px";
+        card.innerHTML = `
+          <div style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
+            <span class="site-pill">#${item.num}</span>
+            <span style="font-size:1.06rem; font-weight:700; color:var(--primary);">${makeInteractiveText(item.sea)}</span>
+          </div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); margin-top:6px;">"${item.eng}"</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // =========================================================================
+    // 10. SM-2 SPACED REPETITION ENGINE & LEXICON
+    // =========================================================================
+    const STORAGE_KEY_SRS = "seamenese_complete_srs_v3";
     let srsDeck = JSON.parse(localStorage.getItem(STORAGE_KEY_SRS)) || {};
     let currentSrsIndex = 0;
     let currentPosFilter = "all";
@@ -1855,179 +2253,6 @@
       localStorage.setItem(STORAGE_KEY_SRS, JSON.stringify(srsDeck));
     }
 
-    // Build lookup map that maps every conjugated form & word token back to its Lexicon entry
-    const tokenMap = {};
-    LEXICON.forEach(entry => {
-      tokenMap[entry.term.toLowerCase()] = entry;
-      tokenMap[entry.id.toLowerCase()] = entry;
-    });
-    CONJUGATIONS.forEach(c => {
-      const baseEntry = LEXICON.find(e => e.term.toLowerCase() === c.infinitive.toLowerCase() || e.id === c.infinitive.toLowerCase().replace("ë", "e"));
-      if (baseEntry) {
-        [c.infinitive, c.ei, c.te, c.ton, c.na, c.la, c.lon].forEach(form => {
-          tokenMap[form.toLowerCase()] = baseEntry;
-        });
-      }
-    });
-    tokenMap["zorpon"] = LEXICON.find(e => e.id === "zorpei");
-
-    // Tokenize Seamenese text into clickable word spans
-    function makeInteractiveText(text) {
-      return text.split(/(\s+)/).map(part => {
-        const clean = part.replace(/[^a-zA-ZëË\-]/g, "").toLowerCase();
-        if (clean && tokenMap[clean]) {
-          const entryId = tokenMap[clean].id;
-          return `<span class="clickable-word" onclick="openInspector('${entryId}')">${part}</span>`;
-        }
-        return part;
-      }).join("");
-    }
-
-    // 1. Render Immersion Stories
-    function renderImmersionFeed() {
-      const container = document.getElementById("dialogueContainer");
-      container.innerHTML = "";
-
-      DIALOGUES.forEach((d, dIdx) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        let optionsHtml = "";
-        d.options.forEach((opt, oIdx) => {
-          optionsHtml += `
-            <button class="reply-btn" onclick="selectOption(${dIdx}, ${oIdx})">
-              ${opt.reply}
-            </button>
-            <div id="fb-${dIdx}-${oIdx}" class="feedback-msg" style="background:${opt.natural ? 'rgba(74,222,128,0.14)' : 'rgba(248,113,113,0.14)'}; color:${opt.natural ? 'var(--success)' : 'var(--danger)'}">
-              ${opt.feedback}
-            </div>
-          `;
-        });
-
-        card.innerHTML = `
-          <span class="scene-badge">${d.title}</span>
-          <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:6px;">${d.scene}</div>
-          <div class="dialogue-line">${d.speaker}: "${makeInteractiveText(d.seamenese)}"</div>
-          <div id="gloss-${dIdx}" style="display:none; font-size:0.82rem; color:var(--accent); margin-bottom:10px; font-style:italic;">
-            Translation: "${d.gloss}"
-          </div>
-          <button class="btn-outline" style="padding:5px 10px; font-size:0.75rem; margin-bottom:8px;" onclick="toggleSceneGloss(${dIdx})">
-            Toggle Scene Translation
-          </button>
-          ${optionsHtml}
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function toggleSceneGloss(dIdx) {
-      const el = document.getElementById(`gloss-${dIdx}`);
-      el.style.display = el.style.display === "none" ? "block" : "none";
-    }
-
-    function selectOption(dIdx, oIdx) {
-      const el = document.getElementById(`fb-${dIdx}-${oIdx}`);
-      if (el) el.style.display = "block";
-    }
-
-    // 2. Render Jai-Semen Conjugation Dojo & Drill
-    const pronounsList = [
-      { key: "ei", label: "Ëi (I)" },
-      { key: "te", label: "Te (You sg.)" },
-      { key: "ton", label: "Ton (You pl.)" },
-      { key: "na", label: "Na (We)" },
-      { key: "la", label: "La (He/She/It)" },
-      { key: "lon", label: "Lon (They)" }
-    ];
-
-    function nextVerbDrill() {
-      const verb = CONJUGATIONS[Math.floor(Math.random() * CONJUGATIONS.length)];
-      const pron = pronounsList[Math.floor(Math.random() * pronounsList.length)];
-      const correctForm = verb[pron.key];
-
-      document.getElementById("drillPrompt").innerHTML =
-        `Conjugate <span style="color:var(--primary)">${verb.infinitive}</span> (${verb.meaning}) for <span style="color:var(--accent)">${pron.label}</span>:`;
-
-      const distractors = new Set([correctForm]);
-      [verb.ei, verb.ton, verb.na, verb.la, verb.infinitive].forEach(f => distractors.add(f));
-      const choices = Array.from(distractors).slice(0, 4).sort(() => Math.random() - 0.5);
-
-      const optsEl = document.getElementById("drillOptions");
-      const fbEl = document.getElementById("drillFeedback");
-      fbEl.style.display = "none";
-      optsEl.innerHTML = "";
-
-      choices.forEach(ch => {
-        const btn = document.createElement("button");
-        btn.className = "btn-outline";
-        btn.textContent = `${pron.label.split(" ")[0]} ${ch}`;
-        btn.onclick = () => {
-          fbEl.style.display = "block";
-          if (ch.toLowerCase() === correctForm.toLowerCase()) {
-            fbEl.style.background = "rgba(74,222,128,0.14)";
-            fbEl.style.color = "var(--success)";
-            fbEl.innerHTML = `<strong>Wo tuk!</strong> <em>${pron.label.split(" ")[0]} ${correctForm}</em> is correct! <u style="cursor:pointer; margin-left:8px;" onclick="nextVerbDrill()">Next Drill →</u>`;
-          } else {
-            fbEl.style.background = "rgba(248,113,113,0.14)";
-            fbEl.style.color = "var(--danger)";
-            fbEl.innerHTML = `Not quite! For <strong>${pron.label}</strong>, use <strong>${correctForm}</strong>.`;
-          }
-        };
-        optsEl.appendChild(btn);
-      });
-    }
-
-    function renderConjugationTables() {
-      const container = document.getElementById("conjugationListContainer");
-      container.innerHTML = "";
-      CONJUGATIONS.forEach(c => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <span style="font-size:1.1rem; font-weight:800; color:var(--primary);">${c.infinitive}</span>
-              <span style="font-size:0.88rem; margin-left:8px;">— ${c.meaning}</span>
-            </div>
-            <span class="scene-badge" style="margin:0;">${c.type}</span>
-          </div>
-          <table class="conj-table">
-            <thead>
-              <tr><th>Ëi / Te</th><th>Ton</th><th>Na</th><th>La / Lon</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>${c.ei}</strong></td>
-                <td><strong>${c.ton}</strong></td>
-                <td><strong>${c.na}</strong></td>
-                <td><strong>${c.la}</strong></td>
-              </tr>
-            </tbody>
-          </table>
-          <div style="font-size:0.78rem; color:var(--text-muted); margin-top:8px;">${c.note}</div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // 3. Render Compound Builder
-    function renderCompounds() {
-      const container = document.getElementById("compoundsContainer");
-      container.innerHTML = "";
-      COMPOUNDS.forEach(c => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-            <span style="font-weight:600; font-size:0.9rem;">${c.part1} + ${c.part2}</span>
-            <span style="color:var(--primary); font-weight:800; font-size:1.05rem;">→ ${c.result}</span>
-          </div>
-          <div style="font-size:0.83rem; color:var(--text-muted); margin-top:6px;">Meaning: <strong>${c.meaning}</strong></div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // 4. SM-2 Spaced Repetition Engine
     function calculateNextReview(card, quality) {
       const q = Math.max(0, Math.min(5, quality));
       const newEasiness = Math.max(
@@ -2071,7 +2296,7 @@
       document.getElementById("srsNotes").textContent = entry.notes;
 
       document.getElementById("srsAnswerSection").style.display = "none";
-      document.getElementById("srsRevealBtn").style.display = "block";
+      document.getElementById("srsRevealBtn").style.display = "inline-flex";
       document.getElementById("srsGradeBtns").style.display = "none";
     }
 
@@ -2090,7 +2315,6 @@
       renderLexiconList();
     }
 
-    // 5. Full 81-Word Searchable Lexicon
     function setPosFilter(pos, btnEl) {
       currentPosFilter = pos;
       document.querySelectorAll("#posFilterRow .chip").forEach(c => c.classList.remove("active"));
@@ -2106,7 +2330,7 @@
       const filtered = LEXICON.filter(e => {
         const matchesPos =
           currentPosFilter === "all" ||
-          (currentPosFilter === "adjective" && (e.pos === "adjective" || e.pos === "emotion" || e.pos === "slang")) ||
+          (currentPosFilter === "adjective" && (e.pos === "adjective" || e.pos === "emotion")) ||
           e.pos === currentPosFilter;
         const matchesQuery =
           !query ||
@@ -2124,22 +2348,25 @@
         card.style.cursor = "pointer";
         card.onclick = () => openInspector(entry.id);
         card.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
             <div>
-              <span style="font-size:1.1rem; margin-right:6px;">${entry.emoji}</span>
-              <span style="font-weight:800; font-size:1.05rem; color:var(--primary);">${entry.term}</span>
+              <span style="font-size:1.2rem; margin-right:6px;">${entry.emoji}</span>
+              <span style="font-weight:800; font-size:1.15rem; color:var(--primary);">${entry.term}</span>
               <span class="scene-badge" style="margin-left:8px; margin-bottom:0;">${entry.pos}</span>
             </div>
-            <span style="font-size:0.75rem; color:var(--text-muted);">SRS: ${state.intervalDays}d</span>
+            <span class="site-pill">confirmed • SRS ${state.intervalDays}d</span>
           </div>
-          <div style="font-size:0.88rem; margin-top:6px; color:var(--text);">${entry.hint}</div>
-          <div style="font-size:0.84rem; font-style:italic; color:var(--text-muted); margin-top:4px;">"${entry.example}"</div>
+          <div style="font-size:0.96rem; font-weight:700; margin-top:8px; color:var(--text);">${entry.meaning}</div>
+          <div style="font-size:0.88rem; margin-top:4px; color:var(--text-secondary);">${entry.hint}</div>
+          <div style="font-size:0.86rem; font-style:italic; color:var(--text-muted); margin-top:6px;">"${entry.example}"</div>
         `;
         container.appendChild(card);
       });
     }
 
-    // 6. Word Inspector Modal
+    // =========================================================================
+    // 11. WORD INSPECTOR MODAL & NAVIGATION
+    // =========================================================================
     function openInspector(entryId) {
       inspectedEntry = LEXICON.find(e => e.id === entryId);
       if (!inspectedEntry) return;
@@ -2171,14 +2398,14 @@
       }
 
       document.getElementById("modalMeaningBox").style.display = strict ? "none" : "block";
-      document.getElementById("peekBtn").style.display = strict ? "block" : "none";
+      document.getElementById("peekBtn").style.display = strict ? "inline-flex" : "none";
       document.getElementById("inspectorModal").classList.add("open");
     }
 
     function peekTranslation() {
       document.getElementById("modalMeaningBox").style.display = "block";
       document.getElementById("peekBtn").style.display = "none";
-      if (inspectedEntry) {
+      if (inspectedEntry && srsDeck[inspectedEntry.id]) {
         srsDeck[inspectedEntry.id] = calculateNextReview(srsDeck[inspectedEntry.id], 2);
         localStorage.setItem(STORAGE_KEY_SRS, JSON.stringify(srsDeck));
         renderLexiconList();
@@ -2201,31 +2428,22 @@
       document.getElementById(`tab-${tabName}`).classList.add("active");
       btnEl.classList.add("active");
       if (tabName === "srs") renderSrsCard();
+      if (tabName === "learn") renderCurrentLearnCard();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    // Register Web App Manifest for Android "Add to Home Screen / Install App"
-    const manifest = {
-      name: "Seamenese & Bonk Immersion (81-Word Edition)",
-      short_name: "Seamenese",
-      start_url: ".",
-      display: "standalone",
-      background_color: "#0b1120",
-      theme_color: "#0b1120"
-    };
-    const manifestBlob = new Blob([JSON.stringify(manifest)], { type: "application/json" });
-    const manifestLink = document.createElement("link");
-    manifestLink.rel = "manifest";
-    manifestLink.href = URL.createObjectURL(manifestBlob);
-    document.head.appendChild(manifestLink);
-
-    // Initialize
+    // Initialize App
     ensureSrsInit();
     renderImmersionFeed();
+    initLearnTrainer();
     nextVerbDrill();
     renderConjugationTables();
     renderCompounds();
+    renderCorpusExamples();
     renderSrsCard();
     renderLexiconList();
   </script>
 </body>
 </html>
+
+```
